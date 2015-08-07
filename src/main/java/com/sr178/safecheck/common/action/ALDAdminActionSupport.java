@@ -5,7 +5,7 @@ import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 /**
- * @author hzy
+ * @author dd
  * 2012-7-20
  */
 public class ALDAdminActionSupport extends ActionSupport {

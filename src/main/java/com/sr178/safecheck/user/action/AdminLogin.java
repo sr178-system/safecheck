@@ -4,9 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
-import com.sr178.game.framework.context.ServiceCacheFactory;
 import com.sr178.safecheck.common.action.ALDAdminActionSupport;
-import com.sr178.safecheck.user.service.UserService;
 
 public class AdminLogin extends ALDAdminActionSupport {
 
@@ -30,8 +28,8 @@ public class AdminLogin extends ALDAdminActionSupport {
 		if (adminName == null || adminPassword == null)
 			return SUCCESS;
 
-		UserService aus = ServiceCacheFactory.getServiceCache()
-				.getService(UserService.class);
+//		UserService aus = ServiceCacheFactory.getServiceCache()
+//				.getService(UserService.class);
 		HttpSession sessionhttp = ServletActionContext.getRequest()
 				.getSession();
 		String rand = (String) sessionhttp.getAttribute("rand");
