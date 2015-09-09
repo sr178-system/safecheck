@@ -1,10 +1,11 @@
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 
 public class SafeCheckRun {
 	public static void main(String[] args) throws Exception {
-		Server server = buildNormalServer(8082, "/");
+		Server server = buildNormalServer(8083, "/");
 		server.start();
 	}
 	/**

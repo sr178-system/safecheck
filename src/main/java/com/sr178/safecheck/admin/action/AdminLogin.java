@@ -1,4 +1,4 @@
-package com.sr178.safecheck.user.action;
+package com.sr178.safecheck.admin.action;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,22 +27,6 @@ public class AdminLogin extends ALDAdminActionSupport {
 	public String execute() {
 		if (adminName == null || adminPassword == null)
 			return SUCCESS;
-
-//		UserService aus = ServiceCacheFactory.getServiceCache()
-//				.getService(UserService.class);
-		HttpSession sessionhttp = ServletActionContext.getRequest()
-				.getSession();
-		String rand = (String) sessionhttp.getAttribute("rand");
-		if (rand == null) {
-			super.setErroCodeNum(1);
-			super.setErroDescrip("验证码过期！");
-			return SUCCESS;
-		}
-		if (!rand.equals(randString)) {
-			super.setErroCodeNum(2);
-			super.setErroDescrip("验证码不正确！");
-			return SUCCESS;
-		}
 //		//Gcuser au = aus.login(sessionhttp.getId(), adminName, adminPassword,ServletActionContext.getRequest().getRemoteAddr());
 //		if (au == null) {
 //			super.setErroCodeNum(3);
@@ -75,14 +59,12 @@ public class AdminLogin extends ALDAdminActionSupport {
 	public String getErroDescrip() {
 		return super.getErroDescrip();
 	}
-	public int getErroCodeNum() {
-		return super.getErroCodeNum();
+	public int getCode(){
+		return super.getCode();
 	}
-
 	public Integer getVersion() {
 		return version;
 	}
-
 	public void setVersion(Integer version) {
 		this.version = version;
 	}

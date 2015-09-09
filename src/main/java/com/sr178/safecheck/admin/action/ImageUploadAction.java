@@ -1,7 +1,8 @@
-package com.sr178.safecheck.user.action;
+package com.sr178.safecheck.admin.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
@@ -26,6 +27,10 @@ public class ImageUploadAction extends ActionSupport {
 	private String foodimgContentType;
 
 	private String foodtab;
+	
+	private List<File> listFiles;
+	
+	private List<String> listFilesFileName;
 
 	private String state;
 	
@@ -114,4 +119,20 @@ public class ImageUploadAction extends ActionSupport {
 		this.state = state;
 	}
 
+	public List<File> getListFiles() {
+		return listFiles;
+	}
+
+	public void setListFiles(List<File> listFiles) {
+		this.listFiles = listFiles;
+	}
+
+	public List<String> getListFilesFileName() {
+		return listFilesFileName;
+	}
+
+	public void setListFilesFileName(List<String> listFilesFileName) {
+		this.listFilesFileName = listFilesFileName;
+	}
+	
 }

@@ -9,8 +9,8 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import com.opensymphony.xwork2.ActionSupport;
 import com.sr178.safecheck.common.utils.Tools;
+
 
 
 
@@ -50,10 +50,26 @@ public class PageTag implements Tag {
     	return SKIP_BODY;
     }
     
+    private static final String FIRST_PAGE_TAG = "FIRST_PAGE_TAG";
+    private static final String UP_PAGE_TAG = "UP_PAGE_TAG";
+    private static final String NEXT_PAGE_TAG = "NEXT_PAGE_TAG";
+    private static final String END_PAGE_TAG = "END_PAGE_TAG";
+    
+    private static final String CURRENT_PAGE_NUM_TAG="CURRENT_PAGE_NUM_TAG";
+    private static final String ALL_PAGE_NUM_TAG="ALL_PAGE_NUM_TAG";
+    private static final String ALL_PAGE_SIZE_NUM_TAG="ALL_PAGE_SIZE_NUM_TAG";
+    private static final String PER_PAGE_SIZE_NUM_TAG = "PER_PAGE_SIZE_NUM_TAG";
+    
+    
+    private static final String TAG_FORMAT = ">>分页　"+FIRST_PAGE_TAG+"　"+UP_PAGE_TAG+"　"+NEXT_PAGE_TAG+"　"+END_PAGE_TAG+"　页次：<b>"+CURRENT_PAGE_NUM_TAG+"/"+ALL_PAGE_NUM_TAG+"</b>页　共<b>"+ALL_PAGE_SIZE_NUM_TAG+"</b>条　<b>"+PER_PAGE_SIZE_NUM_TAG+"</b>条/页　转到：<input id='toPageInputText' type='text' name='toPage' value='"+CURRENT_PAGE_NUM_TAG+"' onkeydown='if(event.keyCode==13)document.getElementById(&quot;pageGo&quot;).click()' /><button id='pageGo'  onClick=gotoPage(document.getElementById('toPageInputText').value); >GO</button>";
+    
+    
     public int doEndTag() throws JspTagException {
     	try {
     		long totalPage = ((Long) pageContext.getRequest().getAttribute("totalPage")).longValue() - 1;
+    		long totalSize = ((Long) pageContext.getRequest().getAttribute("totalSize")).longValue();
     		int currentPage = ((Integer) pageContext.getRequest().getAttribute("toPage")).intValue();
+      		int pageSize = ((Integer) pageContext.getRequest().getAttribute("pageSize")).intValue();
         	String sessionID;
         	if (pageContext.getRequest().getAttribute("sessionID") == null) {
         		sessionID = "";
@@ -159,51 +175,72 @@ public class PageTag implements Tag {
     			url = url + "?" + datePara2 + "=" + dateValue2Str;
     			paraNum++;
     		}
-        	String str = "";
         	//struts国际化
-    		ActionSupport actionSupport = new ActionSupport();
-        	String nextPageText = actionSupport.getText("nextPageText");
-        	String upPageText = actionSupport.getText("upPageText");
+//    		ActionSupport actionSupport = new ActionSupport();
+        	String nextPageText = "下一页";//actionSupport.getText("nextPageText");
+        	String upPageText = "上一页";//actionSupport.getText("upPageText");
         	//只有下一页
+        	String nextStr = "";
+        	String upString = "";
+        	String firstStr = "";
+        	String endStr = "";
         	if (currentPage == 0 && totalPage > 0) {
         		if (paraNum <= 0) {
-        			str = str + "<a href='" + Tools.UrlFormat(url + "?toPage=" + (currentPage + 1), sessionID) + "'>" + nextPageText + "</a>(" + (currentPage + 1) + "/" + (totalPage + 1) + ")";
+        			nextStr = "<a href='" + Tools.UrlFormat(url + "?toPage=" + (currentPage + 1), sessionID) + "'>" + nextPageText + "</a>";
+        			upString = upPageText;
         		} else {
-        			str = str + "<a href='" + Tools.UrlFormat(url + "&amp;toPage=" + (currentPage + 1), sessionID) + "'>" + nextPageText + "</a>(" + (currentPage + 1) + "/" + (totalPage + 1) + ")";	
+        			nextStr =  "<a href='" + Tools.UrlFormat(url + "&amp;toPage=" + (currentPage + 1), sessionID) + "'>" + nextPageText + "</a>";	
+        			upString = upPageText;
         		}
         	} else if ((currentPage == 0) && (totalPage <= 0)) {
-        		str = "";
+        		nextStr = nextPageText;
+        		upString = upPageText;
         	} else if ((currentPage > 0) && (totalPage > currentPage)) {
         		if (paraNum <= 0) {
-        			str = str + "<a href='" + Tools.UrlFormat(url + "?toPage=" + (currentPage + 1), sessionID) + "'>" + nextPageText + "</a>|<a href='" + Tools.UrlFormat(url + "?toPage=" + (currentPage - 1), sessionID) + "'>" + upPageText + "</a>(" + (currentPage + 1) + "/" + (totalPage + 1) + ")";
+        			nextStr = "<a href='" + Tools.UrlFormat(url + "?toPage=" + (currentPage + 1), sessionID) + "'>" + nextPageText + "</a>";
+        			upString = "<a href='" + Tools.UrlFormat(url + "?toPage=" + (currentPage - 1), sessionID) + "'>" + upPageText + "</a>";
         		} else {
-        			str = str + "<a href='" + Tools.UrlFormat(url + "&amp;toPage=" + (currentPage + 1), sessionID) + "'>" + nextPageText + "</a>|<a href='" + Tools.UrlFormat(url + "&amp;toPage=" + (currentPage - 1), sessionID) + "'>" + upPageText + "</a>(" + (currentPage + 1) + "/" + (totalPage + 1) + ")";
+        			nextStr = "<a href='" + Tools.UrlFormat(url + "&amp;toPage=" + (currentPage + 1), sessionID) + "'>" + nextPageText + "</a>";
+        			upString = "<a href='" + Tools.UrlFormat(url + "&amp;toPage=" + (currentPage - 1), sessionID) + "'>" + upPageText + "</a>";
         		}
         	} else if ((currentPage > 0) && (totalPage <= currentPage)) {
-        		if (paraNum <= 0) {        		 
-        			str = str + "<a href='" + Tools.UrlFormat(url + "?toPage=" + (currentPage - 1), sessionID) + "'>" + upPageText + "</a>(" + (currentPage + 1) + "/" + (totalPage + 1) + ")";
+        		if (paraNum <= 0) {        
+        			nextStr = nextPageText;
+        			upString = "<a href='" + Tools.UrlFormat(url + "?toPage=" + (currentPage - 1), sessionID) + "'>" + upPageText + "</a>";
         		} else {
-        			str = str + "<a href='" + Tools.UrlFormat(url + "&amp;toPage=" + (currentPage - 1), sessionID) + "'>" + upPageText + "</a>(" + (currentPage + 1) + "/" + (totalPage + 1) + ")";
+        			nextStr = nextPageText;
+        			upString = "<a href='" + Tools.UrlFormat(url + "&amp;toPage=" + (currentPage - 1), sessionID) + "'>" + upPageText + "</a>";
         		}
         	}
-        	String firstPageText = actionSupport.getText("FirstPageText");
-        	String endPageText = actionSupport.getText("EndPageText");
-        	if(!str.equals("")){
-        		String text = "<input id='toPageInputText' type='text' name='toPage' value='"+(currentPage+1)+"' onkeydown='if(event.keyCode==13)document.getElementById(&quot;pageGo&quot;).click()' class='textbox' size='1' maxlength='3' /><input type='button' id='pageGo' value='GO' class='button' onClick=gotoPage(document.getElementById('toPageInputText').value); />";
-        		if(paraNum <= 0){
-            		str = "【<a href='" + Tools.UrlFormat(url + "?toPage=" + 0, sessionID) + "'>"+firstPageText+"</a>】"+"【"+str+"】"+"【<a href='" + Tools.UrlFormat(url + "?toPage=" + (totalPage), sessionID) + "'>"+endPageText+"</a>】"+text+"<br />";
+        	String firstPageText = "首页";//actionSupport.getText("FirstPageText");
+        	String endPageText = "尾页";//actionSupport.getText("EndPageText");
+        	if(paraNum <= 0){
+        			firstStr = "<a href='" + Tools.UrlFormat(url + "?toPage=" + 0, sessionID) + "'>"+firstPageText+"</a>";
+        			endStr = "<a href='" + Tools.UrlFormat(url + "?toPage=" + (totalPage), sessionID) + "'>"+endPageText+"</a>";
         		}else{
-            		str = "【<a href='" + Tools.UrlFormat(url + "&amp;toPage=" + 0, sessionID) + "'>"+firstPageText+"</a>】"+"【"+str+"】"+"【<a href='" + Tools.UrlFormat(url + "&amp;toPage=" + (totalPage), sessionID) + "'>"+endPageText+"</a>】"+text+"<br />";
-        		}
+        			firstStr = "<a href='" + Tools.UrlFormat(url + "&amp;toPage=" + 0, sessionID) + "'>"+firstPageText+"</a>";
+        			endStr = "<a href='" + Tools.UrlFormat(url + "&amp;toPage=" + (totalPage), sessionID) + "'>"+endPageText+"</a>";
         	}
+        	
         	String endUrlStr="";
         	if(paraNum<=0){
         		endUrlStr = url+"?";
         	}else{
         		endUrlStr = url+"&";
         	}
-        	str=str+"<script>function gotoPage(pageNum){location.href='"+endUrlStr.replaceAll("&amp;", "&")+"toPage='+(pageNum-1)+'';}</script>";
-        	pageContext.getOut().write(str);
+        	
+        	String result = TAG_FORMAT.replaceAll(FIRST_PAGE_TAG, firstStr)
+        			.replaceAll(END_PAGE_TAG, endStr)
+        			.replaceAll(UP_PAGE_TAG, upString)
+        			.replaceAll(NEXT_PAGE_TAG, nextStr)
+        			.replaceAll(CURRENT_PAGE_NUM_TAG, (currentPage+1)+"")
+        			.replaceAll(ALL_PAGE_NUM_TAG, (totalPage+1)+"")
+        			.replaceAll(ALL_PAGE_SIZE_NUM_TAG, totalSize+"")
+        			.replaceAll(PER_PAGE_SIZE_NUM_TAG, pageSize+"")
+        			;
+        	
+        	result=result+"<script>function gotoPage(pageNum){location.href='"+endUrlStr.replaceAll("&amp;", "&")+"toPage='+(pageNum-1)+'';}</script>";
+        	pageContext.getOut().write(result);
 	} catch (IOException e) {
     		throw new JspTagException("IO Error" + e.getMessage());
     	}

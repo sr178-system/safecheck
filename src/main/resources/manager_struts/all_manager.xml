@@ -2,29 +2,6 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
         "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
-	<package name="managerInterceptor" extends="myInterceptor">
-
-		<interceptors>
-			<!-- 认证拦截器-->
-			<interceptor name="adminUserInterceptor"
-				class="com.sr178.safecheck.common.interceptor.AdminUserInterceptor" />
-			<interceptor-stack name="adminStack">
-				<interceptor-ref name="adminUserInterceptor" />
-				<interceptor-ref name="myStack" />
-			</interceptor-stack>
-		</interceptors>
-		<default-interceptor-ref name="adminStack" />
-
-		<global-results>
-			<!-- 当anction抛出异常将被转向web的错误处理页面，拦截器是exceptionInterceptor -->
-			<result name="glober_error">
-				/error_manager.jsp
-			</result>
-			<!-- 当没有登录的时候就会跳到首页要求其进行登录 -->
-			<result name="nologin" type="redirect">
-				/index.jsp
-			</result>
-		</global-results>
-	</package>
-	<include file="manager_struts/user.xml" />
+	<include file="manager_struts/admin.xml" />
+	<include file="manager_struts/app.xml" />
 </struts>

@@ -14,18 +14,11 @@ public class ALDAdminActionSupport extends ActionSupport {
 	
 	private String userName;
 	/** 错误码 */
-	private int erroCodeNum;
+	private int code;
 	/** 错误描述 */
 	private String erroDescrip;
 	
 
-	public int getErroCodeNum() {
-		return erroCodeNum;
-	}
-
-	public void setErroCodeNum(int erroCodeNum) {
-		this.erroCodeNum = erroCodeNum;
-	}
 
 	public String getErroDescrip() {
 		return erroDescrip;
@@ -46,4 +39,13 @@ public class ALDAdminActionSupport extends ActionSupport {
 	public String ip(){
 		return ServletActionContext.getRequest().getRemoteAddr();
 	}
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
+	
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+        "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!-- 一个包可以就是一个模块 -->
+	<package name="app" extends="appAuthInterceptor" namespace="/">
+	
+		<!-- 一个包下可以放这个模块下的所有action -->
+		<action name="login" class="com.sr178.safecheck.app.action.AppNoAuthAction" method="login" />
+		
+		
+		<action name="uploadFile" class="com.sr178.safecheck.admin.action.ImageUploadAction">
+			<result name="success" type="json">
+			  <param name="includeProperties">erroCodeNum</param>
+			</result>
+		</action>
+	</package>
+	
+	
+	<package name="appAuthInterceptor" extends="myInterceptor">
+		<interceptors>
+			<!-- 认证拦截器-->
+			<interceptor name="appUserInterceptor"
+				class="com.sr178.safecheck.app.interceptor.AppUserInterceptor" />
+			<interceptor-stack name="appStack">
+				<interceptor-ref name="appUserInterceptor" />
+				<interceptor-ref name="myStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="appStack" />
+		<global-results>
+			<result type="json" name="json">  
+                <!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->  
+                <param name="root">dataMap</param>  
+            </result>  
+		</global-results>
+	</package>
+	
+</struts>

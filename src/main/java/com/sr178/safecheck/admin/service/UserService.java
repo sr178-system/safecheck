@@ -1,4 +1,4 @@
-package com.sr178.safecheck.user.service;
+package com.sr178.safecheck.admin.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,17 +45,21 @@ public class UserService {
 	
     
     public static void main(String[] args) throws ClientProtocolException, IOException {
-    	String url="http://localhost:8082/uploadFile";
+    	String url="http://localhost:8083/uploadFile";
         HttpClient httpclient= new DefaultHttpClient();
         HttpPost httpPost= new HttpPost(url);
         MultipartEntity mulentity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
            mulentity.addPart("foodname", new StringBody("nice boy foodname"));
            mulentity.addPart("foodstyle", new StringBody("foodstyle"));
            mulentity.addPart("price", new StringBody("price"));  
-           File image = new File("E:\\图片\\58-110R31U14786.jpg");
+           File image1 = new File("E:\\图片\\58-110R31U14786.jpg");
+           File image2 = new File("E:\\图片\\11.jpg");
           //添加图片表单数据       
-           FileBody filebody = new FileBody(image);
-           mulentity.addPart("foodimg",filebody);    
+           FileBody filebody1 = new FileBody(image1);
+           FileBody filebody2 = new FileBody(image2);
+           mulentity.addPart("foodimg",filebody1);    
+           mulentity.addPart("listFiles",filebody1);
+           mulentity.addPart("listFiles",filebody2);
            mulentity.addPart("foodtab", new StringBody("foodtab"));
            mulentity.addPart("state", new StringBody("1"));        
            httpPost.setEntity(mulentity);

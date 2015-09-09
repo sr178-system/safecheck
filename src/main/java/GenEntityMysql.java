@@ -13,8 +13,7 @@ import java.sql.SQLException;
 
 public class GenEntityMysql {
 	
-	private String packageOutPath = "com.sr178.safecheck.user.bo";//指定实体生成所在包的路径
-	private String tablename = "eptzb";//表名
+	private String packageOutPath = "com.sr178.safecheck.admin.bo";//指定实体生成所在包的路径
 	private String[] colnames; // 列名数组
 	private String[] colTypes; //列名类型数组
 	private int[] colSizes; //列名大小数组
@@ -22,19 +21,18 @@ public class GenEntityMysql {
 	private boolean f_sql = false; // 是否需要导入包java.sql.*
     
     //数据库连接
-	private static final String URL ="jdbc:mysql://localhost:3306/yq_user";
+	private static final String URL ="jdbc:mysql://localhost:3306/safe_check";
 	private static final String NAME = "root";
 	private static final String PASS = "";
 	private static final String DRIVER ="com.mysql.jdbc.Driver";
-
 	/*
 	 * 构造函数
 	 */
-	public GenEntityMysql(){
+	public GenEntityMysql(String tableName){
     	//创建连接
     	Connection con;
 		//查要生成实体类的表
-    	String sql = "select * from " + tablename;
+    	String sql = "select * from " + tableName;
     	PreparedStatement pStemt = null;
     	try {
     		try {
@@ -54,7 +52,7 @@ public class GenEntityMysql {
 				colnames[i] = rsmd.getColumnName(i + 1);
 				colTypes[i] = rsmd.getColumnTypeName(i + 1);
 				
-				if(colTypes[i].equalsIgnoreCase("datetime")){
+				if(colTypes[i].equalsIgnoreCase("datetime")||colTypes[i].equalsIgnoreCase("date")){
 					f_util = true;
 				}
 				if(colTypes[i].equalsIgnoreCase("image") || colTypes[i].equalsIgnoreCase("text")){
@@ -63,7 +61,7 @@ public class GenEntityMysql {
 				colSizes[i] = rsmd.getColumnDisplaySize(i + 1);
 			}
 			
-			String content = parse(colnames,colTypes,colSizes);
+			String content = parse(colnames,colTypes,colSizes,tableName);
 			
 			try {
 				File directory = new File("");
@@ -74,7 +72,7 @@ public class GenEntityMysql {
 				System.out.println(path);
 //				System.out.println("src/?/"+path.substring(path.lastIndexOf("/com/", path.length())) );
 //				String outputPath = directory.getAbsolutePath()+ "/src/"+path.substring(path.lastIndexOf("/com/", path.length()), path.length()) + initcap(tablename) + ".java";
-				String outputPath = directory.getAbsolutePath()+ "/src/main/java/"+this.packageOutPath.replace(".", "/")+"/"+initcap(tablename) + ".java";
+				String outputPath = directory.getAbsolutePath()+ "/src/main/java/"+this.packageOutPath.replace(".", "/")+"/"+initcap(colNameToFieldName(tableName)) + ".java";
 				FileWriter fw = new FileWriter(outputPath);
 				PrintWriter pw = new PrintWriter(fw);
 				pw.println(content);
@@ -103,7 +101,7 @@ public class GenEntityMysql {
 	 * @param colSizes
 	 * @return
 	 */
-	private String parse(String[] colnames, String[] colTypes, int[] colSizes) {
+	private String parse(String[] colnames, String[] colTypes, int[] colSizes,String tableName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("package " + this.packageOutPath + ";\r\n");
 		sb.append("\r\n");
@@ -117,10 +115,10 @@ public class GenEntityMysql {
 
 		//注释部分
 		sb.append("   /**\r\n");
-		sb.append("    * "+tablename+" 实体类\r\n");
+		sb.append("    * "+tableName+" 实体类\r\n");
 		sb.append("    */ \r\n");
 		//实体部分
-		sb.append("\r\n\r\npublic class " + initcap(tablename) + "{\r\n");
+		sb.append("\r\n\r\npublic class " + initcap(colNameToFieldName(tableName)) + "{\r\n");
 		processAllAttrs(sb);//属性
 		processAllMethod(sb);//get set方法
 		sb.append("}\r\n");
@@ -136,11 +134,24 @@ public class GenEntityMysql {
 	private void processAllAttrs(StringBuffer sb) {
 		
 		for (int i = 0; i < colnames.length; i++) {
-			sb.append("\tprivate " + sqlType2JavaType(colTypes[i]) + " " + colnames[i] + ";\r\n");
+			sb.append("\tprivate " + sqlType2JavaType(colTypes[i]) + " " + colNameToFieldName(colnames[i]) + ";\r\n");
 		}
 		
 	}
 
+	private String colNameToFieldName(String colName){
+		 String result = "";
+		 String[] array = colName.split("_");
+		 if(array.length>1){
+			 result = result+array[0];
+			 for(int i=1;i<array.length;i++){
+				 result = result + array[i].substring(0, 1).toUpperCase() + array[i].substring(1, array[i].length());
+			 }
+		 }else{
+			 result = colName;
+		 }
+		 return result;
+	}
 	/**
 	 * 功能：生成所有方法
 	 * @param sb
@@ -148,12 +159,12 @@ public class GenEntityMysql {
 	private void processAllMethod(StringBuffer sb) {
 		
 		for (int i = 0; i < colnames.length; i++) {
-			sb.append("\tpublic void set" + initcap(colnames[i]) + "(" + sqlType2JavaType(colTypes[i]) + " " + 
-					colnames[i] + "){\r\n");
-			sb.append("\tthis." + colnames[i] + "=" + colnames[i] + ";\r\n");
+			sb.append("\tpublic void set" + initcap(colNameToFieldName(colnames[i])) + "(" + sqlType2JavaType(colTypes[i]) + " " + 
+					colNameToFieldName(colnames[i]) + "){\r\n");
+			sb.append("\tthis." + colNameToFieldName(colnames[i]) + "=" + colNameToFieldName(colnames[i]) + ";\r\n");
 			sb.append("\t}\r\n");
-			sb.append("\tpublic " + sqlType2JavaType(colTypes[i]) + " get" + initcap(colnames[i]) + "(){\r\n");
-			sb.append("\t\treturn " + colnames[i] + ";\r\n");
+			sb.append("\tpublic " + sqlType2JavaType(colTypes[i]) + " get" + initcap(colNameToFieldName(colnames[i])) + "(){\r\n");
+			sb.append("\t\treturn " + colNameToFieldName(colnames[i]) + ";\r\n");
 			sb.append("\t}\r\n");
 		}
 		
@@ -201,7 +212,7 @@ public class GenEntityMysql {
 				|| sqlType.equalsIgnoreCase("nvarchar") || sqlType.equalsIgnoreCase("nchar") 
 				|| sqlType.equalsIgnoreCase("text")){
 			return "String";
-		}else if(sqlType.equalsIgnoreCase("datetime")){
+		}else if(sqlType.equalsIgnoreCase("datetime")||sqlType.equalsIgnoreCase("date")){
 			return "Date";
 		}else if(sqlType.equalsIgnoreCase("image")){
 			return "Blod";
@@ -216,8 +227,11 @@ public class GenEntityMysql {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		String[] tableNames = new String[]{"user","admin_user","check_items","check_record","enforce_record","notice","sign_record","resource"};//表名
+		for(int i=0;i<tableNames.length;i++){
+			new GenEntityMysql(tableNames[i]);
+		}
 		
-		new GenEntityMysql();
 		
 	}
 
