@@ -3,6 +3,8 @@ package com.sr178.safecheck.app.interceptor;
 
 
 
+import java.util.Map;
+
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 import com.sr178.game.framework.context.ServiceCacheFactory;
@@ -32,13 +34,15 @@ public class AppUserInterceptor extends AbstractInterceptor {
 		
 		AppService aus = ServiceCacheFactory.getServiceCache()
 				.getService(AppService.class);
-		
-		String userName = aus.isLogin(appAction.getTokenId());
+		Map<String,Object> map = actionInvocation.getInvocationContext().getParameters();
+		Object values = map.get("tokenId");
+		String tokenId = values==null?null:((String[])values)[0];
+		String userName = aus.isLogin(tokenId);
 		if (userName==null&&!className.equals("com.sr178.safecheck.app.action.AppNoAuthAction")) {
 			appAction.renderErrorResult("token失效或没有登录");
 			return "json";
 		} else {
-			appAction.setUserName(userName);
+			appAction.setLoginUser(userName);
 			// 异常处理
 			try {
 				String result = actionInvocation.invoke();

@@ -8,6 +8,16 @@
 		<!-- 一个包下可以放这个模块下的所有action -->
 		<action name="login" class="com.sr178.safecheck.app.action.AppNoAuthAction" method="login" />
 		
+		<action name="editpwd" class="com.sr178.safecheck.app.action.AppAction" method="editpwd" />
+		<action name="systemTime" class="com.sr178.safecheck.app.action.AppAction" method="systemTime" />
+		<action name="uploadFiles" class="com.sr178.safecheck.app.action.AppAction" method="uploadFiles" />
+		<action name="sign" class="com.sr178.safecheck.app.action.AppAction" method="sign" />
+		<action name="checkList" class="com.sr178.safecheck.app.action.AppAction" method="checkList" />
+		<action name="saveCheck" class="com.sr178.safecheck.app.action.AppAction" method="saveCheck" />
+		<action name="intendance" class="com.sr178.safecheck.app.action.AppAction" method="intendance" />
+		<action name="trainRecord" class="com.sr178.safecheck.app.action.AppAction" method="trainRecord" />
+		<action name="newsList" class="com.sr178.safecheck.app.action.AppAction" method="newsList" />
+		<action name="newsContent" class="com.sr178.safecheck.app.action.AppAction" method="newsContent" />
 		
 		<action name="uploadFile" class="com.sr178.safecheck.admin.action.ImageUploadAction">
 			<result name="success" type="json">

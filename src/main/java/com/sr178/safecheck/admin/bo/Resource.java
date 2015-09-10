@@ -7,16 +7,16 @@ import java.util.Date;
 
 
 public class Resource{
-	private int resourceId;
+	private Integer resourceId;
 	private String resource1Names;
 	private String resource2Names;
 	private Date updatedTime;
 	private Date createdTime;
-	public void setResourceId(int resourceId){
-	this.resourceId=resourceId;
-	}
-	public int getResourceId(){
+	public Integer getResourceId() {
 		return resourceId;
+	}
+	public void setResourceId(Integer resourceId) {
+		this.resourceId = resourceId;
 	}
 	public void setResource1Names(String resource1Names){
 	this.resource1Names=resource1Names;

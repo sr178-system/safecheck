@@ -11,4 +11,13 @@
         http://www.springframework.org/schema/context/spring-context-3.0.xsd">
     
     <bean id="appService" class="com.sr178.safecheck.app.service.AppService"></bean>
+    
+    <bean id="userDao" class="com.sr178.safecheck.app.dao.UserDao"></bean>
+    <bean id="checkItemsDao" class="com.sr178.safecheck.app.dao.CheckItemsDao"></bean>
+    <bean id="checkRecordDao" class="com.sr178.safecheck.app.dao.CheckRecordDao"></bean>
+    <bean id="enforceRecordDao" class="com.sr178.safecheck.app.dao.EnforceRecordDao"></bean>
+    <bean id="noticeDao" class="com.sr178.safecheck.app.dao.NoticeDao"></bean>
+    <bean id="resourceDao" class="com.sr178.safecheck.app.dao.ResourceDao"></bean>
+    <bean id="signRecordDao" class="com.sr178.safecheck.app.dao.SignRecordDao"></bean>
+    
 </beans>

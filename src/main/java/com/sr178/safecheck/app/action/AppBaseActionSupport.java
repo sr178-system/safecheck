@@ -16,7 +16,7 @@ public class AppBaseActionSupport extends ActionSupport{
 	
 	private String tokenId;
 	
-	private String userName;
+	private String loginUser;
 	
 	private Map<String,Object> dataMap = new HashMap<String,Object>();
 
@@ -75,11 +75,11 @@ public class AppBaseActionSupport extends ActionSupport{
 		this.tokenId = tokenId;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getLoginUser() {
+		return loginUser;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setLoginUser(String loginUser) {
+		this.loginUser = loginUser;
 	}
 }

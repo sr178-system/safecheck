@@ -7,15 +7,16 @@ import java.util.Date;
 
 
 public class CheckItems{
-	private int id;
+	private Integer id;
 	private String itemTitle;
 	private String itemContent;
 	private Date addTime;
-	public void setId(int id){
-	this.id=id;
-	}
-	public int getId(){
+	
+	public Integer getId() {
 		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public void setItemTitle(String itemTitle){
 	this.itemTitle=itemTitle;

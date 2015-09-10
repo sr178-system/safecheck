@@ -7,18 +7,19 @@ import java.util.Date;
 
 
 public class CheckRecord{
-	private int id;
+	private Integer id;
 	private String cpName;
 	private String checkItems;
 	private String checkUsername;
 	private String checkerName;
 	private int resourceId;
 	private Date checkTime;
-	public void setId(int id){
-	this.id=id;
-	}
-	public int getId(){
+	
+	public Integer getId() {
 		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public void setCpName(String cpName){
 	this.cpName=cpName;

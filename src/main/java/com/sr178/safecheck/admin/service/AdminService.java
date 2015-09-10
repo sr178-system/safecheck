@@ -15,17 +15,43 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sr178.game.framework.log.LogSystem;
+import com.sr178.safecheck.admin.dao.AdminUserDao;
+import com.sr178.safecheck.app.dao.CheckItemsDao;
+import com.sr178.safecheck.app.dao.CheckRecordDao;
+import com.sr178.safecheck.app.dao.EnforceRecordDao;
+import com.sr178.safecheck.app.dao.NoticeDao;
+import com.sr178.safecheck.app.dao.ResourceDao;
+import com.sr178.safecheck.app.dao.SignRecordDao;
+import com.sr178.safecheck.app.dao.UserDao;
 
 
 
 
-public class UserService {
+public class AdminService {
 	
     
     
-    Map<String,String> userSession = new ConcurrentHashMap<String,String>();
+       Map<String,String> userSession = new ConcurrentHashMap<String,String>();
+	   @Autowired
+	   private UserDao userDao;
+	   @Autowired
+	   private CheckItemsDao checkItemsDao;
+	   @Autowired
+	   private CheckRecordDao checkRecordDao;
+	   @Autowired
+	   private EnforceRecordDao enforceRecordDao;
+	   @Autowired
+	   private NoticeDao noticeDao;
+	   @Autowired
+	   private ResourceDao resourceDao;
+	   @Autowired
+	   private SignRecordDao signRecordDao;    
+	   @Autowired
+	   private AdminUserDao adminUserDao;
+    
     
     /**
      * 查看是否登录了

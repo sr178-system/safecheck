@@ -7,18 +7,19 @@ import java.util.Date;
 
 
 public class SignRecord{
-	private int id;
+	private Integer id;
 	private String cpName;
 	private String signerUsername;
 	private String signerName;
 	private int resourceId;
 	private String position;
 	private Date signTime;
-	public void setId(int id){
-	this.id=id;
-	}
-	public int getId(){
+	
+	public Integer getId() {
 		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public void setCpName(String cpName){
 	this.cpName=cpName;

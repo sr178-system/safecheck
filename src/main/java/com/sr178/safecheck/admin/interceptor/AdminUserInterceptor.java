@@ -9,7 +9,7 @@ import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 import com.sr178.game.framework.context.ServiceCacheFactory;
 import com.sr178.game.framework.log.LogSystem;
-import com.sr178.safecheck.admin.service.UserService;
+import com.sr178.safecheck.admin.service.AdminService;
 import com.sr178.safecheck.common.action.ALDAdminActionSupport;
 import com.sr178.safecheck.common.exception.ServiceException;
 
@@ -22,8 +22,8 @@ public class AdminUserInterceptor extends AbstractInterceptor {
 
     @Override
     public String intercept(ActionInvocation actionInvocation) throws Exception {
-        UserService aus = ServiceCacheFactory.getServiceCache()
-                .getService(UserService.class);
+        AdminService aus = ServiceCacheFactory.getServiceCache()
+                .getService(AdminService.class);
         HttpSession sessionhttp = ServletActionContext.getRequest()
                 .getSession();
         String userName = aus.isLogin(sessionhttp.getId());

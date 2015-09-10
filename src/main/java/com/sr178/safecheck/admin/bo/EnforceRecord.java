@@ -7,17 +7,19 @@ import java.util.Date;
 
 
 public class EnforceRecord{
-	private int id;
+	private Integer id;
 	private String cpName;
 	private String enforceUsername;
 	private String enforceName;
 	private int resourceId;
 	private Date enforceTime;
-	public void setId(int id){
-	this.id=id;
-	}
-	public int getId(){
+	
+	
+	public Integer getId() {
 		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public void setCpName(String cpName){
 	this.cpName=cpName;
