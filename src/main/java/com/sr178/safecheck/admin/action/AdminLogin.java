@@ -1,8 +1,5 @@
 package com.sr178.safecheck.admin.action;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
 
 import com.sr178.safecheck.common.action.ALDAdminActionSupport;
 
