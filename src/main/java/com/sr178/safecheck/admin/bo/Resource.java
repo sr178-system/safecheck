@@ -10,6 +10,7 @@ public class Resource{
 	private Integer resourceId;
 	private String resource1Names;
 	private String resource2Names;
+	private String resource3Names;
 	private Date updatedTime;
 	private Date createdTime;
 	public Integer getResourceId() {
@@ -41,6 +42,12 @@ public class Resource{
 	}
 	public Date getCreatedTime(){
 		return createdTime;
+	}
+	public String getResource3Names() {
+		return resource3Names;
+	}
+	public void setResource3Names(String resource3Names) {
+		this.resource3Names = resource3Names;
 	}
 }
 

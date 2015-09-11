@@ -18,12 +18,6 @@
 		<action name="trainRecord" class="com.sr178.safecheck.app.action.AppAction" method="trainRecord" />
 		<action name="newsList" class="com.sr178.safecheck.app.action.AppAction" method="newsList" />
 		<action name="newsContent" class="com.sr178.safecheck.app.action.AppAction" method="newsContent" />
-		
-		<action name="uploadFile" class="com.sr178.safecheck.admin.action.ImageUploadAction">
-			<result name="success" type="json">
-			  <param name="includeProperties">erroCodeNum</param>
-			</result>
-		</action>
 	</package>
 	
 	

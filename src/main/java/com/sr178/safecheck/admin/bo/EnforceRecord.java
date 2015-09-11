@@ -13,6 +13,7 @@ public class EnforceRecord{
 	private String enforceName;
 	private int resourceId;
 	private Date enforceTime;
+	private Date enforceServerTime;
 	
 	
 	public Integer getId() {
@@ -50,6 +51,12 @@ public class EnforceRecord{
 	}
 	public Date getEnforceTime(){
 		return enforceTime;
+	}
+	public Date getEnforceServerTime() {
+		return enforceServerTime;
+	}
+	public void setEnforceServerTime(Date enforceServerTime) {
+		this.enforceServerTime = enforceServerTime;
 	}
 }
 

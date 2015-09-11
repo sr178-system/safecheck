@@ -13,7 +13,9 @@ public class CheckRecord{
 	private String checkUsername;
 	private String checkerName;
 	private int resourceId;
+	private String position;
 	private Date checkTime;
+	private Date checkServerTime;
 	
 	public Integer getId() {
 		return id;
@@ -56,6 +58,18 @@ public class CheckRecord{
 	}
 	public Date getCheckTime(){
 		return checkTime;
+	}
+	public Date getCheckServerTime() {
+		return checkServerTime;
+	}
+	public void setCheckServerTime(Date checkServerTime) {
+		this.checkServerTime = checkServerTime;
+	}
+	public String getPosition() {
+		return position;
+	}
+	public void setPosition(String position) {
+		this.position = position;
 	}
 }
 

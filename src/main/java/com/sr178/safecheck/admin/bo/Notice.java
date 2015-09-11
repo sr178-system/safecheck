@@ -10,6 +10,7 @@ public class Notice{
 	private Integer id;
 	private String noticeTitle;
 	private String noticeContent;
+	private int status;
 	private Date addTime;
 	
 	public Integer getId() {
@@ -35,6 +36,12 @@ public class Notice{
 	}
 	public Date getAddTime(){
 		return addTime;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }
 

@@ -1,28 +1,36 @@
 package com.sr178.safecheck.app.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.sr178.common.jdbc.bean.IPage;
 import com.sr178.common.jdbc.bean.SqlParamBean;
+import com.sr178.game.framework.log.LogSystem;
 import com.sr178.safecheck.admin.bo.CheckItems;
+import com.sr178.safecheck.admin.bo.CheckRecord;
+import com.sr178.safecheck.admin.bo.EnforceRecord;
+import com.sr178.safecheck.admin.bo.Notice;
 import com.sr178.safecheck.admin.bo.Resource;
-import com.sr178.safecheck.admin.bo.SignRecord;
 import com.sr178.safecheck.admin.bo.User;
 import com.sr178.safecheck.app.dao.CheckItemsDao;
 import com.sr178.safecheck.app.dao.CheckRecordDao;
 import com.sr178.safecheck.app.dao.EnforceRecordDao;
 import com.sr178.safecheck.app.dao.NoticeDao;
 import com.sr178.safecheck.app.dao.ResourceDao;
-import com.sr178.safecheck.app.dao.SignRecordDao;
 import com.sr178.safecheck.app.dao.UserDao;
 import com.sr178.safecheck.common.exception.ServiceException;
+import com.sr178.safecheck.common.utils.MD5Security;
 import com.sr178.safecheck.common.utils.ParamCheck;
 
 public class AppService {
@@ -42,8 +50,6 @@ public class AppService {
 	private NoticeDao noticeDao;
 	@Autowired
 	private ResourceDao resourceDao;
-	@Autowired
-	private SignRecordDao signRecordDao;
 
 	/**
 	 * 查看是否登录了
@@ -105,33 +111,121 @@ public class AppService {
 	public List<CheckItems> checkList() {
 		return checkItemsDao.getAll();
 	}
-    /**
-     * 签到
-     * @param userName
-     * @param cpName
-     * @param signTime
-     * @param position
-     * @return
-     */
-	public int sign(String userName, String cpName, Long signTime, String position) {
-		User user = userDao.get(new SqlParamBean("user_name", userName));
+	/**
+	 * 签到及检查结果保存
+	 * @param userName
+	 * @param cpName
+	 * @param checkIds
+	 * @param checkTime
+	 * @return
+	 */
+	public int saveCheck(String userName,String cpName,String checkIds,String position,Long checkTime){
 		ParamCheck.checkString(cpName, 1, "企业名称不能为空");
-		ParamCheck.checkObject(signTime, 2, "签到时间不能为空");
-		ParamCheck.checkString(position, 3, "签到位置不能为空");
+		ParamCheck.checkObject(checkTime, 2, "检查时间不能为空");
+		ParamCheck.checkString(checkIds, 3, "检查项不能为空");
+		ParamCheck.checkString(position, 4, "位置不能为空");
+		User user = userDao.get(new SqlParamBean("user_name", userName));
+		CheckRecord checkRecord = new CheckRecord();
+		checkRecord.setCheckUsername(userName);
+		checkRecord.setCheckerName(user.getName());
+		checkRecord.setCheckItems(checkIds);
+		checkRecord.setCheckTime(new Date(checkTime));
+		checkRecord.setPosition(position);
+		checkRecord.setCpName(cpName);
 		int resourceId = addResource();
-		SignRecord signRecord = new SignRecord();
-		signRecord.setCpName(cpName);
-		signRecord.setPosition(position);
-		signRecord.setResourceId(resourceId);
-		signRecord.setSignerName(user.getName());
-		signRecord.setSignerUsername(userName);
-		signRecord.setSignTime(new Date(signTime.longValue()));
-		signRecordDao.add(signRecord);
+		checkRecord.setResourceId(resourceId);
+		checkRecord.setCheckServerTime(new Date());
+		checkRecordDao.add(checkRecord);
 		return resourceId;
 	}
 	
+	/**
+	 * 执法
+	 * @param userName
+	 * @param inCpName
+	 * @param inTime
+	 * @return
+	 */
+	public int intendance(String userName,String inCpName,Long inTime){
+		ParamCheck.checkString(inCpName, 1, "企业名称不能为空");
+		ParamCheck.checkObject(inTime, 2, "检查时间不能为空");
+		User user = userDao.get(new SqlParamBean("user_name", userName));
+		EnforceRecord enforceRecord = new EnforceRecord();
+		enforceRecord.setCpName(inCpName);
+		enforceRecord.setEnforceName(user.getName());
+		enforceRecord.setEnforceServerTime(new Date());
+		enforceRecord.setEnforceTime(new Date(inTime));
+		enforceRecord.setEnforceUsername(userName);
+		int resourceId = addResource();
+		enforceRecord.setResourceId(resourceId);
+		enforceRecordDao.add(enforceRecord);
+		return resourceId;
+	}
+	/**
+	 * 查询公告列表
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	public IPage<Notice> getPageNotice(String searchStr,int pageIndex,int pageSize){
+		return noticeDao.getNoticePage(searchStr,pageIndex, pageSize);
+	}
+	/**
+	 * 查询新闻内容
+	 * @param id
+	 * @return
+	 */
+	public Notice getNotice(int id){
+		return noticeDao.get(new SqlParamBean("id",id));
+	}
 	
-
+	/**
+	 * 保存图片
+	 * @param files
+	 * @param fileNames
+	 * @param taskId
+	 * @param type
+	 */
+	public void saveFiles(List<File> files,List<String> names,int taskId,int type,String descPath){
+		  Resource resource = resourceDao.get(new SqlParamBean("resource_id", taskId));
+		  if(resource==null){
+			  throw new ServiceException(1, "任务不存在！");
+		  }
+		  List<String> fileNames = Lists.newArrayList();
+		  for(int i=0;i<files.size();i++){
+			  File file = files.get(i);
+			  String oldFileName = names.get(i);
+			  
+			  String prefix = oldFileName.split("\\.")[1];
+			  String fileName = MD5Security.md5_16(UUID.randomUUID().toString())+"."+prefix;
+			  try {
+				FileUtils.copyFile(file, new File(descPath+fileName));
+				fileNames.add(fileName);
+				} catch (IOException e) {
+					LogSystem.error(e, "上传图片失败");
+					throw new ServiceException(1, "上传图片失败！请重新上传！");
+				}
+		  }
+		  String source = StringUtils.join(fileNames.iterator(), ",");
+		  if(type==1){
+			  source = joinStr(resource.getResource1Names(),source);
+		  }else if(type==2){
+			  source = joinStr(resource.getResource2Names(),source);
+		  }else if(type==3){
+			  source = joinStr(resource.getResource3Names(),source);
+		  }
+		  resourceDao.updateResource(taskId, source, type);
+	}
+	
+	
+	private String joinStr(String befor,String add){
+		if(Strings.isNullOrEmpty(befor)){
+			return add;
+		}else{
+			return befor+","+add;
+		}
+	}
+	
 	/**
 	 * 添加资源
 	 * 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.sr178.common.jdbc.bean.IPage;
 
 public class AppBaseActionSupport extends ActionSupport{
 	/**
@@ -36,6 +37,31 @@ public class AppBaseActionSupport extends ActionSupport{
 	public <T> String renderObjectResult(T o){
 		dataMap.put("flag", 1);
 		dataMap.put("msg", "success");
+		dataMap.put("rc",o);
+		return JSON;
+	}
+	
+	/**
+	 * 返回成功的对象消息
+	 * @param o
+	 */
+	public <T> String renderPageResult(IPage<T> page){
+		dataMap.put("flag", 1);
+		dataMap.put("msg", "success");
+		dataMap.put("totalSize",page.getTotalSize());
+		dataMap.put("rc",page.getData());
+		return JSON;
+	}
+	
+	/**
+	 * 返回成功的key value消息
+	 * @param o
+	 */
+	public <T> String renderKeyValueResult(String key,Object value){
+		dataMap.put("flag", 1);
+		dataMap.put("msg", "success");
+		Map<String,Object>  o = new HashMap<String,Object>();
+		o.put(key, value);
 		dataMap.put("rc",o);
 		return JSON;
 	}

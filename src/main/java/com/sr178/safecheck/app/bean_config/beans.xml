@@ -18,6 +18,4 @@
     <bean id="enforceRecordDao" class="com.sr178.safecheck.app.dao.EnforceRecordDao"></bean>
     <bean id="noticeDao" class="com.sr178.safecheck.app.dao.NoticeDao"></bean>
     <bean id="resourceDao" class="com.sr178.safecheck.app.dao.ResourceDao"></bean>
-    <bean id="signRecordDao" class="com.sr178.safecheck.app.dao.SignRecordDao"></bean>
-    
 </beans>

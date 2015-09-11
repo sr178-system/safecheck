@@ -1,13 +1,15 @@
 package com.sr178.safecheck.app.action;
 
-import java.util.HashMap;
-import java.util.Map;
+
+import java.io.File;
+import java.util.List;
+
+import org.apache.struts2.ServletActionContext;
 
 import com.sr178.game.framework.context.ServiceCacheFactory;
 import com.sr178.safecheck.app.service.AppService;
 
 public class AppAction extends AppBaseActionSupport {
-
 	/**
 	 * 
 	 */
@@ -33,25 +35,105 @@ public class AppAction extends AppBaseActionSupport {
 	}
 	
 	/**
-	 * 签到
+	 * 获取系统时间
+	 * @return
+	 */
+	public String systemTime(){
+		return renderKeyValueResult("systemTime", System.currentTimeMillis());
+	}
+	
+	/**
+	 * 保存检查结果
 	 */
 	private String cpName;
-	private Long signTime;
 	private String position;
-	public String sign(){
+	private String checkIds;
+	private Long checkTime;
+	public String saveCheck(){
 		AppService appService = ServiceCacheFactory.getService(AppService.class);
-		int taskId = appService.sign(super.getLoginUser(), cpName, signTime, position);
-		Map<String,Integer> result = new HashMap<String,Integer>();
-		result.put("taskId", taskId);
-		return renderObjectResult(result);
+		return renderKeyValueResult("taskId", appService.saveCheck(super.getLoginUser(), cpName, checkIds,position,checkTime));
+	}
+	
+	/**
+	 * 执法
+	 */
+	private String inCpName;
+	private Long inTime;
+	public String intendance(){
+		AppService appService = ServiceCacheFactory.getService(AppService.class);
+		return renderKeyValueResult("taskId", appService.intendance(super.getLoginUser(), inCpName, inTime));
+	}
+	
+	/**
+	 * 查询培训记录
+	 */
+	private String idCard;
+	private String certNum;
+	public String trainRecord(){
+		//TODO  要解析网页数据进行查询数据
+		return renderObjectResult(null);
+	}
+	
+	/**
+	 * 分页查询公告列表
+	 */
+	private int pageNo;
+	private int pageSize;
+	private String searchStr;
+	public String newsList(){
+		AppService appService = ServiceCacheFactory.getService(AppService.class);
+		return renderPageResult(appService.getPageNotice(searchStr,pageNo, pageSize));
+	}
+	
+	/**
+	 * 查询新闻内容
+	 */
+	private int newsId;
+	public String newsContent(){
+		AppService appService = ServiceCacheFactory.getService(AppService.class);
+		return renderObjectResult(appService.getNotice(newsId));
+	}
+	
+	/**
+	 * 图片上传
+	 */
+	private List<File> images;
+	private List<String> imagesFileName;
+	private int taskId;
+	private int type;
+	public String uploadFiles() {
+		AppService appService = ServiceCacheFactory.getService(AppService.class);
+		String path = ServletActionContext.getServletContext().getRealPath("/");
+		String descDirectoryPath = path + "/uploads/";
+		appService.saveFiles(images,imagesFileName,taskId, type, descDirectoryPath);
+		return renderSuccessResult();
 	}
 	
 	
-	
-	
-	
-	
-	
+	public int getPageNo() {
+		return pageNo;
+	}
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
+	}
+	public int getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+	public String getInCpName() {
+		return inCpName;
+	}
+	public void setInCpName(String inCpName) {
+		this.inCpName = inCpName;
+	}
+	public Long getInTime() {
+		return inTime;
+	}
+	public void setInTime(Long inTime) {
+		this.inTime = inTime;
+	}
 	public String getOldPwd() {
 		return oldPwd;
 	}
@@ -70,16 +152,70 @@ public class AppAction extends AppBaseActionSupport {
 	public void setCpName(String cpName) {
 		this.cpName = cpName;
 	}
-	public Long getSignTime() {
-		return signTime;
-	}
-	public void setSignTime(Long signTime) {
-		this.signTime = signTime;
-	}
 	public String getPosition() {
 		return position;
 	}
 	public void setPosition(String position) {
 		this.position = position;
+	}
+	public String getCheckIds() {
+		return checkIds;
+	}
+	public void setCheckIds(String checkIds) {
+		this.checkIds = checkIds;
+	}
+	public Long getCheckTime() {
+		return checkTime;
+	}
+	public void setCheckTime(Long checkTime) {
+		this.checkTime = checkTime;
+	}
+	public String getIdCard() {
+		return idCard;
+	}
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
+	}
+	public String getCertNum() {
+		return certNum;
+	}
+	public void setCertNum(String certNum) {
+		this.certNum = certNum;
+	}
+	public int getNewsId() {
+		return newsId;
+	}
+	public void setNewsId(int newsId) {
+		this.newsId = newsId;
+	}
+	public List<File> getImages() {
+		return images;
+	}
+	public void setImages(List<File> images) {
+		this.images = images;
+	}
+	public List<String> getImagesFileName() {
+		return imagesFileName;
+	}
+	public void setImagesFileName(List<String> imagesFileName) {
+		this.imagesFileName = imagesFileName;
+	}
+	public int getTaskId() {
+		return taskId;
+	}
+	public void setTaskId(int taskId) {
+		this.taskId = taskId;
+	}
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
+	public String getSearchStr() {
+		return searchStr;
+	}
+	public void setSearchStr(String searchStr) {
+		this.searchStr = searchStr;
 	}
 }
