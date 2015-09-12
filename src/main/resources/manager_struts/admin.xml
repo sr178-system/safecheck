@@ -11,7 +11,11 @@
 			  <param name="includeProperties">code</param>
 			</result>
 		</action>
-		
+		<action name="adminindex" class="com.sr178.safecheck.admin.action.JctjAction" method="cpList">
+			<result name="success">
+			   /admin/jctj.jsp
+			</result>
+		</action>		
 	</package>
 	
 	

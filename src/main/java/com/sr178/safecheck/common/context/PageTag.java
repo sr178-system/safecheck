@@ -61,7 +61,7 @@ public class PageTag implements Tag {
     private static final String PER_PAGE_SIZE_NUM_TAG = "PER_PAGE_SIZE_NUM_TAG";
     
     
-    private static final String TAG_FORMAT = ">>分页　"+FIRST_PAGE_TAG+"　"+UP_PAGE_TAG+"　"+NEXT_PAGE_TAG+"　"+END_PAGE_TAG+"　页次：<b>"+CURRENT_PAGE_NUM_TAG+"/"+ALL_PAGE_NUM_TAG+"</b>页　共<b>"+ALL_PAGE_SIZE_NUM_TAG+"</b>条　<b>"+PER_PAGE_SIZE_NUM_TAG+"</b>条/页　转到：<input id='toPageInputText' type='text' name='toPage' value='"+CURRENT_PAGE_NUM_TAG+"' onkeydown='if(event.keyCode==13)document.getElementById(&quot;pageGo&quot;).click()' /><button id='pageGo'  onClick=gotoPage(document.getElementById('toPageInputText').value); >GO</button>";
+    private static final String TAG_FORMAT = "<p>共有"+ALL_PAGE_SIZE_NUM_TAG+"条记录，当前第"+CURRENT_PAGE_NUM_TAG+"/"+ALL_PAGE_NUM_TAG+" 页</p>　<ul><li>"+FIRST_PAGE_TAG+"</li><li>"+UP_PAGE_TAG+"</li><li>"+NEXT_PAGE_TAG+"</li><li>"+END_PAGE_TAG+"</li><li>跳转到第<input id='toPageInputText' type='text' name='toPage' value='"+CURRENT_PAGE_NUM_TAG+"' onkeydown='if(event.keyCode==13)document.getElementById(&quot;pageGo&quot;).click()' />页</li><li><a href='javascript:gotoPage(document.getElementById('toPageInputText').value);'>确定</a></li></ul>";
     
     
     public int doEndTag() throws JspTagException {
