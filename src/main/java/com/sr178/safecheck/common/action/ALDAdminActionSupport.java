@@ -1,6 +1,8 @@
 package com.sr178.safecheck.common.action;
 
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -46,6 +48,12 @@ public class ALDAdminActionSupport extends ActionSupport {
 
 	public void setCode(int code) {
 		this.code = code;
+	}
+	
+	public String getSessionId(){
+		HttpSession sessionhttp = ServletActionContext.getRequest()
+				.getSession();
+		return sessionhttp.getId();
 	}
 	
 }

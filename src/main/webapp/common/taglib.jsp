@@ -16,24 +16,3 @@
 			+ path + "/";
 	request.setAttribute("basePath", basePath);
 %>
-<script type="text/javascript" src="/js/jquery.min.js"></script>
-<script>
-	$(function(){
-		setTrClass();
-	});
-	
-	function setTrClass() {
-		$('table tr:even').addClass('etr');
-		$('table tr:odd').addClass('otr');
-		
-		$("table tr").each(function(){
-			$(this).click(function(){
-				if($(this).hasClass("trchoose")){
-					$(this).removeClass("trchoose");
-				}else{
-					$(this).addClass("trchoose");
-				}
-			});
-		});
-	}
-</script>

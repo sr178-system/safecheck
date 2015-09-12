@@ -13,6 +13,9 @@ public class CheckRecord{
 	private String checkUsername;
 	private String checkerName;
 	private int resourceId;
+	private String resource1Names;
+	private String resource2Names;
+	private String resource3Names;
 	private String position;
 	private Date checkTime;
 	private Date checkServerTime;
@@ -70,6 +73,24 @@ public class CheckRecord{
 	}
 	public void setPosition(String position) {
 		this.position = position;
+	}
+	public String getResource1Names() {
+		return resource1Names;
+	}
+	public void setResource1Names(String resource1Names) {
+		this.resource1Names = resource1Names;
+	}
+	public String getResource2Names() {
+		return resource2Names;
+	}
+	public void setResource2Names(String resource2Names) {
+		this.resource2Names = resource2Names;
+	}
+	public String getResource3Names() {
+		return resource3Names;
+	}
+	public void setResource3Names(String resource3Names) {
+		this.resource3Names = resource3Names;
 	}
 }
 

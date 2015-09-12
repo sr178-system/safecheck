@@ -1,6 +1,8 @@
 package com.sr178.safecheck.admin.action;
 
 
+import com.sr178.game.framework.context.ServiceCacheFactory;
+import com.sr178.safecheck.admin.service.AdminService;
 import com.sr178.safecheck.common.action.ALDAdminActionSupport;
 
 public class AdminLogin extends ALDAdminActionSupport {
@@ -9,61 +11,32 @@ public class AdminLogin extends ALDAdminActionSupport {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String adminName;
-	private String adminPassword;
-	private String randString;
-	private Integer version;
-	public String getRandString() {
-		return randString;
-	}
-
-	public void setRandString(String randString) {
-		this.randString = randString;
-	}
+	private String userName;
+	private String passWord;
 
 	public String execute() {
-		if (adminName == null || adminPassword == null)
-			return SUCCESS;
-//		//Gcuser au = aus.login(sessionhttp.getId(), adminName, adminPassword,ServletActionContext.getRequest().getRemoteAddr());
-//		if (au == null) {
-//			super.setErroCodeNum(3);
-//			super.setErroDescrip("登录失败，用户名或密码错误");
-//			return SUCCESS;
-//		} else {
-////			if(au.getGanew()!=0){
-////				super.setErroCodeNum(4);//重定向去修改用户信息
-////				return SUCCESS;
-////			}
-//			return SUCCESS;
-//		}
-		return SUCCESS;
+	   AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+	   adminService.login(userName, passWord, super.getSessionId());
+	   return SUCCESS;
 	}
 
-	public String getAdminName() {
-		return adminName;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setAdminName(String adminName) {
-		this.adminName = adminName;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public String getAdminPassword() {
-		return adminPassword;
+	public String getPassWord() {
+		return passWord;
 	}
-	public void setAdminPassword(String adminPassword) {
-		this.adminPassword = adminPassword;
+
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
 	}
-	public String getErroDescrip() {
-		return super.getErroDescrip();
-	}
-	public int getCode(){
+	
+	public int getCode() {
 		return super.getCode();
 	}
-	public Integer getVersion() {
-		return version;
-	}
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
-
 }

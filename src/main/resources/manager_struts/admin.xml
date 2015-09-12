@@ -8,15 +8,10 @@
 		<!-- 一个包下可以放这个模块下的所有action -->
 		<action name="adminlogin" class="com.sr178.safecheck.admin.action.AdminLogin">
 			<result name="success" type="json">
-			  <param name="includeProperties">erroCodeNum</param>
+			  <param name="includeProperties">code</param>
 			</result>
 		</action>
 		
-		<action name="uploadFile" class="com.sr178.safecheck.admin.action.ImageUploadAction">
-			<result name="success" type="json">
-			  <param name="includeProperties">erroCodeNum</param>
-			</result>
-		</action>
 	</package>
 	
 	

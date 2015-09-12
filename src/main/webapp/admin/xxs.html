@@ -1,0 +1,55 @@
+<!-- 头部 -->
+{{ include "layout/head.html" }}
+<div class="easyui-layout" data-options="fit:true">
+
+<!-- 导航 -->
+{{ include "layout/nav.html" }}
+    <div id="content" region="center">
+    		<div class="crumb">
+    			<p>您当前的位置：<a href="#">首页</a>><a href="#">督查检查</a>><span>详情</span></p>
+    		</div>
+    		<div class="detilym">
+    			
+    			<div class="dtitle">
+    				企业名称：泸州市XXX厂
+    			</div>
+    			<div class="dlink">
+    				<ul>
+    					<li>
+    						<div>
+    							<p><b>检查日期：</b>1921.01.01</p>
+                                <p><b>检查项目：</b>检查项目1、检查项目2、检查项目3、检查项目4</p>
+								<p><b>取证照片：</b></p>
+								<p><img src="#"><img src="#"><img src="#"></p>
+								<p><b>企业负责人签名照片：</b></p>
+								<p><img src="#"></p>
+                                <p><b>检查人员：</b>刘德华</p>
+    						</div>
+    					</li>
+                        <li>
+                            <div>
+                                <p><b>检查日期：</b>1921.01.01</p>
+                                <p><b>检查项目：</b>检查项目1、检查项目2、检查项目3、检查项目4</p>
+                                <p><b>取证照片：</b></p>
+                                <p><img src="#"><img src="#"><img src="#"></p>
+                                <p><b>企业负责人签名照片：</b></p>
+                                <p><img src="#"></p>
+                                <p><b>检查人员：</b>刘德华</p>
+                            </div>
+                        </li>
+    				</ul>
+    				<p><a class="mores" href="#">点击加载更多▼</a></p>
+    			</div>
+ 
+    		</div>
+    </div>
+ </div>
+<script type="text/javascript">
+	$(".mores").click(function(){
+		//$.get('xxx',function(e){
+			alert("加载功能");
+		//})
+	})
+</script>
+</body>
+</html>
