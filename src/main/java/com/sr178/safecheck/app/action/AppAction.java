@@ -70,8 +70,7 @@ public class AppAction extends AppBaseActionSupport {
 	private String idCard;
 	private String certNum;
 	public String trainRecord(){
-		//TODO  要解析网页数据进行查询数据
-		return renderObjectResult(null);
+		return renderObjectResult(AppService.trainRecod(idCard, certNum));
 	}
 	
 	/**
