@@ -14,7 +14,7 @@ public class AdminUser{
 	private Date birthday;
 	private String call;
 	private String remark;
-	private String upUser;
+	private String upUser="";
 	private int status;
 	public void setUserName(String userName){
 	this.userName=userName;
@@ -70,5 +70,20 @@ public class AdminUser{
 	public int getStatus(){
 		return status;
 	}
+	public AdminUser(String userName, String passWord, String name, int sex, Date birthday, String call, String remark,
+			String upUser) {
+		super();
+		this.userName = userName;
+		this.passWord = passWord;
+		this.name = name;
+		this.sex = sex;
+		this.birthday = birthday;
+		this.call = call;
+		this.remark = remark;
+		this.upUser = upUser;
+	}
+	public AdminUser() {
+	}
+	
 }
 

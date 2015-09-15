@@ -15,7 +15,29 @@
 			<result name="success">
 			   /admin/jctj.jsp
 			</result>
-		</action>		
+		</action>
+		
+		<action name="adminList" class="com.sr178.safecheck.admin.action.AdminUserAction" method="showList">
+			 
+		</action>
+		<action name="editPwd" class="com.sr178.safecheck.admin.action.AdminUserAction" method="editPwd">
+			 
+		</action>
+		<action name="logout" class="com.sr178.safecheck.admin.action.AdminUserAction" method="logout">
+			 
+		</action>
+		<action name="delete" class="com.sr178.safecheck.admin.action.AdminUserAction" method="delete">
+			 
+		</action>
+		<action name="editStatus" class="com.sr178.safecheck.admin.action.AdminUserAction" method="editStatus">
+			 
+		</action>	
+		<action name="editAdmin" class="com.sr178.safecheck.admin.action.AdminUserAction" method="editAdmin">
+			 
+		</action>	
+		<action name="addAdmin" class="com.sr178.safecheck.admin.action.AdminUserAction" method="addAdmin">
+		</action>	
+					
 	</package>
 	
 	
