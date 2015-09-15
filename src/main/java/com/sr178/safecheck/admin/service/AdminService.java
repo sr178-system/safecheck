@@ -171,7 +171,7 @@ public class AdminService {
 	 * @return
 	 */
 	public IPage<AdminUser> getAdminUserPageList(int pageIndex,int pageSize){
-		return adminUserDao.getPageList(pageIndex, pageSize, "order by id desc");
+		return adminUserDao.getPageList(pageIndex, pageSize, "");
 	}
 	/**
 	 * 获取一个管理员
@@ -189,7 +189,7 @@ public class AdminService {
 	 */
 	public void editAdminPwd(String adminUserName,String oldPasswd,String newPasswd){
 		String oldPasswdSha = MacShaUtils.doEncryptBase64(oldPasswd, SHA_SECRET);
-		AdminUser adminUser = adminUserDao.get(new SqlParamBean("user_name", adminUserName),new SqlParamBean("pass_word", oldPasswdSha));
+		AdminUser adminUser = adminUserDao.get(new SqlParamBean("user_name", adminUserName),new SqlParamBean("and","pass_word", oldPasswdSha));
 		if(adminUser==null){
 			throw new ServiceException(1, "旧密码不正确");
 		}
@@ -280,6 +280,7 @@ public class AdminService {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println( MacShaUtils.doEncryptBase64("asdfaf222222222222asdfasdf", SHA_SECRET));
+		System.out.println( MacShaUtils.doEncryptBase64("xx", SHA_SECRET));
 	}
+	
 }

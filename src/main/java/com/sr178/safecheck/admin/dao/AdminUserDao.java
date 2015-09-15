@@ -28,7 +28,7 @@ public class AdminUserDao extends SfDaoBase<AdminUser> {
 	 * @return
 	 */
 	public boolean updateAll(AdminUser adminUser){
-		String sql = "update "+super.getTable()+" set pass_word=?,name=?,sex=?,birthday=?,call=?,remark=?,up_user=?,status=? where user_name=? limit 1";
+		String sql = "update "+super.getTable()+" set pass_word=?,name=?,sex=?,birthday=?,`call`=?,remark=?,up_user=?,status=? where user_name=? limit 1";
 		SqlParameter parameter = SqlParameter.Instance();
 		parameter.setString(adminUser.getPassWord());
 		parameter.setString(adminUser.getName());

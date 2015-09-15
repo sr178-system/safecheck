@@ -13,6 +13,8 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private int st;
 	/**
 	 * 获取管理员列表
 	 * @return
@@ -44,16 +46,20 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 	/**
 	 * 启用或禁用管理员   0 开启  1禁用
 	 */
-	private String adminUserName;
 	private int status;
 	public String editStatus(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
-		adminService.editAdminStatus(adminUserName, status);
+		if(adminUserNames!=null&&adminUserNames.length>0){
+			for(String adminUserName:adminUserNames){
+				adminService.editAdminStatus(adminUserName, status);
+			}
+		}
 		return SUCCESS;
 	}
 	/**
 	 * 编辑管理员
 	 */
+	private String adminUserName;
 	private String passWord;
 	private int sex;
 	private String name;
@@ -72,6 +78,9 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 	 * @return
 	 */
 	public String addAdmin(){
+		if(st==0){
+			return INPUT;
+		}
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		Date birth = DateUtils.StringToDate(birthday);
 		adminService.addAdmins(adminUserName, passWord, sex, name, call, remark, upUser, birth);
@@ -84,7 +93,111 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 	private String newPasswd;
 	public String editPwd(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
-		adminService.editAdminPwd(adminUserName, oldPasswd, newPasswd);
+		adminService.editAdminPwd(super.getUserName(), oldPasswd, newPasswd);
 		return SUCCESS;
+	}
+
+	public int getSt() {
+		return st;
+	}
+
+	public void setSt(int st) {
+		this.st = st;
+	}
+
+	public String[] getAdminUserNames() {
+		return adminUserNames;
+	}
+
+	public void setAdminUserNames(String[] adminUserNames) {
+		this.adminUserNames = adminUserNames;
+	}
+
+	public String getAdminUserName() {
+		return adminUserName;
+	}
+
+	public void setAdminUserName(String adminUserName) {
+		this.adminUserName = adminUserName;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getPassWord() {
+		return passWord;
+	}
+
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
+	}
+
+	public int getSex() {
+		return sex;
+	}
+
+	public void setSex(int sex) {
+		this.sex = sex;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCall() {
+		return call;
+	}
+
+	public void setCall(String call) {
+		this.call = call;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getUpUser() {
+		return upUser;
+	}
+
+	public void setUpUser(String upUser) {
+		this.upUser = upUser;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getOldPasswd() {
+		return oldPasswd;
+	}
+
+	public void setOldPasswd(String oldPasswd) {
+		this.oldPasswd = oldPasswd;
+	}
+
+	public String getNewPasswd() {
+		return newPasswd;
+	}
+
+	public void setNewPasswd(String newPasswd) {
+		this.newPasswd = newPasswd;
 	}
 }

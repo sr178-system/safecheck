@@ -29,12 +29,35 @@
 
 <div class="header cb">
 	<div class="l"><a href="#"><img src="/images/logo.png" /></a></div>
-	<div class="r headtent"><strong>当前用户：<b>${userName}</b></strong><a class="pawex" href="#">修改密码</a><span>|</span><a href="#">退出</a></div>
-	<form class="form form2">
+	<div class="r headtent"><strong>当前用户：<b>${userName}</b></strong><a class="pawex" href="#">修改密码</a><span>|</span><a href="/admin/logout">退出</a></div>
+	<form class="form form2" name="Form" id="Form">
 		<span class="jt"></span>
-		<p><label>旧密码：</label><input type="password" value=""></p>
-		<p><label>新密码：</label><input type="password" value=""></p>
-		<p><label>确认密码：</label><input type="password" value=""></p>
-		<p class="fbnt"><a href="#" class="st">保存</a> <a href="#" class="clesed">取消</a></p>
+		<p><label>旧密码：</label><input type="password" value="" name="oldPasswd"></p>
+		<p><label>新密码：</label><input type="password" value="" name="newPasswd"></p>
+		<p><label>确认密码：</label><input type="password" value="" name="newPasswd2"></p>
+		<p class="fbnt"><a href="#" class="st" onclick="save()">保存</a> <a href="#" class="clesed">取消</a></p>
 	</form>
 </div>
+<script type="text/javascript">
+   function save(){
+	   if(Form.newPasswd.value!=Form.newPasswd2.value){
+		   alert("新密码不一致！");
+		   return;
+	   }
+	   var data = $("#Form").serialize();
+	   alert(data);
+		$.post("/admin/editPwd", data, function(data) {
+			if (data.code == 0) 
+			 { 
+				alert("修改成功"); 
+				$(".form2").hide();
+			    return; 
+			 }else if(data.code == 1){
+				 alert("旧密码不正确");
+				 return;
+			 }
+		});
+	   
+   }
+ 
+</script>

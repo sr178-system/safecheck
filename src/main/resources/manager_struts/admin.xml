@@ -18,24 +18,43 @@
 		</action>
 		
 		<action name="adminList" class="com.sr178.safecheck.admin.action.AdminUserAction" method="showList">
-			 
+			 <result name="success">
+			   /admin/adminList.jsp
+			</result>
 		</action>
 		<action name="editPwd" class="com.sr178.safecheck.admin.action.AdminUserAction" method="editPwd">
-			 
+			 <result name="success" type="json">
+			    <param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">code</param>
+			</result>
 		</action>
 		<action name="logout" class="com.sr178.safecheck.admin.action.AdminUserAction" method="logout">
-			 
+			 <result name="success" type="redirect">
+			   /index.jsp
+			</result>
 		</action>
 		<action name="delete" class="com.sr178.safecheck.admin.action.AdminUserAction" method="delete">
-			 
+			 <result name="success" type="json">
+			    <param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">code</param>
+			</result>
 		</action>
 		<action name="editStatus" class="com.sr178.safecheck.admin.action.AdminUserAction" method="editStatus">
-			 
+			  <result name="success" type="json">
+			    <param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">code</param>
+			</result>
 		</action>	
 		<action name="editAdmin" class="com.sr178.safecheck.admin.action.AdminUserAction" method="editAdmin">
 			 
 		</action>	
 		<action name="addAdmin" class="com.sr178.safecheck.admin.action.AdminUserAction" method="addAdmin">
+		    <result name="input">
+			   /admin/addAdmin.jsp
+			</result>
+			<result name="success">
+			   /admin/addAdmin.jsp
+			</result>
 		</action>	
 					
 	</package>
