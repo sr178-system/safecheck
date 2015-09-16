@@ -6,7 +6,11 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.sr178.safecheck.admin.bo.CheckRecord;
 import com.sr178.safecheck.admin.bo.EnforceRecord;
-
+/**
+ * 检查统计
+ * @author ThinkPad User
+ *
+ */
 public class JctjBean {
 	private String cpName;
 	private CheckRecord  checkRecord;

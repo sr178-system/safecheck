@@ -16,7 +16,13 @@
 			   /admin/jctj.jsp
 			</result>
 		</action>
-		
+
+		<action name="jcdc" class="com.sr178.safecheck.admin.action.JcdcAction" method="unList">
+			<result name="success">
+			   /admin/jcdc.jsp
+			</result>
+		</action>
+				
 		<action name="adminList" class="com.sr178.safecheck.admin.action.AdminUserAction" method="showList">
 			 <result name="success">
 			   /admin/adminList.jsp
@@ -56,7 +62,34 @@
 			   /admin/addAdmin.jsp
 			</result>
 		</action>	
-					
+		<action name="userList" class="com.sr178.safecheck.admin.action.AdminUserAction" method="showListu">
+			 <result name="success">
+			   /admin/userList.jsp
+			</result>
+		</action>
+		<action name="deleteu" class="com.sr178.safecheck.admin.action.AdminUserAction" method="deleteu">
+			 <result name="success" type="json">
+			    <param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">code</param>
+			</result>
+		</action>
+		<action name="editStatusu" class="com.sr178.safecheck.admin.action.AdminUserAction" method="editStatusu">
+			  <result name="success" type="json">
+			    <param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">code</param>
+			</result>
+		</action>	
+		<action name="editUser" class="com.sr178.safecheck.admin.action.AdminUserAction" method="editUser">
+			 
+		</action>	
+		<action name="addUser" class="com.sr178.safecheck.admin.action.AdminUserAction" method="addUser">
+		    <result name="input">
+			   /admin/addUser.jsp
+			</result>
+			<result name="success">
+			   /admin/addUser.jsp
+			</result>
+		</action>				
 	</package>
 	
 	

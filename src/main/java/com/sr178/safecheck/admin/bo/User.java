@@ -70,5 +70,17 @@ public class User{
 	public int getStatus(){
 		return status;
 	}
+	public User(String userName, String passWord, String name, int sex, Date birthday, String call, String remark,
+			String upUser) {
+		super();
+		this.userName = userName;
+		this.passWord = passWord;
+		this.name = name;
+		this.sex = sex;
+		this.birthday = birthday;
+		this.call = call;
+		this.remark = remark;
+		this.upUser = upUser;
+	}
 }
 
