@@ -82,5 +82,7 @@ public class User{
 		this.remark = remark;
 		this.upUser = upUser;
 	}
+	public User() {
+	}
 }
 

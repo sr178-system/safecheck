@@ -14,21 +14,7 @@ public class MacShaUtils {
 
 	private static final String MAC_NAME = "HmacSHA1";  
     private static final String ENCODING = "UTF-8";  
-    
-	/*
-	 * 展示了一个生成指定算法密钥的过程 初始化HMAC密钥 
-	 * @return 
-	 * @throws Exception
-	 * 
-	  public static String initMacKey() throws Exception {
-	  //得到一个 指定算法密钥的密钥生成器
-	  KeyGenerator KeyGenerator keyGenerator =KeyGenerator.getInstance(MAC_NAME); 
-	  //生成一个密钥
-	  SecretKey secretKey =keyGenerator.generateKey();
-	  return null;
-	  }
-	 */
-    
+       
     /** 
      * 使用 HMAC-SHA1 签名方法对对encryptText进行签名 
      * @param encryptText 被签名的字符串 

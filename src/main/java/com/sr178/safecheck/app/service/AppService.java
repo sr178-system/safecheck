@@ -77,7 +77,6 @@ public class AppService {
 	public String login(String userName, String passWord) {
 		ParamCheck.checkString(userName, 1, "用户名不能为空");
 		ParamCheck.checkString(userName, 2, "密码不能为空");
-
 		User user = userDao.get(new SqlParamBean("user_name", userName), new SqlParamBean(AND, "pass_word", passWord));
 		if (user == null) {
 			throw new ServiceException(1, "错误的用户名或密码");
