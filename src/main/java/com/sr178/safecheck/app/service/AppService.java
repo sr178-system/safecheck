@@ -5,15 +5,16 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sr178.common.jdbc.bean.IPage;
@@ -41,7 +42,8 @@ public class AppService {
 	public static final String AND = "and";
 	public static final String OR = "or";
 
-	Map<String, String> userToken = new ConcurrentHashMap<String, String>();
+  	private Cache<String,String> userToken = CacheBuilder.newBuilder().expireAfterAccess(24, TimeUnit.HOURS).maximumSize(2000).build();
+
 	@Autowired
 	private UserDao userDao;
 	@Autowired
@@ -65,7 +67,7 @@ public class AppService {
 		if (tokenId == null || "".equals(tokenId)) {
 			return null;
 		}
-		return userToken.get(tokenId);
+		return userToken.getIfPresent(tokenId);
 	}
 
 	/**

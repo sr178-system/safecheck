@@ -6,11 +6,13 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sr178.common.jdbc.bean.IPage;
@@ -41,7 +43,8 @@ public class AdminService {
 	public static final String AND = "and";
 	public static final String OR = "or";
 
-	Map<String, String> userSession = new ConcurrentHashMap<String, String>();
+  	private Cache<String,String> userSession = CacheBuilder.newBuilder().expireAfterAccess(24, TimeUnit.HOURS).maximumSize(2000).build();
+
 	@Autowired
 	private UserDao userDao;
 	@Autowired
@@ -64,7 +67,7 @@ public class AdminService {
 	 * @return
 	 */
 	public String isLogin(String sessionId) {
-		return userSession.get(sessionId);
+		return userSession.getIfPresent(sessionId);
 	}
     /**
      * 登录
@@ -88,7 +91,7 @@ public class AdminService {
 	 * @param sessionId
 	 */
 	public void loginout(String sessionId){
-		userSession.remove(sessionId);
+		userSession.invalidate(sessionId);
 	}
 	/**
 	 * 获取检查项Map
