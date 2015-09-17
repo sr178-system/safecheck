@@ -19,4 +19,21 @@ public class NoticeDao extends SfDaoBase<Notice> {
 		 sql = sql +  " order by status desc,add_time desc";
 		return super.getJdbc().getListPage(sql, Notice.class, parameter, pageSize, pageIndex);
 	}
+	
+	
+	public boolean update(int id,String title,String content){
+		String sql = "update "+super.getTable()+" set notice_title=?,notice_content=? where id=? limit 1";
+		SqlParameter parameter = SqlParameter.Instance();
+		parameter.withString(title);
+		parameter.withString(content);
+		parameter.withInt(id);
+		return super.getJdbc().update(sql, parameter)>0;
+	}
+	
+	public boolean updateStatus(int id,int status){
+		String sql = "update "+super.getTable()+" set status=? where id=? limit 1";
+		SqlParameter parameter = SqlParameter.Instance();
+		parameter.withInt(status).withInt(id);
+		return super.getJdbc().update(sql, parameter)>0;
+	}
 }

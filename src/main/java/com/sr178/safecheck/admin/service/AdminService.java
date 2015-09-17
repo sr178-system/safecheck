@@ -22,13 +22,13 @@ import com.sr178.safecheck.admin.bo.AdminUser;
 import com.sr178.safecheck.admin.bo.CheckItems;
 import com.sr178.safecheck.admin.bo.CheckRecord;
 import com.sr178.safecheck.admin.bo.EnforceRecord;
+import com.sr178.safecheck.admin.bo.Notice;
 import com.sr178.safecheck.admin.bo.User;
 import com.sr178.safecheck.admin.dao.AdminUserDao;
 import com.sr178.safecheck.app.dao.CheckItemsDao;
 import com.sr178.safecheck.app.dao.CheckRecordDao;
 import com.sr178.safecheck.app.dao.EnforceRecordDao;
 import com.sr178.safecheck.app.dao.NoticeDao;
-import com.sr178.safecheck.app.dao.ResourceDao;
 import com.sr178.safecheck.app.dao.UserDao;
 import com.sr178.safecheck.common.exception.ServiceException;
 import com.sr178.safecheck.common.utils.MacShaUtils;
@@ -52,8 +52,6 @@ public class AdminService {
 	private EnforceRecordDao enforceRecordDao;
 	@Autowired
 	private NoticeDao noticeDao;
-	@Autowired
-	private ResourceDao resourceDao;
 	@Autowired
 	private AdminUserDao adminUserDao;
 	
@@ -442,7 +440,104 @@ public class AdminService {
 			throw new ServiceException(2, "更新失败！");
 		}
 	}
+	/**
+	 * 查询所有检查项
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	public List<CheckItems> getCheckItemsPageList(){
+		return checkItemsDao.getAllOrder("order by id desc");
+	}
+	/**
+	 * 添加检查项
+	 * @param title
+	 * @param content
+	 */
+	public void addCheckItems(String title,String content){
+		ParamCheck.checkString(title, 1, "标题不能为空");
+		ParamCheck.checkString(content, 2, "内容不能为空");
+		CheckItems t = new CheckItems();
+		t.setItemTitle(title);
+		t.setItemContent(content);
+		t.setAddTime(new Date());
+		checkItemsDao.add(t);
+	}
+	/**
+	 * 修改检查项
+	 * @param id
+	 * @param title
+	 * @param content
+	 */
+	public void editCheckItems(int id,String title,String content){
+		ParamCheck.checkString(title, 1, "标题不能为空");
+		ParamCheck.checkString(content, 2, "内容不能为空");
+		checkItemsDao.update(id, title, content);
+	}
+	/**
+	 * 删除检查项
+	 * @param ids
+	 */
+	public void deleteCheckItems(int[] ids){
+		for(int id:ids){
+			checkItemsDao.delete(new SqlParamBean("id", id));
+		}
+	}
 	
+	/**
+	 * 查询所有检查项
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	public List<Notice> getNoticeList(){
+		return noticeDao.getAllOrder("order by id desc");
+	}
+	/**
+	 * 添加检查项
+	 * @param title
+	 * @param content
+	 */
+	public void addNotice(String title,String content){
+		ParamCheck.checkString(title, 1, "标题不能为空");
+		ParamCheck.checkString(content, 2, "内容不能为空");
+		Notice t = new Notice();
+		t.setNoticeTitle(title);
+		t.setNoticeContent(content);
+		t.setAddTime(new Date());
+		t.setStatus(1);
+		noticeDao.add(t);
+	}
+	/**
+	 * 修改检查项
+	 * @param id
+	 * @param title
+	 * @param content
+	 */
+	public void editNotice(int id,String title,String content){
+		ParamCheck.checkString(title, 1, "标题不能为空");
+		ParamCheck.checkString(content, 2, "内容不能为空");
+		noticeDao.update(id, title, content);
+	}
+	/**
+	 * 删除检查项
+	 * @param ids
+	 */
+	public void deleteNotice(int[] ids){
+		for(int id:ids){
+			noticeDao.delete(new SqlParamBean("id", id));
+		}
+	}
+	/**
+	 * 更新状态
+	 * @param ids
+	 * @param status 0 停用   1启用   2顶置
+	 */
+	public void editNoticeStatus(int[] ids,int status){
+		for(int id:ids){
+			noticeDao.updateStatus(id, status);
+		}
+	}	
 	public static void main(String[] args) {
 		System.out.println( MacShaUtils.doEncryptBase64("xx", SHA_SECRET));
 	}
