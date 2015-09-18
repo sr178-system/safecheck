@@ -541,6 +541,10 @@ public class AdminService {
 			noticeDao.updateStatus(id, status);
 		}
 	}	
+	
+	public Notice getOne(int id){
+		return noticeDao.get(new SqlParamBean("id", id));
+	}
 	public static void main(String[] args) {
 		System.out.println( MacShaUtils.doEncryptBase64("xx", SHA_SECRET));
 	}

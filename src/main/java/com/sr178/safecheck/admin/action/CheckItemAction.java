@@ -21,13 +21,13 @@ public class CheckItemAction extends ALDAdminPageActionSupport<CheckItems> {
 	}
 	private Integer id;
 	private String title;
-	private String content;
+	private String content1;
 	public String add(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		if(id==null){
-			adminService.addCheckItems(title, content);
+			adminService.addCheckItems(title, content1);
 		}else{
-			adminService.editCheckItems(id, title, content);
+			adminService.editCheckItems(id, title, content1);
 		}
 		return SUCCESS;
 	}
@@ -39,8 +39,6 @@ public class CheckItemAction extends ALDAdminPageActionSupport<CheckItems> {
 		return SUCCESS;
 	}
 	
-	
-	
 	public String getTitle() {
 		return title;
 	}
@@ -48,13 +46,12 @@ public class CheckItemAction extends ALDAdminPageActionSupport<CheckItems> {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	public String getContent() {
-		return content;
+	public String getContent1() {
+		return content1;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setContent1(String content1) {
+		this.content1 = content1;
 	}
 
 	public int[] getIds() {

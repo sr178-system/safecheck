@@ -24,19 +24,19 @@
 					</tr>
 				   <s:iterator var="data" value="list">
 					<tr> 
-						<th><input type="checkbox" name="ids" value="${data.id}" id="ids"/></th>
-						<th><a href="#" onClick="editBefor('${data.id}','${data.itemTitle}','${data.itemContent}')">${data.itemTitle}</a></th>
+						<td><input type="checkbox" name="ids" value="${data.id}" id="ids"/></td>
+						<td><a href="#" onClick="editBefor('${data.id}','${data.itemTitle}','${data.itemContent}')">${data.itemTitle}</a></td>
 					</tr>
 					</s:iterator>
 				</table>
 				</div>
 				<div class="fbnew">
-					<form name="Form" id="Form">
-					    <input type="hidden" value="" name="id" id="id"/>
+					<form name="FormItem" id="FormItem">
+					    <input type="hidden"  name="id" id="id"/>
 						<p><b>检查项名称</b></p>
-						<p><input type="text" value="" name="title" id="title"/></p>
+						<p><input type="text" name="title" id="title"/></p>
 						<p><b>说明：</b></p>
-						<p><textarea name="content" id="content"></textarea></p>
+						<p><textarea name="content1" id="content1"></textarea></p>
 						<p class="fbnt"><a href="#" onClick="add()">保存</a></p>
 					</form>
 				</div>
@@ -44,36 +44,40 @@
     </div>
  </div>
 <script type="text/javascript">
-	var selectInput = $(".table1 td input");//选择需要删除的元素
+    var selectInput = $(".table1 td input");//选择需要删除的元素
 	
 	//编辑前的操作
 	function editBefor(id,title,content){
-		Form.id.vaule=id;
-		Form.title.vaule=title;
-		Form.content.value=content;
-		Form.title.focus();
+		$("#id").val(id)
+		$("#title").val(title)
+		$("#content1").val(content);
+		$("#title").focus().select();
 	}
 	//添加前的操作
 	function addBefor(){
-		Form.id.vaule="";
-		Form.title.vaule="";
-		Form.content.value="";
-		Form.title.focus();
+		$("#id").val("");
+		$("#title").val("");
+		$("#content1").val("");
+		$("#title").focus().select();
 	}
 	//添加
 	function add(){
-		if(Form.title.vaule==""){
+		if($("#title").val()==""){
 			alert('检查项名称不能为空！');
 			return;
 		}
-		if(Form.content.vaule==""){
+		if($("#content1").val()==""){
 			alert('检查项说明不能为空！');
 			return;
 		}
-		var sendData = $("#Form").serialize();
+		var desc = "添加";
+		if($("#id").val()!=""){
+			desc = "修改";
+		}
+		var sendData = $("#FormItem").serialize();
 		$.post('addItem',sendData,function(data){
 			if(data.code==0){
-				alert("添加成功！");
+				alert(desc+"成功！");
 				location.href="checkItemList";
 			}else{
 				alert("添加失败，错误码"+data.code);
@@ -82,7 +86,7 @@
 	}
 	//弹窗
 	function del(){
-		var selok = $('.table2 td input:checked');
+		var selok = $('.table4 td input:checked');
 		if(!selok.size()){ return;};
 		$.messager.confirm("提示","<div class='ptext'>确定要删除这些检查项吗？</div>",function(e){
 			if(e){

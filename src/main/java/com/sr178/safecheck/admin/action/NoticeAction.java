@@ -19,15 +19,19 @@ public class NoticeAction extends ALDAdminPageActionSupport<Notice> {
         list = adminService.getNoticeList();
 		return SUCCESS;
 	}
+	
+	
+	
+	
 	private Integer id;
 	private String title;
-	private String content;
+	private String content1;
 	public String add(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		if(id==null){
-			adminService.addNotice(title, content);
+			adminService.addNotice(title, content1);
 		}else{
-			adminService.editNotice(id, title, content);
+			adminService.editNotice(id, title, content1);
 		}
 		return SUCCESS;
 	}
@@ -52,6 +56,12 @@ public class NoticeAction extends ALDAdminPageActionSupport<Notice> {
 		adminService.editNoticeStatus(ids, status); 
 		return SUCCESS;
 	}
+	private Notice notice;
+	public String getOne(){
+		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+		notice = adminService.getOne(id);
+		return SUCCESS;
+	}
 	
 	public String getTitle() {
 		return title;
@@ -61,16 +71,16 @@ public class NoticeAction extends ALDAdminPageActionSupport<Notice> {
 		this.title = title;
 	}
 
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
 	public int[] getIds() {
 		return ids;
+	}
+
+	public String getContent1() {
+		return content1;
+	}
+
+	public void setContent1(String content1) {
+		this.content1 = content1;
 	}
 
 	public void setIds(int[] ids) {
@@ -97,5 +107,13 @@ public class NoticeAction extends ALDAdminPageActionSupport<Notice> {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public Notice getNotice() {
+		return notice;
+	}
+
+	public void setNotice(Notice notice) {
+		this.notice = notice;
 	}
 }

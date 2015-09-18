@@ -32,12 +32,12 @@
 <div class="lefter" region="west">
 	<ul>
 		<li><a class=<%=class1%> href="/adminindex">检查统计</a></li>
-		<li><a class=<%=class2%> href="/jrs">检查督查</a></li>
+		<li><a class=<%=class2%> href="/jcdc">检查督查</a></li>
 	    <% if(Strings.isNullOrEmpty(adminUser.getUpUser())){%>
 	    <li><a class=<%=class3%> href="/adminList">管理员管理</a></li>
 	    <% }%>
-		<li><a class=<%=class4%> href="/zfry">执法人员管理</a></li>
-		<li><a class=<%=class5%> href="/ggs">检查项管理</a></li>
-		<li><a class=<%=class6%> href="/gg">发布通知公告</a></li>
+		<li><a class=<%=class4%> href="/userList">执法人员管理</a></li>
+		<li><a class=<%=class5%> href="/checkItemList">检查项管理</a></li>
+		<li><a class=<%=class6%> href="/noticeList">发布通知公告</a></li>
 	</ul>
 </div>

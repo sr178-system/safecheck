@@ -30,26 +30,26 @@
 					<s:iterator var="data" value="list">
 					<tr>
 						<td><input type="checkbox" name="ids" id="ids" value="${data.id}"/></td>
-						<td><a href="#" onClick="editBefor('${data.id}','${data.noticeTitle}','${data.noticeContent}')">${data.noticeTitle}</a></td>
+						<td><a href="#" onClick="editBefor(${data.id})">${data.noticeTitle}</a>
+						</td>
 						<td><fmt:formatDate value="${data.addTime}" type="both" pattern="yyyy.MM.dd"/></td>
-						<td class="red"><c:if test="${data.status==0}">[已停用]</c:if><c:if test="${data.status==1}">[正常]</c:if><c:if test="${data.status==2}">[已顶置]</c:if></td>                                               
+						<td class="red"><c:if test="${data.status==0}">[停用]</c:if><c:if test="${data.status==1}">[正常]</c:if><c:if test="${data.status==2}">[顶置]</c:if></td>                                               
 					</tr>
 					</s:iterator>
 				</table>
 				</div>
 				<div class="fbnew">
-					<form name="Form" id="Form">
+					<form name="FormNotice" id="FormNotice">
 					    <input type="hidden" value="" name="id" id="id"/>
 						<p><b>标题：</b></p>
 						<p><input type="text" value="" name="title" id="title"/></p>
 						<p><b>内容：</b></p>
-						<p><textarea name="content" id="content"></textarea></p>
+						<p><textarea name="content1" id="content1"></textarea></p>
 						<p class="fbnt"><a href="#" onClick="add()">发布</a></p>
 					</form>
 				</div>
     		</div>
     </div>
-
  </div>
 <script type="text/javascript">
 	var selectInput = $(".table1 td input");//选择需要删除的元素
@@ -71,7 +71,7 @@
 				$.post('editNoticeStatus?status='+status,selok,function(data){
 					if(data.code==0){
 						alert("操作成功！");
-						location.href="adminList";
+						location.href="noticeList";
 					}else{
 						alert("操作失败，错误码"+data.code);
 					}
@@ -87,33 +87,43 @@
 	
 	//编辑前的操作
 	function editBefor(id,title,content){
-		Form.id.vaule=id;
-		Form.title.vaule=title;
-		Form.content.value=content;
-		Form.title.focus();
+		$.get('getOne?id='+id,null,function(data){
+			if(data.code==0){
+				$("#id").val(id)
+				$("#title").val(data.notice.noticeTitle)
+				$("#content1").val(data.notice.noticeContent);
+				$("#title").focus().select();
+			}else{
+				alert("添加失败，错误码"+data.code);
+			}
+		})
 	}
 	//添加前的操作
 	function addBefor(){
-		Form.id.vaule="";
-		Form.title.vaule="";
-		Form.content.value="";
-		Form.title.focus();
+		$("#id").val("");
+		$("#title").val("");
+		$("#content1").val("");
+		$("#title").focus().select();
 	}
 	//添加
 	function add(){
-		if(Form.title.vaule==""){
-			alert('检查项名称不能为空！');
+		if($("#title").val()==""){
+			alert('公告名称不能为空！');
 			return;
 		}
-		if(Form.content.vaule==""){
-			alert('检查项说明不能为空！');
+		if($("#content1").val()==""){
+			alert('公告内容不能为空！');
 			return;
 		}
-		var sendData = $("#Form").serialize();
+		var desc = "添加";
+		if($("#id").val()!=""){
+			desc = "修改";
+		}
+		var sendData = $("#FormNotice").serialize();
 		$.post('addNotice',sendData,function(data){
 			if(data.code==0){
-				alert("添加成功！");
-				location.href="checkItemList";
+				alert(desc+"成功！");
+				location.href="noticeList";
 			}else{
 				alert("添加失败，错误码"+data.code);
 			}
@@ -121,14 +131,14 @@
 	}
 	//弹窗
 	function del(){
-		var selok = $('.table1 td input:checked');
+		var selok = $('.table5 td input:checked');
 		if(!selok.size()){ return;};
-		$.messager.confirm("提示","<div class='ptext'>确定要删除这些检查项吗？</div>",function(e){
+		$.messager.confirm("提示","<div class='ptext'>确定要删除这些公告吗？</div>",function(e){
 			if(e){
 				$.post('deleteNotice',selok,function(data){
 					if(data.code==0){
 						alert("成功删除了"+selok.size()+"个");
-						location.href="checkItemList";
+						location.href="noticeList";
 					}else{
 						alert("删除失败，错误码"+data.code);
 					}
@@ -143,7 +153,7 @@
 	}
 	//弹窗
 	function pop(){
-		var selok = $('.table1 td input:checked');
+		var selok = $('.table2 td input:checked');
 		if(!selok.size()){ return;};
 		$.messager.confirm("提示","<div class='ptext'>确定要删除这条记录吗？</div>",function(e){
 			if(e){

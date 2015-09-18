@@ -62,27 +62,27 @@
 			   /admin/addAdmin.jsp
 			</result>
 		</action>	
-		<action name="userList" class="com.sr178.safecheck.admin.action.AdminUserAction" method="showListu">
+		<action name="userList" class="com.sr178.safecheck.admin.action.UserAction" method="showListu">
 			 <result name="success">
 			   /admin/userList.jsp
 			</result>
 		</action>
-		<action name="deleteu" class="com.sr178.safecheck.admin.action.AdminUserAction" method="deleteu">
+		<action name="deleteu" class="com.sr178.safecheck.admin.action.UserAction" method="deleteu">
 			 <result name="success" type="json">
 			    <param name="ignoreHierarchy">false</param>
 				<param name="includeProperties">code</param>
 			</result>
 		</action>
-		<action name="editStatusu" class="com.sr178.safecheck.admin.action.AdminUserAction" method="editStatusu">
+		<action name="editStatusu" class="com.sr178.safecheck.admin.action.UserAction" method="editStatusu">
 			  <result name="success" type="json">
 			    <param name="ignoreHierarchy">false</param>
 				<param name="includeProperties">code</param>
 			</result>
 		</action>	
-		<action name="editUser" class="com.sr178.safecheck.admin.action.AdminUserAction" method="editUser">
+		<action name="editUser" class="com.sr178.safecheck.admin.action.UserAction" method="editUser">
 			 
 		</action>	
-		<action name="addUser" class="com.sr178.safecheck.admin.action.AdminUserAction" method="addUser">
+		<action name="addUser" class="com.sr178.safecheck.admin.action.UserAction" method="addUser">
 		    <result name="input">
 			   /admin/addUser.jsp
 			</result>
@@ -125,6 +125,12 @@
 			 <result name="success" type="json">
 			    <param name="ignoreHierarchy">false</param>
 				<param name="includeProperties">code</param>
+			</result>
+		</action>
+		<action name="getOne" class="com.sr178.safecheck.admin.action.NoticeAction" method="getOne">
+			 <result name="success" type="json">
+			    <param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">code,notice.*</param>
 			</result>
 		</action>
 		<action name="editNoticeStatus" class="com.sr178.safecheck.admin.action.NoticeAction" method="editNoticeStatus">

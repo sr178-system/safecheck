@@ -12,7 +12,7 @@
 </script>
 <div class="easyui-layout" data-options="fit:true">
 <!-- 导航 -->
-<jsp:include page="/admin/nav.jsp" flush="true"><jsp:param name="current" value="1"/></jsp:include>
+<jsp:include page="/admin/nav.jsp" flush="true"><jsp:param name="current" value="2"/></jsp:include>
     <div id="content" region="center">
     		<div class="crumb">
     			<p>您当前的位置：<a href="/admin/adminindex">首页</a>><span>检查督查</span></p>
@@ -20,20 +20,20 @@
     		<div>
 				<table class="table1 table3" width="100%" oncontextmenu='return false' ondragstart='return false'>
 					<tr class="t1top">
-						<td colspan="8" style="text-align: right;">
-						<input type="text" id="searchUn" name="searchCp" value="输入执法人员姓名搜索" onfocus="if(this.value==this.defaultValue){this.value=''}" onblur="if(this.value==''){this.value=this.defaultValue}">
+						<td colspan="9" style="text-align: right;">
+						<input type="text" id="searchUn" name="searchUn" value="<c:if test="${not empty searchUn}">${searchUn}</c:if><c:if test="${empty searchUn}">输入执法人员姓名搜索 </c:if>" onfocus="if(this.value==this.defaultValue){this.value=''}" onblur="if(this.value==''){this.value=this.defaultValue}">
 						<a href="#" onClick="fuck(document.getElementById('searchUn').value)"><span></span></a>
 						</td>
 					</tr>
 					<tr>
-						<th width="10%">执法人员登录名</th>
-						<th width="10%">执法人员姓名</th>
-						<th width="10%">最近检查时间</th>
-						<th width="10%">被检查企业</th>
+						<th width="5%">执法人员登录名</th>
+						<th width="5%">执法人员姓名</th>
+						<th width="5%">最近检查时间</th>
+						<th width="8%">被检查企业</th>
 						<th width="7%">签到照片</th>
-						<th width="10%">最近执法日期</th>
+						<th width="5%">最近执法日期</th>
 						<th width="10%">被执法企业</th>
-						<th width="10%">执法文书照片</th>
+						<th width="20%">执法文书照片</th>
 						<th width="10%">操作</th>
 					</tr>
 					<s:iterator var="data" value="dataList">
