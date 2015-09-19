@@ -10,11 +10,11 @@ public class NoticeDao extends SfDaoBase<Notice> {
 
 	
 	public IPage<Notice> getNoticePage(String searchStr,int pageIndex,int pageSize){
-		
 		String sql = "select id,notice_title,status,add_time from "+super.getTable();
 		SqlParameter parameter = SqlParameter.Instance();
+		sql = sql+" where status<>0";
 	    if(!Strings.isNullOrEmpty(searchStr)){
-	    	sql = sql + " where notice_title like '%"+searchStr+"%'";
+	    	sql = sql + " and notice_title like '%"+searchStr+"%'";
 	    }
 		 sql = sql +  " order by status desc,add_time desc";
 		return super.getJdbc().getListPage(sql, Notice.class, parameter, pageSize, pageIndex);

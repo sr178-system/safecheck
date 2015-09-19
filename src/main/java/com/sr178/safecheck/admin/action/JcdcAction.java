@@ -19,6 +19,8 @@ public class JcdcAction extends ALDAdminPageActionSupport<JcdcBean> {
 		super.initPage(adminService.getJcdcBeanPageList(super.getUserName(), searchUn, super.getToPage(), 10)); 
 		return SUCCESS;
 	}
+	
+	
 
 	public String getSearchUn() {
 		return searchUn;

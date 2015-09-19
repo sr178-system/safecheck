@@ -250,6 +250,7 @@ public class AppService {
 	 * @param certNum
 	 */
 	private static final String URL = "http://118.122.114.164:8069/QuerySys/Query.aspx";
+	private static final String IMAGE_URL_PRE = "http://118.122.114.164:8069/Exam/ShowSafeWorkerPhoto.aspx";
 	public static TrainResordBean trainRecod(String idCard,String certNum){
 		
 		ParamCheck.checkString(idCard, 1, "证件号不能为空");
@@ -304,6 +305,7 @@ public class AppService {
 		bean.setWorkCp(getTag(result, "<span id=\"lblWorkUnit\">", "</span>"));
 		bean.setWorkScore(getTag(result, "<span id=\"lblOptScore\">", "</span>"));
 		bean.setWorkType(getTag(result, "<span id=\"lblJobType\">", "</span>"));
+		bean.setImage(IMAGE_URL_PRE+getTag(result, "../Exam/ShowSafeWorkerPhoto.aspx", "\""));
 		return bean;
 		
 	}
@@ -376,7 +378,7 @@ public class AppService {
 
 	
 	public static void main(String[] args) {
-		TrainResordBean bean = trainRecod("T510502198803067812", "510501020051901");
+		TrainResordBean bean = trainRecod("T510502198803067812", "51050102005190");
 		System.out.println(bean.toString());
 	}
 

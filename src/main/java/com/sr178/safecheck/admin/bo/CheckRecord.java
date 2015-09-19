@@ -1,6 +1,7 @@
 package com.sr178.safecheck.admin.bo;
 
 import java.util.Date;
+import java.util.List;
    /**
     * check_record 实体类
     */ 
@@ -19,6 +20,7 @@ public class CheckRecord{
 	private String position;
 	private Date checkTime;
 	private Date checkServerTime;
+	private List<String> checkItemNames;
 	
 	public Integer getId() {
 		return id;
@@ -91,6 +93,12 @@ public class CheckRecord{
 	}
 	public void setResource3Names(String resource3Names) {
 		this.resource3Names = resource3Names;
+	}
+	public List<String> getCheckItemNames() {
+		return checkItemNames;
+	}
+	public void setCheckItemNames(List<String> checkItemNames) {
+		this.checkItemNames = checkItemNames;
 	}
 }
 

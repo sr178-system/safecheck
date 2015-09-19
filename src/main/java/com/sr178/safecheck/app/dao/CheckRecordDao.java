@@ -3,6 +3,7 @@ package com.sr178.safecheck.app.dao;
 import java.util.List;
 
 import com.google.common.base.Strings;
+import com.sr178.common.jdbc.SqlParameter;
 import com.sr178.common.jdbc.bean.IPage;
 import com.sr178.common.jdbc.util.SqlUtil;
 import com.sr178.safecheck.admin.bo.CheckRecord;
@@ -25,5 +26,9 @@ public class CheckRecordDao extends SfDaoBase<CheckRecord> {
 	public List<CheckRecord> getCheckRecordGroupCheckUserName(List<String> userNames){
 		String sql = "select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as er left join resource as r on er.resource_id=r.resource_id where er.check_username in("+SqlUtil.joinStr(userNames)+") group by er.check_username order by er.check_time desc";
 		return super.getJdbc().getList(sql, CheckRecord.class);
+	}
+	public IPage<CheckRecord> getCheckRecordByCpName(String cpName,int pageIndex,int pageSize){
+		String sql = "select * from (select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as er left join resource as r on er.resource_id=r.resource_id where er.cp_name=? order by er.check_time desc)cc";
+		return super.getJdbc().getListPage(sql, CheckRecord.class, SqlParameter.Instance().withString(cpName), pageSize, pageIndex);
 	}
 }

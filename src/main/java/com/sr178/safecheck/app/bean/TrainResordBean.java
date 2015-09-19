@@ -3,6 +3,7 @@ package com.sr178.safecheck.app.bean;
 public class TrainResordBean {
 
 	private String name;
+	private String image;
 	private String certNum;
 	private String sex ;
 	private String idCard ;
@@ -21,6 +22,12 @@ public class TrainResordBean {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 	public String getCertNum() {
 		return certNum;
@@ -102,10 +109,11 @@ public class TrainResordBean {
 	}
 	@Override
 	public String toString() {
-		return "TrainResordBean [name=" + name + ", certNum=" + certNum + ", sex=" + sex + ", idCard=" + idCard
-				+ ", workType=" + workType + ", canWorkType=" + canWorkType + ", workCp=" + workCp + ", trainCp="
-				+ trainCp + ", certCp=" + certCp + ", certTime=" + certTime + ", effectTimeStart=" + effectTimeStart
-				+ ", effectTimeEnd=" + effectTimeEnd + ", workScore=" + workScore + ", theoryScore=" + theoryScore
-				+ "]";
+		return "TrainResordBean [name=" + name + ", image=" + image + ", certNum=" + certNum + ", sex=" + sex
+				+ ", idCard=" + idCard + ", workType=" + workType + ", canWorkType=" + canWorkType + ", workCp="
+				+ workCp + ", trainCp=" + trainCp + ", certCp=" + certCp + ", certTime=" + certTime
+				+ ", effectTimeStart=" + effectTimeStart + ", effectTimeEnd=" + effectTimeEnd + ", workScore="
+				+ workScore + ", theoryScore=" + theoryScore + "]";
 	}
+	
 }

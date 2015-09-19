@@ -16,7 +16,17 @@
 			   /admin/jctj.jsp
 			</result>
 		</action>
-
+		<action name="checkList" class="com.sr178.safecheck.admin.action.JctjAction" method="checkList">
+			<result name="success" >
+			   /admin/jctj-xq.jsp
+			</result>
+		</action>
+		<action name="checkListJson" class="com.sr178.safecheck.admin.action.JctjAction" method="checkList">
+			<result name="success" type="json">
+			    <param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">code,indexPage,cpName,list.*</param>
+			</result>
+		</action>
 		<action name="jcdc" class="com.sr178.safecheck.admin.action.JcdcAction" method="unList">
 			<result name="success">
 			   /admin/jcdc.jsp

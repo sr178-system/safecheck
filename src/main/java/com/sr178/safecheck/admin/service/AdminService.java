@@ -170,6 +170,24 @@ public class AdminService {
 		return result;
 	}
 	/**
+	 * 获取检查详情
+	 * @param cpName
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	public IPage<CheckRecord> getCheckRecordPage(String cpName,int pageIndex,int pageSize){
+		IPage<CheckRecord> page =  checkRecordDao.getCheckRecordByCpName(cpName, pageIndex, pageSize);
+		if(page!=null&&page.getData()!=null){
+			//设置检查项
+			Map<Integer,CheckItems> checkItemsMap = getCheckItemsMap();
+			for(CheckRecord record:page.getData()){
+				record.setCheckItemNames(idsToNames(record.getCheckItems(), checkItemsMap));
+			}
+		}
+		return page;
+	} 
+	/**
 	 * 检查督查
 	 * @param searchUn
 	 * @param pageIndex
