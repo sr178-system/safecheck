@@ -16,7 +16,7 @@
 			   /admin/jctj.jsp
 			</result>
 		</action>
-		<action name="checkList" class="com.sr178.safecheck.admin.action.JctjAction" method="checkList">
+		<action name="checkRecordList" class="com.sr178.safecheck.admin.action.JctjAction" method="checkList">
 			<result name="success" >
 			   /admin/jctj-xq.jsp
 			</result>

@@ -58,7 +58,7 @@
 							</c:if>
                         </td>
 						<td>${data.checkRecord.checkerName}</td>
-						<td><a href="checkList?cpName=${data.cpName}&indexPage=0">详情>></a></td>
+						<td><a href="checkRecordList?cpName=${data.cpName}&indexPage=0">详情>></a></td>
 					</tr>
 					</s:iterator>
 				</table>
