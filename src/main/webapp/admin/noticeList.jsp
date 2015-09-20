@@ -17,6 +17,7 @@
 						<li><a href="#" onClick="editStatus(1)">启用</a></li>
 						<li><a href="#" onClick="editStatus(0)">停用</a></li>
 						<li><a href="#" onClick="editStatus(2)">置顶</a></li>
+						<li><a href="#" onClick="editStatus(1)">取消置顶</a></li>
 					</ul>
     			</div>
     			<div class="tbox">
@@ -33,7 +34,9 @@
 						<td><a href="#" onClick="editBefor(${data.id})">${data.noticeTitle}</a>
 						</td>
 						<td><fmt:formatDate value="${data.addTime}" type="both" pattern="yyyy.MM.dd"/></td>
-						<td class="red"><c:if test="${data.status==0}">[停用]</c:if><c:if test="${data.status==1}">[正常]</c:if><c:if test="${data.status==2}">[顶置]</c:if></td>                                               
+						<c:if test="${data.status==0}"><td class="red">已停用</td></c:if>
+						<c:if test="${data.status==1}"><td>已启用</td></c:if>
+						<c:if test="${data.status==2}"><td class="red">[置顶]</td></c:if>                                             
 					</tr>
 					</s:iterator>
 				</table>
@@ -63,7 +66,7 @@
 		}else if(status==1){
 			desc="启用";
 		}else if(status==2){
-			desc="顶置";
+			desc="置顶";
 		}
 		if(!selok.size()){ return;};
 		$.messager.confirm("提示","<div class='ptext'>确定要"+desc+"这些公告吗？</div>",function(e){

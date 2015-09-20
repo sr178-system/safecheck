@@ -37,7 +37,7 @@
 <div class="easyui-layout login" data-options="fit:true">
 	<div class="easyui-window loginbox" title="">
 		<form class="cb" name="Form" onSubmit="return false" method="POST">
-			<p class="lxq">备案号:蜀ICP备14018479号</p> 
+			<p class="lxq"></p> 
 			<div>
 				<p><label>用户名：</label><input type="text" name="userName"></p>
 				<p><label>密　码：</label><input type="password" name="passWord"></p>

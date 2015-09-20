@@ -1,8 +1,10 @@
 package com.sr178.safecheck.admin.action;
 
 import java.util.Date;
+import java.util.List;
 
 import com.sr178.game.framework.context.ServiceCacheFactory;
+import com.sr178.safecheck.admin.bo.AdminUser;
 import com.sr178.safecheck.admin.bo.User;
 import com.sr178.safecheck.admin.service.AdminService;
 import com.sr178.safecheck.common.action.ALDAdminPageActionSupport;
@@ -57,23 +59,35 @@ public class UserAction extends ALDAdminPageActionSupport<User> {
 	private String remark;
 	private String upUser;
 	private String birthday;
+	private List<AdminUser> admins;
+	private User user;
 	public String editUser(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+		if(st==0){
+			admins = adminService.getAllAdminUser();
+			user = adminService.getByUserName(adminUserName);
+			return INPUT;
+		}
+		
 		Date birth = DateUtils.StringToDate(birthday);
 		adminService.editUsers(adminUserName, passWord, sex, name, call, remark, upUser, birth);
+		super.setCode(2001);
 		return SUCCESS;
 	}
 	/**
 	 * 添加管理员
 	 * @return
 	 */
+	
 	public String addUser(){
+		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		if(st==0){
+			admins = adminService.getAllAdminUser();
 			return INPUT;
 		}
-		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		Date birth = DateUtils.StringToDate(birthday);
 		adminService.addUsers(adminUserName, passWord, sex, name, call, remark, upUser, birth);
+		super.setCode(2000);
 		return SUCCESS;
 	}
 
@@ -162,5 +176,16 @@ public class UserAction extends ALDAdminPageActionSupport<User> {
 	public void setUserNames(String[] userNames) {
 		this.userNames = userNames;
 	}
-
+	public List<AdminUser> getAdmins() {
+		return admins;
+	}
+	public void setAdmins(List<AdminUser> admins) {
+		this.admins = admins;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 }

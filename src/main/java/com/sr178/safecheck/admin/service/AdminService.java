@@ -59,6 +59,13 @@ public class AdminService {
 	private AdminUserDao adminUserDao;
 	
 	private static final String SHA_SECRET = "!@#asDFA55214644";
+	/**
+	 * 获取所有管理原用户
+	 * @return
+	 */
+	public List<AdminUser> getAllAdminUser(){
+		return adminUserDao.getAll();
+	}
 
 	/**
 	 * 查看是否登录了
@@ -235,8 +242,33 @@ public class AdminService {
 		IPage<JcdcBean> result = new Page<JcdcBean>(trasferDate, totalSize, pageSize, pageIndex);
 		return result;
 	}
-	
-	
+	/**
+	 * 执法详情页面
+	 * @param efName
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	public IPage<EnforceRecord> getEnforceRecordPage(String efUserName,int pageIndex,int pageSize){
+		IPage<EnforceRecord> page =  enforceRecordDao.getEnforceRecordByEnforceName(efUserName, pageIndex, pageSize);
+		return page;
+	} 
+	/**
+	 * 获取执法人员信息
+	 * @param userName
+	 * @return
+	 */
+	public User getByUserName(String userName){
+		return userDao.get(new SqlParamBean("user_name", userName));
+	}
+	/**
+	 * 获取执法人员信息
+	 * @param userName
+	 * @return
+	 */
+	public AdminUser getAdminByUserName(String userName){
+		return adminUserDao.get(new SqlParamBean("user_name", userName));
+	}
 	/**
 	 * 获取用户最近的检查记录
 	 * @param cpNames
@@ -384,18 +416,23 @@ public class AdminService {
 	 */
 	public void editAdmins(String userName,String passWord,int sex,String name,String call,String remark,String upUser,Date birthday){
 		ParamCheck.checkString(userName, 1, "用户名不能为空");
-		ParamCheck.checkString(passWord, 2, "密码不能为空");
 		ParamCheck.checkString(name, 3, "名字不能为空");
 		ParamCheck.checkString(call, 4, "电话不能为空");
-		ParamCheck.checkString(upUser, 5, "上级用户不能为空");
 		ParamCheck.checkObject(birthday, 6, "生日不能为空");
 		AdminUser adminUser = adminUserDao.get(new SqlParamBean("user_name", userName));
 		if(adminUser==null){
 			throw new ServiceException(7, "用户不存在");
 		}
-		passWord = MacShaUtils.doEncryptBase64(passWord, SHA_SECRET);
+		if(!Strings.isNullOrEmpty(passWord)){
+			passWord = MacShaUtils.doEncryptBase64(passWord, SHA_SECRET);
+		}
+		
 		AdminUser newAdminUser = new AdminUser(userName, passWord, name, sex, birthday, call, remark, upUser);
 		newAdminUser.setStatus(adminUser.getStatus());
+		newAdminUser.setUpUser(adminUser.getUpUser());
+		if(Strings.isNullOrEmpty(passWord)){
+			newAdminUser.setPassWord(adminUser.getPassWord());
+		}
 		if(!adminUserDao.updateAll(newAdminUser)){
 			throw new ServiceException(8, "更新失败！");
 		}
@@ -414,7 +451,6 @@ public class AdminService {
 	 */
 	public void editUsers(String userName,String passWord,int sex,String name,String call,String remark,String upUser,Date birthday){
 		ParamCheck.checkString(userName, 1, "用户名不能为空");
-		ParamCheck.checkString(passWord, 2, "密码不能为空");
 		ParamCheck.checkString(name, 3, "名字不能为空");
 		ParamCheck.checkString(call, 4, "电话不能为空");
 		ParamCheck.checkString(upUser, 5, "上级用户不能为空");
@@ -423,9 +459,14 @@ public class AdminService {
 		if(adminUser==null){
 			throw new ServiceException(7, "用户不存在");
 		}
-		passWord = MacShaUtils.doEncryptBase64(passWord, SHA_SECRET);
+		if(!Strings.isNullOrEmpty(passWord)){
+			passWord = MacShaUtils.doEncryptBase64(passWord, SHA_SECRET);
+		}
 		User newAdminUser = new User(userName, passWord, name, sex, birthday, call, remark, upUser);
 		newAdminUser.setStatus(adminUser.getStatus());
+		if(Strings.isNullOrEmpty(passWord)){
+			newAdminUser.setPassWord(adminUser.getPassWord());
+		}
 		if(!userDao.updateAll(newAdminUser)){
 			throw new ServiceException(8, "更新失败！");
 		}
@@ -512,7 +553,7 @@ public class AdminService {
 	 * @return
 	 */
 	public List<Notice> getNoticeList(){
-		return noticeDao.getAllOrder("order by id desc");
+		return noticeDao.getAllOrder("order by status desc,id desc");
 	}
 	/**
 	 * 添加检查项

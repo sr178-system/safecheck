@@ -25,16 +25,20 @@ public class JctjAction extends ALDAdminPageActionSupport<JctjBean> {
 	}
 	
     private int indexPage;
+    private int pageSize;
 	private String cpName;
+	private int total;
 	private Collection<CheckRecord> list;
 	public String checkList(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
-		IPage<CheckRecord> page = adminService.getCheckRecordPage(cpName, indexPage, 2);
+		IPage<CheckRecord> page = adminService.getCheckRecordPage(cpName, indexPage, pageSize);
 		if(page!=null&&page.getData()!=null&&page.getData().size()>0){
 			list = page.getData();
+			total = (int)page.getTotalSize();
 		}
 		return SUCCESS;
 	}
+	
 
 	public String getSearchCp() {
 		return searchCp;
@@ -66,5 +70,21 @@ public class JctjAction extends ALDAdminPageActionSupport<JctjBean> {
 
 	public void setList(Collection<CheckRecord> list) {
 		this.list = list;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
 	}
 }

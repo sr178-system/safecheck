@@ -3,6 +3,7 @@ package com.sr178.safecheck.app.dao;
 import java.util.List;
 
 import com.google.common.base.Strings;
+import com.sr178.common.jdbc.SqlParameter;
 import com.sr178.common.jdbc.bean.IPage;
 import com.sr178.common.jdbc.util.SqlUtil;
 import com.sr178.safecheck.admin.bo.EnforceRecord;
@@ -32,6 +33,12 @@ public class EnforceRecordDao extends SfDaoBase<EnforceRecord> {
 		sql = sql + where;
 		sql = sql +" group by er.enforce_username order by er.enforce_time desc)cc order by cc.enforce_time desc";
 		return super.getJdbc().getListPage(sql, EnforceRecord.class, null, pageSize, pageIndex);
+	}
+	
+	
+	public IPage<EnforceRecord> getEnforceRecordByEnforceName(String efUserName,int pageIndex,int pageSize){
+		String sql = "select * from (select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as er left join resource as r on er.resource_id=r.resource_id where er.enforce_username=? order by er.enforce_time desc)cc";
+		return super.getJdbc().getListPage(sql, EnforceRecord.class, SqlParameter.Instance().withString(efUserName), pageSize, pageIndex);
 	}
 	
 }

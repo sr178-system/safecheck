@@ -36,13 +36,13 @@
 					<tr>
 						<td><input type="checkbox" name="userNames" value="${data.userName}"/></td>
 						<td>${data.userName}</td>
-						<td class="red"><c:if test="${data.status==0}">已启用</c:if><c:if test="${data.status==1}">已禁用</c:if></td>
+						<c:if test="${data.status==0}"><td>已启用</td></c:if><c:if test="${data.status==1}"><td class="red">已禁用</td></c:if>
 						<td>${data.name}</td>
 						<td><c:if test="${data.sex==1}">男</c:if><c:if test="${data.sex==2}">女</c:if></td>
 						<td><fmt:formatDate value="${data.birthday}" type="both" pattern="yyyy.MM.dd"/></td>
 						<td>${data.call}</td>
 						<td style="text-align: left;">${data.remark}</td>
-						<td><a href="#">编辑</a></td>
+						<td><a href="/admin/editUser?adminUserName=${data.userName}">编辑</a></td>
 					</tr>
 					</s:iterator>
 				</table>

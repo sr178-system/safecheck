@@ -32,6 +32,11 @@
 			   /admin/jcdc.jsp
 			</result>
 		</action>
+		<action name="enforceRecordList" class="com.sr178.safecheck.admin.action.JcdcAction" method="enforceList">
+			<result name="success" >
+			   /admin/jcdc-xq.jsp
+			</result>
+		</action>		
 				
 		<action name="adminList" class="com.sr178.safecheck.admin.action.AdminUserAction" method="showList">
 			 <result name="success">
@@ -62,7 +67,12 @@
 			</result>
 		</action>	
 		<action name="editAdmin" class="com.sr178.safecheck.admin.action.AdminUserAction" method="editAdmin">
-			 
+			 <result name="input">
+			   /admin/editAdmin.jsp
+			</result>
+			<result name="success">
+			   /admin/editAdmin.jsp
+			</result>
 		</action>	
 		<action name="addAdmin" class="com.sr178.safecheck.admin.action.AdminUserAction" method="addAdmin">
 		    <result name="input">
@@ -90,7 +100,12 @@
 			</result>
 		</action>	
 		<action name="editUser" class="com.sr178.safecheck.admin.action.UserAction" method="editUser">
-			 
+			 <result name="input">
+			   /admin/editUser.jsp
+			</result>
+			<result name="success">
+			   /admin/editUser.jsp
+			</result>
 		</action>	
 		<action name="addUser" class="com.sr178.safecheck.admin.action.UserAction" method="addUser">
 		    <result name="input">

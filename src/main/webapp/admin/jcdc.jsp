@@ -26,12 +26,12 @@
 						</td>
 					</tr>
 					<tr>
-						<th width="5%">执法人员登录名</th>
-						<th width="5%">执法人员姓名</th>
-						<th width="5%">最近检查时间</th>
-						<th width="8%">被检查企业</th>
+						<th width="10%">执法人员登录名</th>
+						<th width="10%">执法人员姓名</th>
+						<th width="10%">最近检查日期</th>
+						<th width="10%">被检查企业</th>
 						<th width="7%">签到照片</th>
-						<th width="5%">最近执法日期</th>
+						<th width="10%">最近执法日期</th>
 						<th width="10%">被执法企业</th>
 						<th width="20%">执法文书照片</th>
 						<th width="10%">操作</th>
@@ -60,7 +60,7 @@
 							</c:forEach>
 							</c:if>
                         </td>
-						<td><a href="#">详情>></a></td>
+						<td><a href="enforceRecordList?efUserName=${data.enforceRecord.enforceUsername}&indexPage=0&pageSize=2#pos">详情>></a></td>
 					</tr>
 					</s:iterator>
 				</table>

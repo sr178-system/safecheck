@@ -81,8 +81,12 @@ public class AppService {
 		ParamCheck.checkString(userName, 2, "密码不能为空");
 		User user = userDao.get(new SqlParamBean("user_name", userName), new SqlParamBean(AND, "pass_word", passWord));
 		if (user == null) {
-			throw new ServiceException(1, "错误的用户名或密码");
+			throw new ServiceException(3, "错误的用户名或密码");
 		}
+		if(user.getStatus()!=0){
+			throw new ServiceException(4, "该账户已被禁用，请及时联系管理员！");
+		}
+		
 		String tokenId = UUID.randomUUID().toString();
 		userToken.put(tokenId, user.getUserName());
 		return tokenId;

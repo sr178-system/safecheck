@@ -67,10 +67,17 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 	private String remark;
 	private String upUser;
 	private String birthday;
+	
+	private AdminUser adminUser;
 	public String editAdmin(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+		if(st==0){
+			adminUser = adminService.getAdminByUserName(adminUserName);
+			return INPUT;
+		}
 		Date birth = DateUtils.StringToDate(birthday);
 		adminService.editAdmins(adminUserName, passWord, sex, name, call, remark, upUser, birth);
+		super.setCode(2001);
 		return SUCCESS;
 	}
 	/**
@@ -83,7 +90,8 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 		}
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		Date birth = DateUtils.StringToDate(birthday);
-		adminService.addAdmins(adminUserName, passWord, sex, name, call, remark, upUser, birth);
+		adminService.addAdmins(adminUserName, passWord, sex, name, call, remark, super.getUserName(), birth);
+		super.setCode(2000);
 		return SUCCESS;
 	}
 	/**
@@ -200,4 +208,13 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 	public void setNewPasswd(String newPasswd) {
 		this.newPasswd = newPasswd;
 	}
+
+	public AdminUser getAdminUser() {
+		return adminUser;
+	}
+
+	public void setAdminUser(AdminUser adminUser) {
+		this.adminUser = adminUser;
+	}
+	
 }

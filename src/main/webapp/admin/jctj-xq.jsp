@@ -9,7 +9,7 @@
     		<div class="crumb">
     			<p>您当前的位置：<a href="/admin/adminindex">首页</a>><a href="/admin/adminindex">检查统计</a>><span>详情</span></p>
     		</div>
-    		<div class="detilym">
+    		<div class="detilym" oncontextmenu='return false' ondragstart='return false'>
     			<div class="dtitle">
     				企业名称：${cpName}
     			</div>
@@ -55,7 +55,10 @@
     					</li>
     					</s:iterator>
     				</ul>
-    				<p><a class="mores" href="#">点击加载更多▼</a></p>
+    				<p>
+    				<c:if test="${total<=pageSize}"><a class="mores" name="pos" href="#pos" onclick="alert('已全部加载完！')">点击加载更多▼</a></c:if>
+    				<c:if test="${total>pageSize}"><a class="mores" name="pos" href="checkRecordList?cpName=${cpName}&indexPage=0&pageSize=${pageSize+pageSize}#pos">点击加载更多▼</a></c:if>
+    				</p>
     			</div>
  
     		</div>
@@ -66,9 +69,11 @@
 		//$.get('xxx',function(e){
 			alert("加载功能");
 		//})
+		    var
+			$(".dlink ul").html($(".dlink ul").html()+"<li>sb????????????</li>");
 	})
 	
-	$(".dlink ul").show();
+	
 	
 </script>
 </body>
