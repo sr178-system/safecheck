@@ -56,7 +56,8 @@
     					</s:iterator>
     				</ul>
     				<p>
-    				<a class="mores" name="pos" href="#pos">点击加载更多▼</a>
+    				<c:if test="${total<=pageSize}"><a class="mores" name="pos" href="#pos" onclick="alert('已全部加载完！')">点击加载更多▼</a></c:if>
+    				<c:if test="${total>pageSize}"><a class="mores" name="pos" href="checkRecordList?cpName=${cpName}&indexPage=0&pageSize=${pageSize+pageSize}#pos">点击加载更多▼</a></c:if>
     				</p>
     			</div>
  
@@ -66,13 +67,15 @@
 <script type="text/javascript">
     var indexPage = ${indexPage};
 	$(".mores").click(function(){
-		alert("开始去请求");
-		$.get('/admin/checkListJson?cpName=${cpName}&indexPage='+(++indexPage)+"&pageSize=2",function(e){
+		$.get('/admin/checkListJson?cpName=${cpName}&indexPage='+(indexPage+1)+"&pageSize=2",function(e){
 			alert("收到回调消息");
-			alert(JSON.stringify(e));
-		});
+			alert(JSON.stringify(e); );
+		})
 		$(".dlink ul").html($(".dlink ul").html()+"<li>sb????????????</li>");
 	})
+	
+	
+	
 </script>
 </body>
 </html>
