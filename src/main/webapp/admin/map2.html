@@ -28,25 +28,22 @@
     	window.opener=null;
     	window.close();
     }
-    var address = '检查者所在地址';
-    var map = new BMap.Map("allmap");
-    var opts = {
-        width: 200,     // 信息窗口宽度
-        height: 20,     // 信息窗口高度
-        title: "检查者所在地址"  // 信息窗口标题
-    }
-    var infoWindow = new BMap.InfoWindow("", opts);  // 创建信息窗口对象
-
-    var point = new BMap.Point(posArray[0],posArray[1]);
-    var marker = new BMap.Marker(point);
-    marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
-    map.centerAndZoom(point, 19);
-    map.addOverlay(marker);
-    marker.addEventListener("click", function () {
-        this.openInfoWindow(infoWindow);
-    });
-
-    map.enableScrollWheelZoom();    //启用滚轮放大缩小，默认禁用
-    map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
-
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	
+	var point = new BMap.Point(posArray[0],posArray[1]);
+	map.centerAndZoom(point,12);
+	// 创建地址解析器实例
+	var myGeo = new BMap.Geocoder();
+	// 将地址解析结果显示在地图上,并调整地图视野
+	myGeo.getPoint("深圳市", function(point){
+		if (point) {
+			map.centerAndZoom(point, 16);
+			var mark = new BMap.Marker(point);
+			//marker.setLabel(new BMap.Label("检查点实时位置",{offset:new BMap.Size(20,-10)}));
+			map.addOverlay(mark);
+		}else{
+			alert("您选择地址没有解析到结果!");
+		}
+	}, "深圳市");
 </script>
