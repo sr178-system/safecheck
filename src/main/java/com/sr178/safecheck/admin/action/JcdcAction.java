@@ -34,10 +34,6 @@ public class JcdcAction extends ALDAdminPageActionSupport<JcdcBean> {
 	public String enforceList(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		enforceUser = adminService.getByUserName(efUserName);
-		if(enforceUser==null){
-			super.setCode(1);
-			return SUCCESS;
-		}
 		IPage<MixCheckAndEnforceBean> ipage = adminService.getJcdcDetailsPageList(efUserName, indexPage, pageSize);
 		if(ipage!=null&&ipage.getData()!=null){
 			list = ipage.getData();

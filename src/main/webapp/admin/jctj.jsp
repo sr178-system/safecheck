@@ -57,7 +57,7 @@
 							</c:forEach>
 							</c:if>
                         </td>
-						<td>${data.checkRecord.checkerName}</td>
+						<td>${data.enforceRecord.enforceName}</td>
 						<td><a href="checkRecordList?cpName=${data.cpName}&indexPage=0&pageSize=2#pos">详情>></a></td>
 					</tr>
 					</s:iterator>

@@ -18,14 +18,14 @@ public class CheckRecordDao extends SfDaoBase<CheckRecord> {
 		if(!Strings.isNullOrEmpty(searchCp)){
 			sql = sql + " where cr.cp_name like '%"+searchCp+"%'";
 		}
-		sql = sql+" group by cr.cp_name order by cr.check_time desc)cc order by cc.check_time desc";
+		sql = sql+" order by cr.check_time desc,cr.id desc)cc group by cc.cp_name";
 		return super.getJdbc().getListPage(sql, CheckRecord.class, null, pageSize, pageIndex);
 	}
 	
 	
 	
 	public List<CheckRecord> getCheckRecordGroupCheckUserName(List<String> userNames){
-		String sql = "select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as er left join resource as r on er.resource_id=r.resource_id where er.check_username in("+SqlUtil.joinStr(userNames)+") group by er.check_username order by er.check_time desc";
+		String sql = "select * from (select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as er left join resource as r on er.resource_id=r.resource_id where er.check_username in("+SqlUtil.joinStr(userNames)+") order by er.check_time desc,er.id desc)cc group by cc.check_username";
 		return super.getJdbc().getList(sql, CheckRecord.class);
 	}
 	public IPage<CheckRecord> getCheckRecordByCpName(String cpName,int pageIndex,int pageSize){

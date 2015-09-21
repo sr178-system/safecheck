@@ -1,7 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <!-- 头部 -->
 <%@ include file="/admin/head.jsp"%>
-<c:if test="${code==1}"><script language=javascript>alert('该用户[${efUserName}]不存在！是否被删除？');history.go(-1);</script></c:if>
 <div class="easyui-layout" data-options="fit:true">
 <!-- 导航 -->
 <jsp:include page="/admin/nav.jsp" flush="true"><jsp:param name="current" value="2"/></jsp:include>

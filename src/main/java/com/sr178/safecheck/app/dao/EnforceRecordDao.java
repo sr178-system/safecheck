@@ -12,7 +12,7 @@ import com.sr178.safecheck.common.dao.SfDaoBase;
 public class EnforceRecordDao extends SfDaoBase<EnforceRecord> {
 
 	public List<EnforceRecord> getEnforceRecordGroupByCpName(List<String> cpNames){
-		String sql = "select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as er left join resource as r on er.resource_id=r.resource_id where er.cp_name in("+SqlUtil.joinStr(cpNames)+") group by er.cp_name order by er.enforce_time desc";
+		String sql = "select * from (select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as er left join resource as r on er.resource_id=r.resource_id where er.cp_name in("+SqlUtil.joinStr(cpNames)+") order by er.enforce_time desc,er.id desc)cc group by cc.cp_name";
 		return super.getJdbc().getList(sql, EnforceRecord.class);
 	}
 	
@@ -31,7 +31,7 @@ public class EnforceRecordDao extends SfDaoBase<EnforceRecord> {
 			}
 		}
 		sql = sql + where;
-		sql = sql +" group by er.enforce_username order by er.enforce_time desc)cc order by cc.enforce_time desc";
+		sql = sql +" order by er.enforce_time desc,er.id desc)cc group by cc.enforce_username";
 		return super.getJdbc().getListPage(sql, EnforceRecord.class, null, pageSize, pageIndex);
 	}
 	
