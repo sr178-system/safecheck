@@ -41,4 +41,10 @@ public class EnforceRecordDao extends SfDaoBase<EnforceRecord> {
 		return super.getJdbc().getListPage(sql, EnforceRecord.class, SqlParameter.Instance().withString(efUserName), pageSize, pageIndex);
 	}
 	
+	
+	public IPage<EnforceRecord> getEnforceRecordByCpName(String cpName,int pageIndex,int pageSize){
+		String sql = "select * from (select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as er left join resource as r on er.resource_id=r.resource_id where er.cp_name=? order by er.enforce_time desc)cc";
+		return super.getJdbc().getListPage(sql, EnforceRecord.class, SqlParameter.Instance().withString(cpName), pageSize, pageIndex);
+	}
+	
 }

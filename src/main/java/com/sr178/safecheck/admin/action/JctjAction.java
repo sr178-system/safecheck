@@ -5,7 +5,7 @@ import java.util.Collection;
 import com.sr178.common.jdbc.bean.IPage;
 import com.sr178.game.framework.context.ServiceCacheFactory;
 import com.sr178.safecheck.admin.bean.JctjBean;
-import com.sr178.safecheck.admin.bo.CheckRecord;
+import com.sr178.safecheck.admin.bean.MixCheckAndEnforceBean;
 import com.sr178.safecheck.admin.service.AdminService;
 import com.sr178.safecheck.common.action.ALDAdminPageActionSupport;
 
@@ -28,10 +28,10 @@ public class JctjAction extends ALDAdminPageActionSupport<JctjBean> {
     private int pageSize;
 	private String cpName;
 	private int total;
-	private Collection<CheckRecord> list;
+	private Collection<MixCheckAndEnforceBean> list;
 	public String checkList(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
-		IPage<CheckRecord> page = adminService.getCheckRecordPage(cpName, indexPage, pageSize);
+		IPage<MixCheckAndEnforceBean> page = adminService.getJctjDetailsPageList(cpName, indexPage, pageSize);
 		if(page!=null&&page.getData()!=null&&page.getData().size()>0){
 			list = page.getData();
 			total = (int)page.getTotalSize();
@@ -64,13 +64,14 @@ public class JctjAction extends ALDAdminPageActionSupport<JctjBean> {
 		this.cpName = cpName;
 	}
 
-	public Collection<CheckRecord> getList() {
+	public Collection<MixCheckAndEnforceBean> getList() {
 		return list;
 	}
 
-	public void setList(Collection<CheckRecord> list) {
+	public void setList(Collection<MixCheckAndEnforceBean> list) {
 		this.list = list;
 	}
+
 
 	public int getPageSize() {
 		return pageSize;

@@ -5,6 +5,7 @@ import java.util.Collection;
 import com.sr178.common.jdbc.bean.IPage;
 import com.sr178.game.framework.context.ServiceCacheFactory;
 import com.sr178.safecheck.admin.bean.JcdcBean;
+import com.sr178.safecheck.admin.bean.MixCheckAndEnforceBean;
 import com.sr178.safecheck.admin.bo.EnforceRecord;
 import com.sr178.safecheck.admin.bo.User;
 import com.sr178.safecheck.admin.service.AdminService;
@@ -30,14 +31,14 @@ public class JcdcAction extends ALDAdminPageActionSupport<JcdcBean> {
     private int indexPage;
     private int pageSize;
 	private int total;
-	private Collection<EnforceRecord> list;
+	private Collection<MixCheckAndEnforceBean> list;
 	public String enforceList(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		enforceUser = adminService.getByUserName(efUserName);
 		if(enforceUser==null){
 			return SUCCESS;
 		}
-		IPage<EnforceRecord> ipage = adminService.getEnforceRecordPage(efUserName, indexPage, pageSize);
+		IPage<MixCheckAndEnforceBean> ipage = adminService.getJcdcDetailsPageList(efUserName, indexPage, pageSize);
 		if(ipage!=null&&ipage.getData()!=null){
 			list = ipage.getData();
 		}
@@ -101,10 +102,10 @@ public class JcdcAction extends ALDAdminPageActionSupport<JcdcBean> {
 	public void setTotal(int total) {
 		this.total = total;
 	}
-	public Collection<EnforceRecord> getList() {
+	public Collection<MixCheckAndEnforceBean> getList() {
 		return list;
 	}
-	public void setList(Collection<EnforceRecord> list) {
+	public void setList(Collection<MixCheckAndEnforceBean> list) {
 		this.list = list;
 	}
 }

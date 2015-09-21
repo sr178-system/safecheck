@@ -20,6 +20,7 @@ import com.sr178.common.jdbc.bean.Page;
 import com.sr178.common.jdbc.bean.SqlParamBean;
 import com.sr178.safecheck.admin.bean.JcdcBean;
 import com.sr178.safecheck.admin.bean.JctjBean;
+import com.sr178.safecheck.admin.bean.MixCheckAndEnforceBean;
 import com.sr178.safecheck.admin.bo.AdminUser;
 import com.sr178.safecheck.admin.bo.CheckItems;
 import com.sr178.safecheck.admin.bo.CheckRecord;
@@ -133,6 +134,34 @@ public class AdminService {
 	}
 	
 	/**
+	 * 检查项ids转成检查项名称列表
+	 * @param ids
+	 * @param checkItemsMap
+	 * @return
+	 */
+	public String idsToNameStr(String ids,Map<Integer,CheckItems> checkItemsMap){
+		StringBuffer result = null;
+		if(!Strings.isNullOrEmpty(ids)){
+			String[] checkItemIds = ids.split(",");
+			for(String id:checkItemIds){
+				CheckItems items = checkItemsMap.get(Integer.valueOf(id));
+				if(items!=null){
+					if(result==null){
+						result = new StringBuffer();
+						result.append(items.getItemTitle());
+					}else{
+						result.append(","+items.getItemTitle());
+					}
+				}
+			}
+		}
+		if(result==null){
+			return null;
+		}
+		return result.toString();
+	}
+	
+	/**
 	 * 获取企业最近的执法记录
 	 * @param cpNames
 	 * @return
@@ -177,6 +206,26 @@ public class AdminService {
 		return result;
 	}
 	/**
+	 * 检查统计详情页
+	 * @param cpName
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	public IPage<MixCheckAndEnforceBean> getJctjDetailsPageList(String cpName,int pageIndex,int pageSize){
+		IPage<MixCheckAndEnforceBean> page = checkRecordDao.getMixPageByCpName(cpName, pageIndex, pageSize);
+		if(page.getData()!=null&&page.getData().size()>0){
+			Map<Integer,CheckItems> checkItemsMap = getCheckItemsMap();
+			for(MixCheckAndEnforceBean meb:page.getData()){
+				if(meb.getType()==1&&!Strings.isNullOrEmpty(meb.getCheckItems())){
+					meb.setCheckItemNames(idsToNameStr(meb.getCheckItems(), checkItemsMap));
+				}
+			}
+		}
+		return page;
+	}
+	
+	/**
 	 * 获取检查详情
 	 * @param cpName
 	 * @param pageIndex
@@ -193,7 +242,9 @@ public class AdminService {
 			}
 		}
 		return page;
-	} 
+	}
+	
+	
 	/**
 	 * 检查督查
 	 * @param searchUn
@@ -241,6 +292,26 @@ public class AdminService {
 		}
 		IPage<JcdcBean> result = new Page<JcdcBean>(trasferDate, totalSize, pageSize, pageIndex);
 		return result;
+	}
+	
+	/**
+	 * 检查督查详情页
+	 * @param cpName
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	public IPage<MixCheckAndEnforceBean> getJcdcDetailsPageList(String userName,int pageIndex,int pageSize){
+		IPage<MixCheckAndEnforceBean> page = checkRecordDao.getMixPageByUserName(userName, pageIndex, pageSize);
+		if(page.getData()!=null&&page.getData().size()>0){
+			Map<Integer,CheckItems> checkItemsMap = getCheckItemsMap();
+			for(MixCheckAndEnforceBean meb:page.getData()){
+				if(meb.getType()==1&&!Strings.isNullOrEmpty(meb.getCheckItems())){
+					meb.setCheckItemNames(idsToNameStr(meb.getCheckItems(), checkItemsMap));
+				}
+			}
+		}
+		return page;
 	}
 	/**
 	 * 执法详情页面
