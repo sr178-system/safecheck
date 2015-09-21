@@ -124,9 +124,12 @@ public class AdminService {
 		if(!Strings.isNullOrEmpty(ids)){
 			String[] checkItemIds = ids.split(",");
 			for(String id:checkItemIds){
-				CheckItems items = checkItemsMap.get(Integer.valueOf(id));
-				if(items!=null){
-					result.add(items.getItemTitle());
+				try {
+					CheckItems items = checkItemsMap.get(Integer.valueOf(id));
+					if(items!=null){
+						result.add(items.getItemTitle());
+					}
+				} catch (Exception e) {
 				}
 			}
 		}
@@ -144,6 +147,7 @@ public class AdminService {
 		if(!Strings.isNullOrEmpty(ids)){
 			String[] checkItemIds = ids.split(",");
 			for(String id:checkItemIds){
+				try {
 				CheckItems items = checkItemsMap.get(Integer.valueOf(id));
 				if(items!=null){
 					if(result==null){
@@ -152,6 +156,8 @@ public class AdminService {
 					}else{
 						result.append(","+items.getItemTitle());
 					}
+				}
+				} catch (Exception e) {
 				}
 			}
 		}
