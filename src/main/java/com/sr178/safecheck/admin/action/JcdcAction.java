@@ -6,7 +6,6 @@ import com.sr178.common.jdbc.bean.IPage;
 import com.sr178.game.framework.context.ServiceCacheFactory;
 import com.sr178.safecheck.admin.bean.JcdcBean;
 import com.sr178.safecheck.admin.bean.MixCheckAndEnforceBean;
-import com.sr178.safecheck.admin.bo.EnforceRecord;
 import com.sr178.safecheck.admin.bo.User;
 import com.sr178.safecheck.admin.service.AdminService;
 import com.sr178.safecheck.common.action.ALDAdminPageActionSupport;
@@ -36,6 +35,7 @@ public class JcdcAction extends ALDAdminPageActionSupport<JcdcBean> {
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		enforceUser = adminService.getByUserName(efUserName);
 		if(enforceUser==null){
+			super.setCode(1);
 			return SUCCESS;
 		}
 		IPage<MixCheckAndEnforceBean> ipage = adminService.getJcdcDetailsPageList(efUserName, indexPage, pageSize);

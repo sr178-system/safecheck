@@ -100,7 +100,7 @@
 				alert('加载出错！');
 				return;
 			}
-			if(e.list==null || e.list.size==0){
+			if(e.list==null || e.list.length==0){
 				alert('已全部加载完成！');
 				return;
 			}else{

@@ -32,11 +32,19 @@
 			   /admin/jcdc.jsp
 			</result>
 		</action>
+		
 		<action name="enforceRecordList" class="com.sr178.safecheck.admin.action.JcdcAction" method="enforceList">
 			<result name="success" >
 			   /admin/jcdc-xq.jsp
 			</result>
 		</action>		
+		
+		<action name="enforceListJson" class="com.sr178.safecheck.admin.action.JcdcAction" method="enforceList">
+			<result name="success" type="json">
+			    <param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">code,indexPage,efUserName,list.*</param>
+			</result>
+		</action>
 				
 		<action name="adminList" class="com.sr178.safecheck.admin.action.AdminUserAction" method="showList">
 			 <result name="success">

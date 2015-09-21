@@ -60,7 +60,7 @@
 							</c:forEach>
 							</c:if>
                         </td>
-						<td><a href="enforceRecordList?efUserName=${data.enforceRecord.enforceUsername}&indexPage=0&pageSize=2#pos">详情>></a></td>
+						<td><a href="enforceRecordList?efUserName=${data.enforceRecord.enforceUsername}&indexPage=0&pageSize=1#pos">详情>></a></td>
 					</tr>
 					</s:iterator>
 				</table>
