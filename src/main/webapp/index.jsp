@@ -8,7 +8,6 @@
 	<link rel="stylesheet" type="text/css" href="/css/easyui.css">
 	<script type="text/javascript" src="/scripts/jquery.min.js"></script>
 	<script type="text/javascript" src="/scripts/jquery.easyui.min.js"></script>
-	
     <script language="javascript" src="/js/ajax.js"></script>
 		<SCRIPT type=text/javascript>
 		    function logins(){
@@ -46,9 +45,15 @@
 		</form>
 	</div>
 </div>
-
- <script type="text/javascript">
-
- </script>
 </body>
 </html>
+<script type="text/javascript">
+		window.alert = function (msg) {//覆盖原来的alert函数
+			$.messager.alert("提示","<div class='ptext'>"+msg+"</div>").dialog({
+				title:"提示",
+				width:370,
+		   	 	height:200,
+		   	 	modal:false
+			});
+			}
+</script>

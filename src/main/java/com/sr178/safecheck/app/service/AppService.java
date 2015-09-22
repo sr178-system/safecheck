@@ -10,6 +10,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Strings;
@@ -26,6 +29,7 @@ import com.sr178.safecheck.admin.bo.EnforceRecord;
 import com.sr178.safecheck.admin.bo.Notice;
 import com.sr178.safecheck.admin.bo.Resource;
 import com.sr178.safecheck.admin.bo.User;
+import com.sr178.safecheck.app.bean.TrainRecordSimple;
 import com.sr178.safecheck.app.bean.TrainResordBean;
 import com.sr178.safecheck.app.dao.CheckItemsDao;
 import com.sr178.safecheck.app.dao.CheckRecordDao;
@@ -255,22 +259,69 @@ public class AppService {
 	 */
 	private static final String URL = "http://118.122.114.164:8069/QuerySys/Query.aspx";
 	private static final String IMAGE_URL_PRE = "http://118.122.114.164:8069/Exam/ShowSafeWorkerPhoto.aspx";
-	public static TrainResordBean trainRecod(String idCard,String certNum){
+	public static TrainResordBean trainRecod(String certNum){
+		ParamCheck.checkString(certNum, 1, "证书标识号不能为空");
+		String content = UrlRequestUtils.execute(URL, new HashMap<String,String>(), UrlRequestUtils.Mode.POST);
+		if(content==null){
+			throw new ServiceException(1, "网络请求失败！");
+		}
+		String __VIEWSTATE = getTag(content,"<input type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"","\"");
+		String __EVENTVALIDATION = getTag(content,"<input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"","\"");
+		HashMap<String,String> paraMap = Maps.newHashMap();
+		paraMap.put("txtName", "");
+		paraMap.put("txtCode", certNum);
+		paraMap.put("__VIEWSTATE",__VIEWSTATE);
+		paraMap.put("__VIEWSTATEENCRYPTED","");
+		paraMap.put("__EVENTVALIDATION",__EVENTVALIDATION);
+		paraMap.put("btnQuery.x", "63");
+		paraMap.put("btnQuery.y", "16");
+		String result = UrlRequestUtils.execute(URL, paraMap, UrlRequestUtils.Mode.POST);
+		if(result==null){
+			throw new ServiceException(1, "网络请求失败！");
+		}
+		String erroDesc = getTag(result, "<span id=\"lblInfo\"><font color=\"Red\">", "</font></span>");
+		if(erroDesc==null){
+			erroDesc = getTag(result, "<span id=\"lblInfo\" style=\"color:Red;\">", "</span>");
+		}
+		if(erroDesc==null){
+			LogSystem.warn("收到的网页结果为："+result);
+			throw new ServiceException(1, "网络请求失败！");
+		}
+		if(!erroDesc.equals("身份证号不得少于15位，证书标识号不得少于15位。")){
+			throw new ServiceException(1, erroDesc);
+		}
+		TrainResordBean bean = new TrainResordBean();
+		bean.setCanWorkType(getTag(result, "<span id=\"lblOperationItem\">", "</span>"));
+		bean.setCertCp(getTag(result, "<span id=\"lblPubUnit\">", "</span>"));
+		bean.setCertNum(getTag(result, "<span id=\"lblCertificate\"><font color=\"Red\">", "</font></span>"));
+		bean.setCertTime(getTag(result, "<span id=\"lblPublic\">", "</span>"));
+		bean.setEffectTimeEnd(getTag(result, "<span id=\"lblTo\">", "</span>"));
+		bean.setEffectTimeStart(getTag(result, "<span id=\"lblFrom\">", "</span>"));
+		bean.setIdCard(getTag(result, "<span id=\"lblIDCard\">", "</span>"));
+		bean.setName(getTag(result, "<span id=\"lblName\">", "</span>"));
+		bean.setSex(getTag(result, "<span id=\"lblSex\">", "</span>"));
+		bean.setTheoryScore(getTag(result, "<span id=\"lblScore\">", "</span>"));
+		bean.setTrainCp(getTag(result, "<span id=\"lblTrinUnit\">", "</span>"));
+		bean.setWorkCp(getTag(result, "<span id=\"lblWorkUnit\">", "</span>"));
+		bean.setWorkScore(getTag(result, "<span id=\"lblOptScore\">", "</span>"));
+		bean.setWorkType(getTag(result, "<span id=\"lblJobType\">", "</span>"));
+		bean.setImage(IMAGE_URL_PRE+getTag(result, "../Exam/ShowSafeWorkerPhoto.aspx", "\""));
+		return bean;
+		
+	}
+	
+	public static List<TrainRecordSimple> trainSimpleByIdCard(String idCard){
 		
 		ParamCheck.checkString(idCard, 1, "证件号不能为空");
-		ParamCheck.checkString(certNum, 2, "证书标识号不能为空");
 		
 		String content = UrlRequestUtils.execute(URL, new HashMap<String,String>(), UrlRequestUtils.Mode.POST);
 		if(content==null){
 			throw new ServiceException(1, "网络请求失败！");
 		}
-		
-		
 		String __VIEWSTATE = getTag(content,"<input type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"","\"");
 		String __EVENTVALIDATION = getTag(content,"<input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"","\"");
 		HashMap<String,String> paraMap = Maps.newHashMap();
 		paraMap.put("txtName", idCard);
-		paraMap.put("txtCode", certNum);
 		paraMap.put("__VIEWSTATE",__VIEWSTATE);
 		paraMap.put("__VIEWSTATEENCRYPTED","");
 		paraMap.put("__EVENTVALIDATION",__EVENTVALIDATION);
@@ -293,25 +344,21 @@ public class AppService {
 		if(!erroDesc.equals("身份证号不得少于15位，证书标识号不得少于15位。")){
 			throw new ServiceException(1, erroDesc);
 		}
-		
-		TrainResordBean bean = new TrainResordBean();
-		bean.setCanWorkType(getTag(result, "<span id=\"lblOperationItem\">", "</span>"));
-		bean.setCertCp(getTag(result, "<span id=\"lblPubUnit\">", "</span>"));
-		bean.setCertNum(getTag(result, "<span id=\"lblCertificate\"><font color=\"Red\">", "</font></span>"));
-		bean.setCertTime(getTag(result, "<span id=\"lblPublic\">", "</span>"));
-		bean.setEffectTimeEnd(getTag(result, "<span id=\"lblTo\">", "</span>"));
-		bean.setEffectTimeStart(getTag(result, "<span id=\"lblFrom\">", "</span>"));
-		bean.setIdCard(getTag(result, "<span id=\"lblIDCard\">", "</span>"));
-		bean.setName(getTag(result, "<span id=\"lblName\">", "</span>"));
-		bean.setSex(getTag(result, "<span id=\"lblSex\">", "</span>"));
-		bean.setTheoryScore(getTag(result, "<span id=\"lblScore\">", "</span>"));
-		bean.setTrainCp(getTag(result, "<span id=\"lblTrinUnit\">", "</span>"));
-		bean.setWorkCp(getTag(result, "<span id=\"lblWorkUnit\">", "</span>"));
-		bean.setWorkScore(getTag(result, "<span id=\"lblOptScore\">", "</span>"));
-		bean.setWorkType(getTag(result, "<span id=\"lblJobType\">", "</span>"));
-		bean.setImage(IMAGE_URL_PRE+getTag(result, "../Exam/ShowSafeWorkerPhoto.aspx", "\""));
-		return bean;
-		
+		List<TrainRecordSimple> resultT = Lists.newArrayList();
+		String trListStr = getTag(result,"<table cellspacing=\"2\" cellpadding=\"4\" border=\"0\" id=\"gvClasses\" width=\"100%\">","</table>");
+		Document doc = Jsoup.parse("<html><body><table>"+trListStr+"</table></body></html>");
+        Elements trs = doc.select("tr");
+        for(int i = 0;i<trs.size();i++){
+            Elements tds = trs.get(i).select("td");
+            if(tds.size()>=5){
+            	TrainRecordSimple simple = new TrainRecordSimple();
+            	simple.setCertNum(tds.get(0).text());
+            	simple.setName(tds.get(1).text());
+            	simple.setCanWorkType(tds.get(4).text());
+            	resultT.add(simple);
+            }
+        }
+		return resultT;
 	}
 //	public static String trainRecodTest(String idCard,String certNum){
 //		HttpUriRequest request = new HttpPost(URL);
@@ -382,8 +429,13 @@ public class AppService {
 
 	
 	public static void main(String[] args) {
-		TrainResordBean bean = trainRecod("T510502198803067812", "51050102005190");
-		System.out.println(bean.toString());
+//		TrainResordBean bean = trainRecod("51050102005190");
+//		System.out.println(bean.toString());
+		List<TrainRecordSimple> list = trainSimpleByIdCard("5105021988030678121");
+
+		for(TrainRecordSimple trainRecordSimple:list){
+			System.out.println(trainRecordSimple.toString());
+		}
 	}
 
 }
