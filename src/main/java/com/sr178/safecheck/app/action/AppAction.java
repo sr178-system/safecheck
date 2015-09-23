@@ -77,7 +77,7 @@ public class AppAction extends AppBaseActionSupport {
 	 * @return
 	 */
 	public String trainSimpleRecord(){
-		return renderListResult(AppService.trainSimpleByIdCard(idCard));
+		return renderListResult(AppService.trainSimpleByIdCard(idCard,certNum));
 	}
 	/**
 	 * 分页查询公告列表

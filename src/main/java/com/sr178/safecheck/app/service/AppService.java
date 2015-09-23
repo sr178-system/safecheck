@@ -261,21 +261,19 @@ public class AppService {
 	private static final String IMAGE_URL_PRE = "http://118.122.114.164:8069/Exam/ShowSafeWorkerPhoto.aspx";
 	public static TrainResordBean trainRecod(String certNum){
 		ParamCheck.checkString(certNum, 1, "证书标识号不能为空");
-		String content = UrlRequestUtils.execute(URL, new HashMap<String,String>(), UrlRequestUtils.Mode.POST);
-		if(content==null){
-			throw new ServiceException(1, "网络请求失败！");
-		}
-		String __VIEWSTATE = getTag(content,"<input type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"","\"");
-		String __EVENTVALIDATION = getTag(content,"<input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"","\"");
+//		String __VIEWSTATE = getTag(content,"<input type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"","\"");
+//		String __EVENTVALIDATION = getTag(content,"<input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"","\"");
 		HashMap<String,String> paraMap = Maps.newHashMap();
-		paraMap.put("txtName", "");
-		paraMap.put("txtCode", certNum);
-		paraMap.put("__VIEWSTATE",__VIEWSTATE);
-		paraMap.put("__VIEWSTATEENCRYPTED","");
-		paraMap.put("__EVENTVALIDATION",__EVENTVALIDATION);
-		paraMap.put("btnQuery.x", "63");
-		paraMap.put("btnQuery.y", "16");
-		String result = UrlRequestUtils.execute(URL, paraMap, UrlRequestUtils.Mode.POST);
+//		paraMap.put("txtName", "");
+//		paraMap.put("id", certNum);
+//		paraMap.put("__VIEWSTATE",__VIEWSTATE);
+//		paraMap.put("__VIEWSTATEENCRYPTED","");
+//		paraMap.put("__EVENTVALIDATION",__EVENTVALIDATION);
+//		paraMap.put("btnQuery.x", "63");
+//		paraMap.put("btnQuery.y", "16");
+//		String result = UrlRequestUtils.execute(URL, paraMap, UrlRequestUtils.Mode.POST);
+		paraMap.put("id", certNum);
+		String result = UrlRequestUtils.execute(URL, paraMap, UrlRequestUtils.Mode.GET);
 		if(result==null){
 			throw new ServiceException(1, "网络请求失败！");
 		}
@@ -310,10 +308,10 @@ public class AppService {
 		
 	}
 	
-	public static List<TrainRecordSimple> trainSimpleByIdCard(String idCard){
-		
-		ParamCheck.checkString(idCard, 1, "证件号不能为空");
-		
+	public static List<TrainRecordSimple> trainSimpleByIdCard(String idCard,String certNum){
+		if(Strings.isNullOrEmpty(idCard)&&Strings.isNullOrEmpty(certNum)){
+			throw new ServiceException(1, "身份证号码和证件号码不能同时为空");
+		}
 		String content = UrlRequestUtils.execute(URL, new HashMap<String,String>(), UrlRequestUtils.Mode.POST);
 		if(content==null){
 			throw new ServiceException(1, "网络请求失败！");
@@ -322,6 +320,7 @@ public class AppService {
 		String __EVENTVALIDATION = getTag(content,"<input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"","\"");
 		HashMap<String,String> paraMap = Maps.newHashMap();
 		paraMap.put("txtName", idCard);
+		paraMap.put("txtCode", certNum);
 		paraMap.put("__VIEWSTATE",__VIEWSTATE);
 		paraMap.put("__VIEWSTATEENCRYPTED","");
 		paraMap.put("__EVENTVALIDATION",__EVENTVALIDATION);
@@ -429,9 +428,9 @@ public class AppService {
 
 	
 	public static void main(String[] args) {
-//		TrainResordBean bean = trainRecod("51050102005190");
+//		TrainResordBean bean = trainRecod("T510502198803067812");
 //		System.out.println(bean.toString());
-		List<TrainRecordSimple> list = trainSimpleByIdCard("5105021988030678121");
+		List<TrainRecordSimple> list = trainSimpleByIdCard("510502198803067812","T510502198803067812");
 
 		for(TrainRecordSimple trainRecordSimple:list){
 			System.out.println(trainRecordSimple.toString());
