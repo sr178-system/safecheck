@@ -73,8 +73,9 @@
 			if(e){
 				$.post('editNoticeStatus?status='+status,selok,function(data){
 					if(data.code==0){
-						alert("操作成功！");
-						location.href="noticeList";
+						alert("操作成功！",function(){
+							location.href="noticeList";
+						});
 					}else{
 						alert("操作失败，错误码"+data.code);
 					}
@@ -125,8 +126,9 @@
 		var sendData = $("#FormNotice").serialize();
 		$.post('addNotice',sendData,function(data){
 			if(data.code==0){
-				alert(desc+"成功！");
-				location.href="noticeList";
+				alert(desc+"成功！",function(){
+					location.href="noticeList";
+				});
 			}else{
 				alert("添加失败，错误码"+data.code);
 			}
@@ -140,8 +142,9 @@
 			if(e){
 				$.post('deleteNotice',selok,function(data){
 					if(data.code==0){
-						alert("成功删除了"+selok.size()+"个");
-						location.href="noticeList";
+						alert("成功删除了"+selok.size()+"个",function(){
+							location.href="noticeList";
+						});
 					}else{
 						alert("删除失败，错误码"+data.code);
 					}

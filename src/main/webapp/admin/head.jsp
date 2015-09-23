@@ -62,12 +62,12 @@
  
 </script>
 <script type="text/javascript">
-		window.alert = function (msg) {//覆盖原来的alert函数
-			$.messager.alert("提示","<div class='ptext'>"+msg+"</div>").dialog({
+		window.alert = function (msg,e) {//覆盖原来的alert函数
+			$.messager.alert("提示","<div class='ptext'>"+msg+"</div>",null,e).dialog({
 				title:"提示",
 				width:370,
 		   	 	height:200,
 		   	 	modal:false
-			});
+			});;
 			}
 </script>

@@ -64,8 +64,9 @@
 			if(e){
 				$.post('deleteu',selok,function(data){
 					if(data.code==0){
-						alert("成功删除了"+selok.size()+"个");
-						location.href="userList";
+						alert("成功删除了"+selok.size()+"个",function(){
+							location.href="userList";
+						});
 					}else{
 						alert("删除失败，错误码"+data.code);
 					}
@@ -93,8 +94,9 @@
 			if(e){
 				$.post('editStatusu?status='+status,selok,function(data){
 					if(data.code==0){
-						alert("操作成功！");
-						location.href="userList";
+						alert("操作成功！",function(){
+							location.href="userList";
+						});
 					}else{
 						alert("操作失败，错误码"+data.code);
 					}
