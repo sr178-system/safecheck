@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<!-- 头部 -->
 <%@ include file="/admin/head.jsp"%>
 <c:if test="${code==7}"><script type="text/javascript">alert("该用户名[${adminUserName}]已被占用！请重新注册");history.go(-1);</script></c:if>
 <c:if test="${code==2001}"><script type="text/javascript">alert("修改用户成功！",function(){location.href='/admin/adminList';});</script></c:if>
@@ -7,7 +6,6 @@
 <script src="/scripts/jquery.datetimepicker.js"></script>
 <div class="easyui-layout" data-options="fit:true">
 
-<!-- 导航 -->
 <jsp:include page="/admin/nav.jsp" flush="true"><jsp:param name="current" value="3"/></jsp:include>
     <div id="content" region="center">
     		<div class="crumb">
