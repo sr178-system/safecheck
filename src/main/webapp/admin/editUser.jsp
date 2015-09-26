@@ -2,7 +2,7 @@
 <!-- 头部 -->
 <%@ include file="/admin/head.jsp"%>
 <c:if test="${code==7}"><script type="text/javascript">alert("用户不存在");history.go(-1);</script></c:if>
-<c:if test="${code==2001}"><script type="text/javascript">alert("修改用户成功！");location.href='/admin/userList';</script></c:if>
+<c:if test="${code==2001}"><script type="text/javascript">alert("修改用户成功！",function(){location.href='/admin/userList';});</script></c:if>
 <link rel="stylesheet" type="text/css" href="/scripts/jquery.datetimepicker.css"/>
 <script src="/scripts/jquery.datetimepicker.js"></script>
 <div class="easyui-layout" data-options="fit:true">
@@ -51,6 +51,11 @@
 	   $('#name').focus().select();
 	   return;
 	}
+    if($('#passWord').val()!='' && $('#passWord').val()!=$('#passWord2').val()){
+        alert('密码和确认密码不一致！如不修改请留空');
+   	   $('#passWord').focus().select();
+   	   return;
+     }
     if($('#birthday').val()==''){
  	   alert('出生日期不能为空！');
 	   $('#birthday').focus().select();

@@ -37,7 +37,7 @@
     }
     var infoWindow = new BMap.InfoWindow("", opts);  // 创建信息窗口对象
 
-    var point = new BMap.Point(posArray[0],posArray[1]);
+    var point = new BMap.Point(posArray[1],posArray[0]);
     var marker = new BMap.Marker(point);
     marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
     map.centerAndZoom(point, 19);

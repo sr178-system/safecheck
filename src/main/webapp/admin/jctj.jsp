@@ -21,7 +21,7 @@
 				<table class="table1 table3" width="100%" oncontextmenu='return false' ondragstart='return false'>
 					<tr class="t1top">
 						<td colspan="8" style="text-align: right;">
-						<input type="text" id="searchCp" name="searchCp" value="输入企业名称搜索" onfocus="if(this.value==this.defaultValue){this.value=''}" onblur="if(this.value==''){this.value=this.defaultValue}">
+						<input type="text" id="searchCp" name="searchCp" value="<c:if test="${not empty searchCp}">${searchCp}</c:if><c:if test="${empty searchCp}">输入企业名称搜索</c:if>" onfocus="if(this.value==this.defaultValue){this.value=''}" onblur="if(this.value==''){this.value=this.defaultValue}">
 						<a href="#" onClick="fuck(document.getElementById('searchCp').value)"><span></span></a>
 						</td>
 					</tr>

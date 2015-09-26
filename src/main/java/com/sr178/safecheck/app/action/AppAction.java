@@ -70,9 +70,15 @@ public class AppAction extends AppBaseActionSupport {
 	private String idCard;
 	private String certNum;
 	public String trainRecord(){
-		return renderObjectResult(AppService.trainRecod(idCard, certNum));
+		return renderObjectResult(AppService.trainRecod(certNum));
 	}
-	
+	/**
+	 * 简易培训记录列表
+	 * @return
+	 */
+	public String trainSimpleRecord(){
+		return renderListResult(AppService.trainSimpleByIdCard(idCard,certNum));
+	}
 	/**
 	 * 分页查询公告列表
 	 */

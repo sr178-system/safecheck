@@ -77,8 +77,9 @@
 		var sendData = $("#FormItem").serialize();
 		$.post('addItem',sendData,function(data){
 			if(data.code==0){
-				alert(desc+"成功！");
-				location.href="checkItemList";
+				alert(desc+"成功！",function(){
+					location.href="checkItemList";
+				});
 			}else{
 				alert("添加失败，错误码"+data.code);
 			}
@@ -92,8 +93,9 @@
 			if(e){
 				$.post('deleteItem',selok,function(data){
 					if(data.code==0){
-						alert("成功删除了"+selok.size()+"个");
-						location.href="checkItemList";
+						alert("成功删除了"+selok.size()+"个",function(){
+							location.href="checkItemList";
+						});
 					}else{
 						alert("删除失败，错误码"+data.code);
 					}

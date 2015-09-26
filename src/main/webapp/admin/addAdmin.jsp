@@ -3,7 +3,7 @@
 <%@ include file="/admin/head.jsp"%>
 
 <c:if test="${code==7}"><script type="text/javascript">alert("该用户名[${adminUserName}]已被占用！请重新注册");history.go(-1);</script></c:if>
-<c:if test="${code==2000}"><script type="text/javascript">alert("添加用户成功！");location.href='/admin/adminList';</script></c:if>
+<c:if test="${code==2000}"><script type="text/javascript">alert("添加用户成功！",function(){location.href='/admin/adminList';});</script></c:if>
 <link rel="stylesheet" type="text/css" href="/scripts/jquery.datetimepicker.css"/>
 <script src="/scripts/jquery.datetimepicker.js"></script>
 <div class="easyui-layout" data-options="fit:true">

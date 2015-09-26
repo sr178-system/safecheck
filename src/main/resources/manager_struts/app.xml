@@ -16,6 +16,7 @@
 		<action name="saveCheck" class="com.sr178.safecheck.app.action.AppAction" method="saveCheck" />
 		<action name="intendance" class="com.sr178.safecheck.app.action.AppAction" method="intendance" />
 		<action name="trainRecord" class="com.sr178.safecheck.app.action.AppAction" method="trainRecord" />
+		<action name="trainRecordSimple" class="com.sr178.safecheck.app.action.AppAction" method="trainSimpleRecord" />
 		<action name="newsList" class="com.sr178.safecheck.app.action.AppAction" method="newsList" />
 		<action name="newsContent" class="com.sr178.safecheck.app.action.AppAction" method="newsContent" />
 	</package>
