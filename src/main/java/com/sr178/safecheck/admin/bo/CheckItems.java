@@ -1,6 +1,8 @@
 package com.sr178.safecheck.admin.bo;
 
 import java.util.Date;
+
+import org.apache.struts2.json.annotations.JSON;
    /**
     * check_items 实体类
     */ 
@@ -33,6 +35,7 @@ public class CheckItems{
 	public void setAddTime(Date addTime){
 	this.addTime=addTime;
 	}
+	@JSON(format="yyyy-MM-dd HH:mm:ss")
 	public Date getAddTime(){
 		return addTime;
 	}

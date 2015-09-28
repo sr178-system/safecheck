@@ -14,11 +14,18 @@ public class CheckRecordDao extends SfDaoBase<CheckRecord> {
 
 	
 	public IPage<CheckRecord> getCheckRecordPageListGroupByCpName(String searchCp,int pageIndex,int pageSize){
-		String sql = "select * from (select cr.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as cr left join resource as r on cr.resource_id=r.resource_id";
+//		String sql = "select * from (select cr.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as cr left join resource as r on cr.resource_id=r.resource_id";
+//		if(!Strings.isNullOrEmpty(searchCp)){
+//			sql = sql + " where cr.cp_name like '%"+searchCp+"%'";
+//		}
+		
+		String sql = "select * from (select bb.cp_name as cn from (select cp_name from check_record group by cp_name union select cp_name from enforce_record group by cp_name)bb group by bb.cp_name)aa "
+				+ "left join (select * from (select cr.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from check_record as cr left join resource as r on cr.resource_id=r.resource_id order by cr.check_time desc,cr.id desc)cc group by cc.cp_name)dd "
+				+ "on dd.cp_name=aa.cn";
 		if(!Strings.isNullOrEmpty(searchCp)){
-			sql = sql + " where cr.cp_name like '%"+searchCp+"%'";
+			sql = sql + " where dd.cp_name like '%"+searchCp+"%'";
 		}
-		sql = sql+" order by cr.check_time desc,cr.id desc)cc group by cc.cp_name";
+//		sql = sql+" order by cr.check_time desc,cr.id desc)cc group by cc.cp_name";
 		return super.getJdbc().getListPage(sql, CheckRecord.class, null, pageSize, pageIndex);
 	}
 	
@@ -42,7 +49,7 @@ public class CheckRecordDao extends SfDaoBase<CheckRecord> {
 				+ "er.enforce_name as name,er.resource_id,'' as position,er.enforce_time as times,2 as type,"
 				+ "r1.resource_1_names,r1.resource_2_names,r1.resource_3_names from enforce_record as er "
 				+ "left join resource as r1 on er.resource_id=r1.resource_id where er.cp_name=?)cc "
-				+ "order by cc.times desc";
+				+ "order by cc.times desc,cc.id desc";
 		return super.getJdbc().getListPage(sql, MixCheckAndEnforceBean.class, SqlParameter.Instance().withString(cpName).withString(cpName), pageSize, pageIndex);
 	}
 	
@@ -55,7 +62,7 @@ public class CheckRecordDao extends SfDaoBase<CheckRecord> {
 				+ "er.enforce_name as name,er.resource_id,'' as position,er.enforce_time as times,2 as type,"
 				+ "r1.resource_1_names,r1.resource_2_names,r1.resource_3_names from enforce_record as er "
 				+ "left join resource as r1 on er.resource_id=r1.resource_id where er.enforce_username=?)cc "
-				+ "order by cc.times desc";
+				+ "order by cc.times desc,cc.id desc";
 		return super.getJdbc().getListPage(sql, MixCheckAndEnforceBean.class, SqlParameter.Instance().withString(userName).withString(userName), pageSize, pageIndex);
 	}
 }

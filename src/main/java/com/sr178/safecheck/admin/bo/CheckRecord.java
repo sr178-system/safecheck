@@ -2,6 +2,8 @@ package com.sr178.safecheck.admin.bo;
 
 import java.util.Date;
 import java.util.List;
+
+import org.apache.struts2.json.annotations.JSON;
    /**
     * check_record 实体类
     */ 
@@ -10,10 +12,11 @@ import java.util.List;
 public class CheckRecord{
 	private Integer id;
 	private String cpName;
+	private String cn;
 	private String checkItems;
 	private String checkUsername;
 	private String checkerName;
-	private int resourceId;
+	private Integer resourceId;
 	private String resource1Names;
 	private String resource2Names;
 	private String resource3Names;
@@ -52,18 +55,20 @@ public class CheckRecord{
 	public String getCheckerName(){
 		return checkerName;
 	}
-	public void setResourceId(int resourceId){
-	this.resourceId=resourceId;
-	}
-	public int getResourceId(){
+	public Integer getResourceId() {
 		return resourceId;
+	}
+	public void setResourceId(Integer resourceId) {
+		this.resourceId = resourceId;
 	}
 	public void setCheckTime(Date checkTime){
 	this.checkTime=checkTime;
 	}
+	@JSON(format="yyyy-MM-dd HH:mm:ss")
 	public Date getCheckTime(){
 		return checkTime;
 	}
+	@JSON(format="yyyy-MM-dd HH:mm:ss")
 	public Date getCheckServerTime() {
 		return checkServerTime;
 	}
@@ -99,6 +104,12 @@ public class CheckRecord{
 	}
 	public void setCheckItemNames(List<String> checkItemNames) {
 		this.checkItemNames = checkItemNames;
+	}
+	public String getCn() {
+		return cn;
+	}
+	public void setCn(String cn) {
+		this.cn = cn;
 	}
 }
 

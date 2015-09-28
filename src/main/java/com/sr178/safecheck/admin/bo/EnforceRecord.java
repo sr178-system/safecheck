@@ -1,6 +1,8 @@
 package com.sr178.safecheck.admin.bo;
 
 import java.util.Date;
+
+import org.apache.struts2.json.annotations.JSON;
    /**
     * enforce_record 实体类
     */ 
@@ -8,10 +10,12 @@ import java.util.Date;
 
 public class EnforceRecord{
 	private Integer id;
+	private String un;
+	private String nm;
 	private String cpName;
 	private String enforceUsername;
 	private String enforceName;
-	private int resourceId;
+	private Integer resourceId;
 	private Date enforceTime;
 	private Date enforceServerTime;
 	
@@ -43,18 +47,20 @@ public class EnforceRecord{
 	public String getEnforceName(){
 		return enforceName;
 	}
-	public void setResourceId(int resourceId){
-	this.resourceId=resourceId;
-	}
-	public int getResourceId(){
+	public Integer getResourceId() {
 		return resourceId;
+	}
+	public void setResourceId(Integer resourceId) {
+		this.resourceId = resourceId;
 	}
 	public void setEnforceTime(Date enforceTime){
 	this.enforceTime=enforceTime;
 	}
+	@JSON(format="yyyy-MM-dd HH:mm:ss")
 	public Date getEnforceTime(){
 		return enforceTime;
 	}
+	@JSON(format="yyyy-MM-dd HH:mm:ss")
 	public Date getEnforceServerTime() {
 		return enforceServerTime;
 	}
@@ -78,6 +84,18 @@ public class EnforceRecord{
 	}
 	public void setResource3Names(String resource3Names) {
 		this.resource3Names = resource3Names;
+	}
+	public String getUn() {
+		return un;
+	}
+	public String getNm() {
+		return nm;
+	}
+	public void setNm(String nm) {
+		this.nm = nm;
+	}
+	public void setUn(String un) {
+		this.un = un;
 	}
 }
 

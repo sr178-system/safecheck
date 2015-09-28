@@ -154,7 +154,7 @@ public class AdminService {
 						result = new StringBuffer();
 						result.append(items.getItemTitle());
 					}else{
-						result.append(","+items.getItemTitle());
+						result.append("，"+items.getItemTitle());
 					}
 				}
 				} catch (Exception e) {
@@ -197,14 +197,15 @@ public class AdminService {
 			Map<Integer,CheckItems> checkItemsMap = getCheckItemsMap();
 			List<String> cpNames = Lists.newArrayList();
 			for(CheckRecord checkRecord:page.getData()){
-				cpNames.add(checkRecord.getCpName());
+				cpNames.add(checkRecord.getCn());
 			}
 			Map<String,EnforceRecord> recentEnforceMap = getRecentCpEnforceRecord(cpNames);
 			for(CheckRecord checkRecord:page.getData()){
+				checkRecord.setCpName(checkRecord.getCn());
 				JctjBean bean = new JctjBean();
-				bean.setCpName(checkRecord.getCpName());
+				bean.setCpName(checkRecord.getCn());
 				bean.setCheckRecord(checkRecord);
-				bean.setEnforceRecord(recentEnforceMap.get(checkRecord.getCpName()));
+				bean.setEnforceRecord(recentEnforceMap.get(checkRecord.getCn()));
 				bean.setItemsNames(idsToNames(checkRecord.getCheckItems(),checkItemsMap));
 				trasferDate.add(bean);
 			}
@@ -283,15 +284,19 @@ public class AdminService {
 			totalSize = recordList.getTotalSize();
 			List<String> haveUserNames = Lists.newArrayList();
 			for(EnforceRecord enforceRecord:recordList.getData()){
-				haveUserNames.add(enforceRecord.getEnforceUsername());
+				haveUserNames.add(enforceRecord.getUn());
 			}
 			Map<String,CheckRecord> map =  getRecentUserCheckRecord(haveUserNames);
 			JcdcBean bean = null; 
 			for(EnforceRecord enforceRecord:recordList.getData()){
 				bean = new JcdcBean();
 				bean.setEnforceRecord(enforceRecord);
-				bean.setCheckRecord(map.get(enforceRecord.getEnforceUsername()));
-				bean.setUserName(enforceRecord.getEnforceUsername());
+				CheckRecord recentCheckRecord = map.get(enforceRecord.getUn());
+				if(recentCheckRecord!=null){
+					bean.setCheckRecord(recentCheckRecord);
+					enforceRecord.setEnforceName(recentCheckRecord.getCheckerName());
+				}
+				bean.setUserName(enforceRecord.getUn());
 				trasferDate.add(bean);
 			}
 			

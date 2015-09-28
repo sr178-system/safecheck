@@ -18,20 +18,26 @@ public class EnforceRecordDao extends SfDaoBase<EnforceRecord> {
 	
 	
 	public IPage<EnforceRecord> getEnforceRecordGroupByEnforceUserName(String searchUn,List<String> enforcesNames,int pageIndex,int pageSize){
-		String sql = "select * from (select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as er left join resource as r on er.resource_id=r.resource_id ";
+//		String sql = "select * from (select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as er left join resource as r on er.resource_id=r.resource_id ";
+		
+		String sql = "select * from (select kk.un,u.name as nm from (select * from (select check_username as un from check_record group by check_username union select enforce_username as un from enforce_record group by enforce_username)aa group by aa.un)kk left join user u on kk.un=u.user_name)bb "
+				+ "left join (select * from (select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from enforce_record as er left join resource as r on er.resource_id=r.resource_id order by er.enforce_time desc,er.id desc)cc "
+				+ "group by cc.enforce_username)dd "
+				+ "on bb.un=dd.enforce_username";
+		
 		String where = "";
 		if(enforcesNames!=null){
-			where = " where er.enforce_username in("+SqlUtil.joinStr(enforcesNames)+")";
+			where = " where bb.nm in("+SqlUtil.joinStr(enforcesNames)+")";
 		}
 		if(!Strings.isNullOrEmpty(searchUn)){
 			if(Strings.isNullOrEmpty(where)){
-				where = " where er.enforce_name like '%"+searchUn+"%'";
+				where = " where bb.nm like '%"+searchUn+"%'";
 			}else{
-				where = where +" and er.enforce_name like '%"+searchUn+"%'";
+				where = where +" and bb.nm like '%"+searchUn+"%'";
 			}
 		}
 		sql = sql + where;
-		sql = sql +" order by er.enforce_time desc,er.id desc)cc group by cc.enforce_username";
+//		sql = sql +" order by er.enforce_time desc,er.id desc)cc group by cc.enforce_username";
 		return super.getJdbc().getListPage(sql, EnforceRecord.class, null, pageSize, pageIndex);
 	}
 	

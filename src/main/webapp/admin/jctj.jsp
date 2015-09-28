@@ -37,14 +37,7 @@
 					<tr>
 						<td>${data.cpName}</td>
 						<td><fmt:formatDate value="${data.checkRecord.checkTime}" type="both" pattern="yyyy.MM.dd"/></td>
-						<td>
-						    <c:set value="1" var="i" />
-							<c:forEach items="${data.itemsNames}" var="it">
-							  <c:if test="${i==1}">${it}</c:if>
-							  <c:if test="${i>1}">,${it}</c:if>
-							  <c:set value="${i+1}" var="i" />
-							</c:forEach>
-						</td>
+						<td><c:set value="1" var="i" /><c:forEach items="${data.itemsNames}" var="it"><c:if test="${i==1}">${it}</c:if><c:if test="${i>1}">，${it}</c:if><c:set value="${i+1}" var="i" /></c:forEach></td>
 						<td>${data.checkRecord.checkerName}</td>
 						<td><fmt:formatDate value="${data.enforceRecord.enforceTime}" type="both" pattern="yyyy.MM.dd"/></td>
 						<td>

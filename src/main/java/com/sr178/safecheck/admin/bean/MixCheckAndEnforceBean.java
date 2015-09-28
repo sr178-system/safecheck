@@ -2,6 +2,8 @@ package com.sr178.safecheck.admin.bean;
 
 import java.util.Date;
 
+import org.apache.struts2.json.annotations.JSON;
+
 public class MixCheckAndEnforceBean {
 	
 	private int id;
@@ -61,6 +63,7 @@ public class MixCheckAndEnforceBean {
 	public void setPosition(String position) {
 		this.position = position;
 	}
+	@JSON(format="yyyy-MM-dd HH:mm:ss")
 	public Date getTimes() {
 		return times;
 	}
