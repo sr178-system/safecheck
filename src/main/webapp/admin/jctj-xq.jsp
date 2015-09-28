@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<!-- 头部 -->
 <%@ include file="/admin/head.jsp"%>
 <div class="easyui-layout" data-options="fit:true">
 

@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<!-- 头部 -->
 <%@ include file="/admin/head.jsp"%>
 <script type="text/javascript">
   function fuck(str){
@@ -11,7 +10,6 @@
   }
 </script>
 <div class="easyui-layout" data-options="fit:true">
-<!-- 导航 -->
 <jsp:include page="/admin/nav.jsp" flush="true"><jsp:param name="current" value="1"/></jsp:include>
     <div id="content" region="center">
     		<div class="crumb">
