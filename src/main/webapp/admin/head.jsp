@@ -45,7 +45,6 @@
 		   return;
 	   }
 	   var data = $("#Form").serialize();
-	   alert(data);
 		$.post("/admin/editPwd", data, function(data) {
 			if (data.code == 0) 
 			 { 

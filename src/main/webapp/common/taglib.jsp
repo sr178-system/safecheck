@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="/encodetags" prefix="en"  %>
 <%
 	response.setCharacterEncoding("utf-8");
 	response.setHeader("Cache-Control", "no-cache"); //HTTP 1.1

@@ -93,7 +93,7 @@
 <script type="text/javascript">
     var indexPage = ${indexPage};
 	$(".mores").click(function(){
-		$.get('/admin/checkListJson?cpName=${cpName}&indexPage='+(++indexPage)+"&pageSize=${pageSize}#pos",function(e){
+		$.get('/admin/checkListJson?cpName='+encodeURI('${cpName}')+'&indexPage='+(++indexPage)+"&pageSize=${pageSize}#pos",function(e){
 			if(e.code!=0){
 				alert('加载出错！');
 				return;

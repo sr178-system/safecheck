@@ -8,6 +8,10 @@
 	  location.href="/adminindex?searchCp="+str;
 	  return;
   }
+  
+  function urlEncode(param){
+	 return encodeURI(url);
+  }
 </script>
 <div class="easyui-layout" data-options="fit:true">
 <jsp:include page="/admin/nav.jsp" flush="true"><jsp:param name="current" value="1"/></jsp:include>
@@ -49,7 +53,7 @@
 							</c:if>
                         </td>
 						<td>${data.enforceRecord.enforceName}</td>
-						<td><a href="checkRecordList?cpName=${data.cpName}&indexPage=0&pageSize=2#pos">详情>></a></td>
+						<td><a href="/checkRecordList?cpName=<en:urlEncode key="${data.cpName}"/>&indexPage=0&pageSize=2#pos" >详情>></a></td>
 					</tr>
 					</s:iterator>
 				</table>
