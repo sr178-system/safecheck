@@ -69,4 +69,11 @@
 		   	 	modal:false
 			});;
 			}
+		
+		function checkParamLenght(param,len){
+			if(param.length>len){
+				return true;
+			}
+			return false;
+		}
 </script>

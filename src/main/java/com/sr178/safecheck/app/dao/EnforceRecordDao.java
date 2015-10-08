@@ -17,7 +17,7 @@ public class EnforceRecordDao extends SfDaoBase<EnforceRecord> {
 	}
 	
 	
-	public IPage<EnforceRecord> getEnforceRecordGroupByEnforceUserName(String searchUn,List<String> enforcesNames,int pageIndex,int pageSize){
+	public IPage<EnforceRecord> getEnforceRecordGroupByEnforceUserName(String searchUn,List<String> enforcesUserNames,int pageIndex,int pageSize){
 //		String sql = "select * from (select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as er left join resource as r on er.resource_id=r.resource_id ";
 		
 		String sql = "select * from (select kk.un,u.name as nm from (select * from (select check_username as un from check_record group by check_username union select enforce_username as un from enforce_record group by enforce_username)aa group by aa.un)kk left join user u on kk.un=u.user_name)bb "
@@ -26,8 +26,8 @@ public class EnforceRecordDao extends SfDaoBase<EnforceRecord> {
 				+ "on bb.un=dd.enforce_username";
 		
 		String where = "";
-		if(enforcesNames!=null){
-			where = " where bb.nm in("+SqlUtil.joinStr(enforcesNames)+")";
+		if(enforcesUserNames!=null){
+			where = " where bb.un in("+SqlUtil.joinStr(enforcesUserNames)+")";
 		}
 		if(!Strings.isNullOrEmpty(searchUn)){
 			if(Strings.isNullOrEmpty(where)){

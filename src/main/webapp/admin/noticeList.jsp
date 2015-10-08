@@ -89,7 +89,7 @@
 	
 	//编辑前的操作
 	function editBefor(id,title,content){
-		$.get('getOne?id='+id,null,function(data){
+		$.post('getOne?id='+id,null,function(data){
 			if(data.code==0){
 				$("#id").val(id)
 				$("#title").val(data.notice.noticeTitle)

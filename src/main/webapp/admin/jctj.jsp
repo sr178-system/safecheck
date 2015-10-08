@@ -53,7 +53,7 @@
 							</c:if>
                         </td>
 						<td>${data.enforceRecord.enforceName}</td>
-						<td><a href="/checkRecordList?cpName=<en:urlEncode key="${data.cpName}"/>&indexPage=0&pageSize=2#pos" >详情>></a></td>
+						<td><a href="/checkRecordList?cpName=<en:urlEncode key="${data.cpName}"/>&indexPage=0&pageSize=10" >详情>></a></td>
 					</tr>
 					</s:iterator>
 				</table>

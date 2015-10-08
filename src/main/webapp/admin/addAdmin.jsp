@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/admin/head.jsp"%>
 
-<c:if test="${code==7}"><script type="text/javascript">alert("该用户名[${adminUserName}]已被占用！请重新注册");history.go(-1);</script></c:if>
+<c:if test="${code==7}"><script type="text/javascript">alert("该用户名[${adminUserName}]已被占用！请重新注册",function(){history.go(-1);});</script></c:if>
 <c:if test="${code==2000}"><script type="text/javascript">alert("添加用户成功！",function(){location.href='/admin/adminList';});</script></c:if>
 <link rel="stylesheet" type="text/css" href="/scripts/jquery.datetimepicker.css"/>
 <script src="/scripts/jquery.datetimepicker.js"></script>
@@ -38,8 +38,18 @@
 	   $('#adminUserName').focus().select();
 	   return;
 	}
+   if(checkParamLenght($('#adminUserName').val(),32)){
+	   alert('用户名不能超过32个字符！');
+	   $('#adminUserName').focus().select();
+	   return;
+   }
    if($('#passWord').val()==''){
 	   alert('密码不能为空！');
+	   $('#passWord').focus().select();
+	   return;
+	}
+   if(checkParamLenght($('#passWord').val(),32)){
+	   alert('密码不能超过32个字符！');
 	   $('#passWord').focus().select();
 	   return;
 	}
@@ -53,18 +63,18 @@
 	   $('#name').focus().select();
 	   return;
 	}
-    if($('#birthday').val()==''){
- 	   alert('出生日期不能为空！');
-	   $('#birthday').focus().select();
-	   return;
+    if(checkParamLenght($('#name').val(),16)){
+ 	   alert('名字不能超过16个字符！');
+ 	   $('#name').focus().select();
+ 	   return;
  	}
-    if($('#call').val()==''){
-  	   alert('电话不能为空！');
+    if($('#call').val()!='' && checkParamLenght($('#call').val(),32)){
+  	   alert('电话号码不能超过32个字符！');
 	   $('#call').focus().select();
 	   return;
   	}
-    if($('#remark').val()==''){
-   	   alert('备注不能为空！');
+    if($('#remark').val()!='' && checkParamLenght($('#remark').val(),500)){
+   	   alert('备注不能超过500个字符！');
 	   $('#remark').focus().select();
 	   return;
    	}

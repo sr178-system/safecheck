@@ -44,7 +44,7 @@ public class AdminService {
 	public static final String AND = "and";
 	public static final String OR = "or";
 
-  	private Cache<String,String> userSession = CacheBuilder.newBuilder().expireAfterAccess(24, TimeUnit.HOURS).maximumSize(2000).build();
+  	private Cache<String,String> userSession = CacheBuilder.newBuilder().expireAfterAccess(30, TimeUnit.MINUTES).maximumSize(2000).build();
 
 	@Autowired
 	private UserDao userDao;
@@ -444,9 +444,9 @@ public class AdminService {
 		ParamCheck.checkString(userName, 1, "用户名不能为空");
 		ParamCheck.checkString(passWord, 2, "密码不能为空");
 		ParamCheck.checkString(name, 3, "名字不能为空");
-		ParamCheck.checkString(call, 4, "电话不能为空");
+//		ParamCheck.checkString(call, 4, "电话不能为空");
 		ParamCheck.checkString(upUser, 5, "上级用户不能为空");
-		ParamCheck.checkObject(birthday, 6, "生日不能为空");
+//		ParamCheck.checkObject(birthday, 6, "生日不能为空");
 		AdminUser adminUser = adminUserDao.get(new SqlParamBean("user_name", userName));
 		if(adminUser!=null){
 			throw new ServiceException(7, "用户名已被注册了");
@@ -472,9 +472,9 @@ public class AdminService {
 		ParamCheck.checkString(userName, 1, "用户名不能为空");
 		ParamCheck.checkString(passWord, 2, "密码不能为空");
 		ParamCheck.checkString(name, 3, "名字不能为空");
-		ParamCheck.checkString(call, 4, "电话不能为空");
+//		ParamCheck.checkString(call, 4, "电话不能为空");
 		ParamCheck.checkString(upUser, 5, "上级用户不能为空");
-		ParamCheck.checkObject(birthday, 6, "生日不能为空");
+//		ParamCheck.checkObject(birthday, 6, "生日不能为空");
 		User adminUser = userDao.get(new SqlParamBean("user_name", userName));
 		if(adminUser!=null){
 			throw new ServiceException(7, "用户名已被注册了");
@@ -499,8 +499,8 @@ public class AdminService {
 	public void editAdmins(String userName,String passWord,int sex,String name,String call,String remark,String upUser,Date birthday){
 		ParamCheck.checkString(userName, 1, "用户名不能为空");
 		ParamCheck.checkString(name, 3, "名字不能为空");
-		ParamCheck.checkString(call, 4, "电话不能为空");
-		ParamCheck.checkObject(birthday, 6, "生日不能为空");
+//		ParamCheck.checkString(call, 4, "电话不能为空");
+//		ParamCheck.checkObject(birthday, 6, "生日不能为空");
 		AdminUser adminUser = adminUserDao.get(new SqlParamBean("user_name", userName));
 		if(adminUser==null){
 			throw new ServiceException(7, "用户不存在");
@@ -534,9 +534,9 @@ public class AdminService {
 	public void editUsers(String userName,String passWord,int sex,String name,String call,String remark,String upUser,Date birthday){
 		ParamCheck.checkString(userName, 1, "用户名不能为空");
 		ParamCheck.checkString(name, 3, "名字不能为空");
-		ParamCheck.checkString(call, 4, "电话不能为空");
+//		ParamCheck.checkString(call, 4, "电话不能为空");
 		ParamCheck.checkString(upUser, 5, "上级用户不能为空");
-		ParamCheck.checkObject(birthday, 6, "生日不能为空");
+//		ParamCheck.checkObject(birthday, 6, "生日不能为空");
 		User adminUser = userDao.get(new SqlParamBean("user_name", userName));
 		if(adminUser==null){
 			throw new ServiceException(7, "用户不存在");
