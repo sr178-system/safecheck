@@ -9,33 +9,42 @@
 	<script type="text/javascript" src="/scripts/jquery.min.js"></script>
 	<script type="text/javascript" src="/scripts/jquery.easyui.min.js"></script>
     <script language="javascript" src="/js/ajax.js"></script>
-		<SCRIPT type=text/javascript>
-		    function logins(){
-		    	if (Form.userName.value=="") {      alert("请写入您的用户名!");      return;    } 
-		    	if (Form.passWord.value=="") {      alert("请写入登录密码!");      return;    }
-			    var ajaxobj = new Ajax();
-			    ajaxobj.url="/admin/adminlogin?userName="+Form.userName.value+"&passWord="+Form.passWord.value;
-			    ajaxobj.callback=function(){
-				    var responseMsg = eval('(' + ajaxobj.gettext() + ')');
-				    if(responseMsg.code!=0){
-				    	if(responseMsg.code==1){
-				    		alert("用户名或密码错误");
-				    	}else if(responseMsg.code==2){
-				    		alert("该用户已被禁用，请及时联系管理员！");
-				    	}
-				    }else{
-				    	location.href='/admin/adminindex';
-				    }
-			    }
-			    ajaxobj.send();
-		    }
-    </SCRIPT>	
+	<SCRIPT type=text/javascript>
+		function logins() {
+			if (Form.userName.value == "") {
+				alert("请写入您的用户名!");
+				return;
+			}
+			if (Form.passWord.value == "") {
+				alert("请写入登录密码!");
+				return;
+			}
+			var ajaxobj = new Ajax();
+			ajaxobj.url = "/admin/adminlogin?userName=" + Form.userName.value
+					+ "&passWord=" + Form.passWord.value;
+			ajaxobj.callback = function() {
+				var responseMsg = eval('(' + ajaxobj.gettext() + ')');
+				if (responseMsg.code != 0) {
+					if (responseMsg.code == 1) {
+						alert("用户名或密码错误");
+					} else if (responseMsg.code == 2) {
+						alert("该用户已被禁用，请及时联系管理员！");
+					}
+				} else {
+					location.href = '/admin/adminindex';
+				}
+			}
+			ajaxobj.send();
+		}
+	
+
+	</SCRIPT>
 </head>
 <body>
 
 <div class="easyui-layout login" data-options="fit:true">
 	<div class="easyui-window loginbox" title="">
-		<form class="cb" name="Form" onSubmit="return false" method="POST">
+		<form class="cb" name="Form" id="Form" onSubmit="return false" method="POST">
 			<p class="lxq"></p> 
 			<div>
 				<p><label>用户名：</label><input type="text" name="userName"></p>
@@ -56,4 +65,12 @@
 		   	 	modal:false
 			});
 			}
+		
+		$("#Form").keydown(function(e) {
+			var e = e || event;
+			var code = e.which || e.keyCode;
+			if(code==13) {
+				logins();
+			}
+		});
 </script>

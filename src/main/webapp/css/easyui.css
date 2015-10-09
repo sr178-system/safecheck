@@ -2,7 +2,7 @@
 a{ color:#333; text-decoration: none; }
 a img{border: none;}
 ul,li{ list-style: none;}
-#content{ padding:15px; }
+#content{ padding:15px; padding-top:80px; }
 .cb:after, .cb li:after{display:block;clear:both;visibility:hidden;height:0;overflow:hidden;content:".";}
 .l{ float: left;}
 .r{ float: right;}
@@ -26,12 +26,16 @@ background:url(../images/icons.png) no-repeat;
 .header{ 
   padding: 10px 20px;
   background:#045aac;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
   height: 45px;
 }
 .headtent{
   color: #FFF;
   font-size: 16px;
   padding: 12px;
+  padding-right: 40px;
 }
 .headtent strong, .headtent b{ margin-right:12px; color: #FFF; font-weight: lighter; font-size: 16px;}
 .headtent a{ color: #FFF; font-size: 13px;}
@@ -41,6 +45,7 @@ background:url(../images/icons.png) no-repeat;
   border-left:1px solid #d5d6d8;
   border-right: 1px solid #d5d6d8;
   background:#e8ebef;
+  margin-top: 65px;
 }
 .lefter ul li{
   border-bottom: 1px solid #d5d6d8;
@@ -132,7 +137,7 @@ table a{color: #1f73e4;}
 .table5{ min-width:600px; width: 600px; }
 .table5 td{ padding:5px 10px; text-align: left;}
 
-.table4{min-width:160px; width: 160px;  }
+.table4{min-width:350px; width: 350px;  }
 .table4 td{ padding:5px 10px 5px 15px; text-align: left;}
 .fbnew{ width: 400px; float:left; margin-top: -40px; }
 .fbnew p{ padding-bottom: 5px; }

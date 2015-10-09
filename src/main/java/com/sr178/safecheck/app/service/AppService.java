@@ -304,6 +304,9 @@ public class AppService {
 		bean.setWorkScore(getTag(result, "<span id=\"lblOptScore\">", "</span>"));
 		bean.setWorkType(getTag(result, "<span id=\"lblJobType\">", "</span>"));
 		bean.setImage(IMAGE_URL_PRE+getTag(result, "../Exam/ShowSafeWorkerPhoto.aspx", "\""));
+		if(Strings.isNullOrEmpty(bean.getCertNum())){//客户端需要特殊处理的错误
+			throw new ServiceException(3000, "无相关证书编号["+certNum+"]对应信息");
+		}
 		return bean;
 		
 	}

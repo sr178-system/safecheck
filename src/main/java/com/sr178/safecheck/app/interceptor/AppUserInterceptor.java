@@ -50,7 +50,11 @@ public class AppUserInterceptor extends AbstractInterceptor {
 			} catch (Exception e) {
 				if(e instanceof ServiceException){
 					ServiceException exception = (ServiceException)e;
-					appAction.renderErrorResult(exception.getMessage());
+					if(exception.getCode()>=3000){
+						appAction.renderErrorResult(exception.getCode(), exception.getMessage());
+					}else{
+						appAction.renderErrorResult(exception.getMessage());
+					}
 					LogSystem.info(exception.getMessage());
 					return "json";
 				}else{

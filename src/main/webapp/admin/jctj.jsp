@@ -33,7 +33,7 @@
 						<th width="10%">检查项</th>
 						<th width="10%">检查人员</th>
 						<th width="7%">最近执法日期</th>
-						<th width="10%">执法文书张片</th>
+						<th width="10%">执法文书照片</th>
 						<th width="10%">执法人员</th>
 						<th width="10%">操作</th>
 					</tr>

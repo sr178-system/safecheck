@@ -84,6 +84,15 @@ public class AppBaseActionSupport extends ActionSupport{
 		dataMap.put("msg",msg);
 		return JSON;
 	}
+	/**
+	 * 错误消息  指定flag
+	 * @param msg
+	 */
+	public String renderErrorResult(int code,String msg){
+		dataMap.put("flag", code);
+		dataMap.put("msg",msg);
+		return JSON;
+	}
     /**
      * 没有返回参数的成功消息
      */

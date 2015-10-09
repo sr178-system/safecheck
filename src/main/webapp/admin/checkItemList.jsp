@@ -14,7 +14,7 @@
 						<li><a href="#" onclick="del()">删除</a></li>
 					</ul>
     			</div>
-    			<div class="tbox" style="width: 160px">
+    			<div class="tbox" style="width: 380px">
 				<table class="table1 table4">
 				   <tr> 
 						<th width="40px"><input class="setz" type="checkbox" /></th>
