@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>泸州市阳江区安全生产监督管理局 - 移动执法系统管理后台</title>
+	<title>泸州市江阳区安全生产监督管理局 - 移动执法系统管理后台</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" content="ie=edge"/>
 	<link rel="stylesheet" type="text/css" href="/css/easyui.css">
 	<script type="text/javascript" src="/scripts/jquery.min.js"></script>
