@@ -31,12 +31,14 @@ import com.sr178.safecheck.admin.bo.Resource;
 import com.sr178.safecheck.admin.bo.User;
 import com.sr178.safecheck.app.bean.TrainRecordSimple;
 import com.sr178.safecheck.app.bean.TrainResordBean;
+import com.sr178.safecheck.app.bo.Version;
 import com.sr178.safecheck.app.dao.CheckItemsDao;
 import com.sr178.safecheck.app.dao.CheckRecordDao;
 import com.sr178.safecheck.app.dao.EnforceRecordDao;
 import com.sr178.safecheck.app.dao.NoticeDao;
 import com.sr178.safecheck.app.dao.ResourceDao;
 import com.sr178.safecheck.app.dao.UserDao;
+import com.sr178.safecheck.app.dao.VersionDao;
 import com.sr178.safecheck.common.exception.ServiceException;
 import com.sr178.safecheck.common.utils.MD5Security;
 import com.sr178.safecheck.common.utils.ParamCheck;
@@ -60,6 +62,8 @@ public class AppService {
 	private NoticeDao noticeDao;
 	@Autowired
 	private ResourceDao resourceDao;
+	@Autowired
+	private VersionDao versionDao;
 
 	/**
 	 * 查看是否登录了
@@ -362,6 +366,20 @@ public class AppService {
         }
 		return resultT;
 	}
+	/**
+	 * 版本检查
+	 **/
+	public Version checkVersion(int currentVersionNum){
+		Version version = versionDao.getLastVersion();
+		if(version==null){
+			return null;
+		}
+		if(version.getVersionNum()>currentVersionNum){
+			return version;
+		}
+		return null;
+	}
+	
 //	public static String trainRecodTest(String idCard,String certNum){
 //		HttpUriRequest request = new HttpPost(URL);
 //		request.addHeader("ContentType", "application/x-www-form-urlencoded");

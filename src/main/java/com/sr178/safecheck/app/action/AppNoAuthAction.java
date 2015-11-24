@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sr178.game.framework.context.ServiceCacheFactory;
+import com.sr178.safecheck.app.bo.Version;
 import com.sr178.safecheck.app.service.AppService;
 
 
@@ -27,6 +28,12 @@ public class AppNoAuthAction extends AppBaseActionSupport{
 	}
 	
 	
+	private int versionNum;
+	public String checkVersion(){
+		AppService appService = ServiceCacheFactory.getService(AppService.class);
+		Version version = appService.checkVersion(versionNum);
+		return renderKeyValueResult("url",version==null?"":version.getUrl());
+	}
 	
 	
 	
@@ -43,6 +50,22 @@ public class AppNoAuthAction extends AppBaseActionSupport{
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+
+
+
+
+	public int getVersionNum() {
+		return versionNum;
+	}
+
+
+
+
+
+	public void setVersionNum(int versionNum) {
+		this.versionNum = versionNum;
 	}
 	
 }

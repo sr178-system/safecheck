@@ -7,6 +7,7 @@
 	
 		<!-- 一个包下可以放这个模块下的所有action -->
 		<action name="login" class="com.sr178.safecheck.app.action.AppNoAuthAction" method="login" />
+		<action name="checkVersion" class="com.sr178.safecheck.app.action.AppNoAuthAction" method="checkVersion" />
 		
 		<action name="editpwd" class="com.sr178.safecheck.app.action.AppAction" method="editpwd" />
 		<action name="systemTime" class="com.sr178.safecheck.app.action.AppAction" method="systemTime" />
