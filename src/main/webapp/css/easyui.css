@@ -18,7 +18,7 @@ background:url(../images/icons.png) no-repeat;
 .loginbox{ background: url(../images/loginbg.png) no-repeat 0 0; width: 1005px; height:513px;  }
 .loginbox form{ width: 460px; margin:230px auto 0; }
 .loginbox form p.lxq{ padding-top: 110px; float:left; width: 230px; font-size: 12px; color: #5d5d5d;}
-.loginbox form div{ float:left;}
+.loginbox form div{ float:left;width:225px;}
 .loginbox form div p{ padding: 8px 0;}
 .loginbox form p label{ color: #0952a1; width: 65px; display: inline-block;}
 .loginbox form p input{ padding: 2px; border:1px solid #7491b5; background: #f5fafe;}
