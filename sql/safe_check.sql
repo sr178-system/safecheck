@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2015-10-08 12:03:09
+Date: 2016-01-06 17:12:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -52,6 +52,14 @@ CREATE TABLE `check_items` (
 -- ----------------------------
 -- Records of check_items
 -- ----------------------------
+INSERT INTO `check_items` VALUES ('1', 'asdfasfasfdsaf', 'asdfasf', '2015-10-09 09:51:10');
+INSERT INTO `check_items` VALUES ('2', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗', '2015-10-09 09:51:50');
+INSERT INTO `check_items` VALUES ('3', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:52:58');
+INSERT INTO `check_items` VALUES ('4', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:53:33');
+INSERT INTO `check_items` VALUES ('5', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:53:37');
+INSERT INTO `check_items` VALUES ('6', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 10:23:13');
+INSERT INTO `check_items` VALUES ('7', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 10:23:16');
+INSERT INTO `check_items` VALUES ('8', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很123', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很123', '2015-10-09 10:23:23');
 
 -- ----------------------------
 -- Table structure for check_record
@@ -69,7 +77,7 @@ CREATE TABLE `check_record` (
   `check_server_time` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `cp_Name` (`cp_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of check_record
@@ -89,11 +97,33 @@ CREATE TABLE `enforce_record` (
   `enforce_server_time` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `cp_name` (`cp_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of enforce_record
 -- ----------------------------
+INSERT INTO `enforce_record` VALUES ('1', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('2', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('3', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('4', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('5', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('6', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('7', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('8', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('9', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('10', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('11', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('12', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('13', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('14', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('15', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('16', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('17', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('18', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('19', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('20', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('21', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
+INSERT INTO `enforce_record` VALUES ('22', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
 
 -- ----------------------------
 -- Table structure for notice
@@ -107,7 +137,7 @@ CREATE TABLE `notice` (
   `add_time` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `status,add_time` (`status`,`add_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of notice
@@ -125,11 +155,12 @@ CREATE TABLE `resource` (
   `updated_time` datetime DEFAULT NULL,
   `created_time` datetime DEFAULT NULL,
   PRIMARY KEY (`resource_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of resource
 -- ----------------------------
+INSERT INTO `resource` VALUES ('1', '1d763b5d6062c691.jpg', '1d763b5d6062c691.jpg', '1d763b5d6062c691.jpg', '2015-10-09 10:29:38', '2015-10-09 10:29:41');
 
 -- ----------------------------
 -- Table structure for user
@@ -152,3 +183,18 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('xx_down', 'LpkBu6U7/DzcaD1DryBisxxpVBg=', '测试账号', '1', '2015-10-07', '', '测试账号', 'admin', '0');
+
+-- ----------------------------
+-- Table structure for version
+-- ----------------------------
+DROP TABLE IF EXISTS `version`;
+CREATE TABLE `version` (
+  `version_num` int(11) NOT NULL DEFAULT '0',
+  `url` varchar(1024) NOT NULL,
+  PRIMARY KEY (`version_num`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of version
+-- ----------------------------
+INSERT INTO `version` VALUES ('2', 'http://xxxx');
