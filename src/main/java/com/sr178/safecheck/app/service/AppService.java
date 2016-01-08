@@ -252,8 +252,7 @@ public class AppService {
 		Resource resource = new Resource();
 		resource.setCreatedTime(new Date());
 		resource.setUpdatedTime(new Date());
-		resourceDao.add(resource);
-		return resourceDao.getLastInsertId();
+		return resourceDao.addBackKey(resource);
 	}
 	
 	/**

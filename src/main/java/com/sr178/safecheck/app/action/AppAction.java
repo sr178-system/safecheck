@@ -26,10 +26,10 @@ public class AppAction extends AppBaseActionSupport {
 		return renderSuccessResult();
 	}
 	/**
-	 * 查询检查项列表
+	 * 查询检查大项项列表
 	 * @return
 	 */
-	public String checkList(){
+	public String bigCheckList(){
 		AppService appService = ServiceCacheFactory.getService(AppService.class);
 		return renderListResult(appService.checkList());
 	}

@@ -13,7 +13,7 @@
 		<action name="systemTime" class="com.sr178.safecheck.app.action.AppAction" method="systemTime" />
 		<action name="uploadFiles" class="com.sr178.safecheck.app.action.AppAction" method="uploadFiles" />
 		<action name="sign" class="com.sr178.safecheck.app.action.AppAction" method="sign" />
-		<action name="checkList" class="com.sr178.safecheck.app.action.AppAction" method="checkList" />
+		<action name="bigCheckList" class="com.sr178.safecheck.app.action.AppAction" method="bigCheckList" />
 		<action name="saveCheck" class="com.sr178.safecheck.app.action.AppAction" method="saveCheck" />
 		<action name="intendance" class="com.sr178.safecheck.app.action.AppAction" method="intendance" />
 		<action name="trainRecord" class="com.sr178.safecheck.app.action.AppAction" method="trainRecord" />
