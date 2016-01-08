@@ -24,6 +24,7 @@ public class AdminServiceTest extends DaoTest {
        
 //		AppService appService = ServiceCacheFactory.getService(AppService.class);
 //		appService.saveCheck("yy_down", "good", "1,3,8", "pp", new Date().getTime());
+//		appService.companyList("我");
 	}
 	
 	

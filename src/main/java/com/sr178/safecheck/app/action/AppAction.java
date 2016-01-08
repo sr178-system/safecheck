@@ -31,9 +31,21 @@ public class AppAction extends AppBaseActionSupport {
 	 */
 	public String bigCheckList(){
 		AppService appService = ServiceCacheFactory.getService(AppService.class);
-		return renderListResult(appService.checkList());
+		return renderListResult(appService.checkList(super.getLoginUser()));
+	}
+	/**
+	 * 查询检查大类详情
+	 */
+	private int id;
+	public String checkDetails(){
+		AppService appService = ServiceCacheFactory.getService(AppService.class);
+		return renderObjectResult(appService.checkDetails(id));
 	}
 	
+	public String companyList(){
+		AppService appService = ServiceCacheFactory.getService(AppService.class);
+		return renderListResult(appService.companyList(cpName));
+	}
 	/**
 	 * 获取系统时间
 	 * @return
@@ -222,5 +234,11 @@ public class AppAction extends AppBaseActionSupport {
 	}
 	public void setSearchStr(String searchStr) {
 		this.searchStr = searchStr;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }

@@ -29,8 +29,13 @@ import com.sr178.safecheck.admin.bo.EnforceRecord;
 import com.sr178.safecheck.admin.bo.Notice;
 import com.sr178.safecheck.admin.bo.Resource;
 import com.sr178.safecheck.admin.bo.User;
+import com.sr178.safecheck.app.bean.FirstCheckItemBean;
+import com.sr178.safecheck.app.bean.ResultCheckItemBean;
+import com.sr178.safecheck.app.bean.SecondCheckItemBean;
 import com.sr178.safecheck.app.bean.TrainRecordSimple;
 import com.sr178.safecheck.app.bean.TrainResordBean;
+import com.sr178.safecheck.app.bean.ZeroCheckItemBean;
+import com.sr178.safecheck.app.bo.BigCheckItemBO;
 import com.sr178.safecheck.app.bo.Version;
 import com.sr178.safecheck.app.dao.CheckItemsDao;
 import com.sr178.safecheck.app.dao.CheckRecordDao;
@@ -120,13 +125,54 @@ public class AppService {
 		}
 	}
 
+	
 	/**
-	 * 获取所有检查项
+	 * 获取所有检查类型
 	 * 
 	 * @return
 	 */
-	public List<CheckItems> checkList() {
-		return checkItemsDao.getAll();
+	public List<BigCheckItemBO> checkList(String userName) {
+		 User user = userDao.get(new SqlParamBean("user_name", userName));
+		return checkItemsDao.getBigCheckItemBOList(user.getDepartMent());
+	}
+	/**
+	 * 查询大类详情
+	 * @param id
+	 * @return
+	 */
+	public ZeroCheckItemBean checkDetails(int id){
+		CheckItems checkItem = checkItemsDao.get(new SqlParamBean("id", id));
+		ZeroCheckItemBean zero = new ZeroCheckItemBean(checkItem);
+		List<CheckItems> firstCheckItems =  checkItemsDao.getList(new SqlParamBean("parent_id", id));
+		List<FirstCheckItemBean>  firstList = Lists.newArrayList();
+		for(CheckItems first:firstCheckItems){
+			FirstCheckItemBean firstBO = new FirstCheckItemBean(first);
+			List<CheckItems> secondCheckItems =  checkItemsDao.getList(new SqlParamBean("parent_id", first.getId()));
+			List<SecondCheckItemBean> secondList = Lists.newArrayList();
+			for(CheckItems second:secondCheckItems){
+				SecondCheckItemBean secondBO = new SecondCheckItemBean(second);
+				List<CheckItems> resultCheckItems =  checkItemsDao.getList(new SqlParamBean("parent_id", second.getId()));
+				List<ResultCheckItemBean> resultList = Lists.newArrayList();
+				for(CheckItems result:resultCheckItems){
+					resultList.add(new ResultCheckItemBean(result));
+				}
+				secondBO.setResultList(resultList);
+				secondList.add(secondBO);
+			}
+			firstBO.setDownList(secondList);
+			firstList.add(firstBO);
+		}
+		
+		zero.setDownList(firstList);
+		return zero;
+	}
+	/**
+	 * 模糊查询企业列表
+	 * @param searchStr
+	 * @return
+	 */
+	public List<String> companyList(String searchStr) {
+		return  checkRecordDao.searchCompay(searchStr, 5);
 	}
 	/**
 	 * 签到及检查结果保存
@@ -145,7 +191,7 @@ public class AppService {
 		CheckRecord checkRecord = new CheckRecord();
 		checkRecord.setCheckUsername(userName);
 		checkRecord.setCheckerName(user.getName());
-		checkRecord.setCheckItems(checkIds);
+//		checkRecord.setCheckItems(checkIds);
 		checkRecord.setCheckTime(new Date(checkTime));
 		checkRecord.setPosition(position);
 		checkRecord.setCpName(cpName);

@@ -29,8 +29,6 @@ public class CheckRecordDao extends SfDaoBase<CheckRecord> {
 		return super.getJdbc().getListPage(sql, CheckRecord.class, null, pageSize, pageIndex);
 	}
 	
-	
-	
 	public List<CheckRecord> getCheckRecordGroupCheckUserName(List<String> userNames){
 		String sql = "select * from (select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as er left join resource as r on er.resource_id=r.resource_id where er.check_username in("+SqlUtil.joinStr(userNames)+") order by er.check_time desc,er.id desc)cc group by cc.check_username";
 		return super.getJdbc().getList(sql, CheckRecord.class);
@@ -64,5 +62,11 @@ public class CheckRecordDao extends SfDaoBase<CheckRecord> {
 				+ "left join resource as r1 on er.resource_id=r1.resource_id where er.enforce_username=?)cc "
 				+ "order by cc.times desc,cc.id desc";
 		return super.getJdbc().getListPage(sql, MixCheckAndEnforceBean.class, SqlParameter.Instance().withString(userName).withString(userName), pageSize, pageIndex);
+	}
+	
+	public List<String> searchCompay(String searchStr,int limit){
+		String sql = "select cp_name from "+super.getTable()+" where cp_name like '%"+searchStr+"%' limit "+limit;
+		SqlParameter parameter = SqlParameter.Instance();
+		return jdbc.queryForList(sql, String.class, parameter);
 	}
 }

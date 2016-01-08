@@ -13,17 +13,21 @@ public class CheckRecord{
 	private Integer id;
 	private String cpName;
 	private String cn;
-	private String checkItems;
+	private String checkItemId;
+	private String checkItemName;
+	private String checkResult;
 	private String checkUsername;
 	private String checkerName;
 	private Integer resourceId;
 	private String resource1Names;
 	private String resource2Names;
 	private String resource3Names;
+	private String resource4Names;
 	private String position;
 	private Date checkTime;
 	private Date checkServerTime;
-	private List<String> checkItemNames;
+	private String resPersonName;
+	private String resPersonCall;
 	
 	public Integer getId() {
 		return id;
@@ -36,12 +40,6 @@ public class CheckRecord{
 	}
 	public String getCpName(){
 		return cpName;
-	}
-	public void setCheckItems(String checkItems){
-	this.checkItems=checkItems;
-	}
-	public String getCheckItems(){
-		return checkItems;
 	}
 	public void setCheckUsername(String checkUsername){
 	this.checkUsername=checkUsername;
@@ -99,17 +97,47 @@ public class CheckRecord{
 	public void setResource3Names(String resource3Names) {
 		this.resource3Names = resource3Names;
 	}
-	public List<String> getCheckItemNames() {
-		return checkItemNames;
-	}
-	public void setCheckItemNames(List<String> checkItemNames) {
-		this.checkItemNames = checkItemNames;
-	}
 	public String getCn() {
 		return cn;
 	}
 	public void setCn(String cn) {
 		this.cn = cn;
+	}
+	public String getCheckItemId() {
+		return checkItemId;
+	}
+	public void setCheckItemId(String checkItemId) {
+		this.checkItemId = checkItemId;
+	}
+	public String getCheckResult() {
+		return checkResult;
+	}
+	public void setCheckResult(String checkResult) {
+		this.checkResult = checkResult;
+	}
+	public String getResource4Names() {
+		return resource4Names;
+	}
+	public void setResource4Names(String resource4Names) {
+		this.resource4Names = resource4Names;
+	}
+	public String getResPersonName() {
+		return resPersonName;
+	}
+	public void setResPersonName(String resPersonName) {
+		this.resPersonName = resPersonName;
+	}
+	public String getResPersonCall() {
+		return resPersonCall;
+	}
+	public void setResPersonCall(String resPersonCall) {
+		this.resPersonCall = resPersonCall;
+	}
+	public String getCheckItemName() {
+		return checkItemName;
+	}
+	public void setCheckItemName(String checkItemName) {
+		this.checkItemName = checkItemName;
 	}
 }
 

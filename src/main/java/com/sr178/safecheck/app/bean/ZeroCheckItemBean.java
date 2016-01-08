@@ -8,6 +8,7 @@ import org.apache.struts2.json.JSONException;
 import org.apache.struts2.json.JSONUtil;
 
 import com.google.common.collect.Lists;
+import com.sr178.safecheck.admin.bo.CheckItems;
 
 public class ZeroCheckItemBean extends CheckItemBean {
 	
@@ -26,6 +27,9 @@ public class ZeroCheckItemBean extends CheckItemBean {
 		super(id, itemTitle);
 	}
 	
+	public ZeroCheckItemBean(CheckItems checkItems) {
+		super(checkItems);
+	}
 	public static void main(String[] args) throws JSONException {
 		ResultCheckItemBean bean1 = new ResultCheckItemBean(1,"有");
 		ResultCheckItemBean bean2 = new ResultCheckItemBean(2,"无");

@@ -7,7 +7,7 @@ import com.sr178.common.jdbc.dao.BaseDao;
 
 public class SfDaoBase<T> extends BaseDao<T> {
     @Autowired
-	private Jdbc jdbc;
+	protected Jdbc jdbc;
 	
 	@Override
 	public Jdbc getJdbc() {

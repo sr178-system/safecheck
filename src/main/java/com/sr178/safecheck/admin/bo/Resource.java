@@ -11,6 +11,7 @@ public class Resource{
 	private String resource1Names;
 	private String resource2Names;
 	private String resource3Names;
+	private String resource4Names;
 	private Date updatedTime;
 	private Date createdTime;
 	public Integer getResourceId() {
@@ -48,6 +49,12 @@ public class Resource{
 	}
 	public void setResource3Names(String resource3Names) {
 		this.resource3Names = resource3Names;
+	}
+	public String getResource4Names() {
+		return resource4Names;
+	}
+	public void setResource4Names(String resource4Names) {
+		this.resource4Names = resource4Names;
 	}
 }
 

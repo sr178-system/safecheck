@@ -206,7 +206,7 @@ public class AdminService {
 				bean.setCpName(checkRecord.getCn());
 				bean.setCheckRecord(checkRecord);
 				bean.setEnforceRecord(recentEnforceMap.get(checkRecord.getCn()));
-				bean.setItemsNames(idsToNames(checkRecord.getCheckItems(),checkItemsMap));
+//				bean.setItemsNames(idsToNames(checkRecord.getCheckItems(),checkItemsMap));
 				trasferDate.add(bean);
 			}
 		}
@@ -245,7 +245,7 @@ public class AdminService {
 			//设置检查项
 			Map<Integer,CheckItems> checkItemsMap = getCheckItemsMap();
 			for(CheckRecord record:page.getData()){
-				record.setCheckItemNames(idsToNames(record.getCheckItems(), checkItemsMap));
+//				record.setCheckItemNames(idsToNames(record.getCheckItems(), checkItemsMap));
 			}
 		}
 		return page;

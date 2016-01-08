@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
+Source Server         : localhost
 Source Server Version : 50624
 Source Host           : localhost:3306
-Source Database       : safe_check
+Source Database       : safe_check_v2
 
 Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-01-07 17:55:38
+Date: 2016-01-08 22:51:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,13 +29,14 @@ CREATE TABLE `admin_user` (
   `remark` varchar(512) DEFAULT NULL,
   `up_user` varchar(32) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
+  `depart_ment` varchar(32) DEFAULT NULL COMMENT '部门',
   PRIMARY KEY (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of admin_user
 -- ----------------------------
-INSERT INTO `admin_user` VALUES ('admin', 'FoxpBwf+x4bDmWQtNCx7vojz8Oc=', '超级管理员', '1', '2015-09-11', '111', '超级管理员', '', '0');
+INSERT INTO `admin_user` VALUES ('admin', 'FoxpBwf+x4bDmWQtNCx7vojz8Oc=', '超级管理员', '1', '2015-09-11', '111', '超级管理员', '', '0', null);
 
 -- ----------------------------
 -- Table structure for check_items
@@ -47,22 +48,23 @@ CREATE TABLE `check_items` (
   `item_content` text NOT NULL,
   `add_time` datetime NOT NULL,
   `parent_id` int(11) NOT NULL DEFAULT '0',
-  `department` varchar(32) DEFAULT NULL,
+  `depart_ment` varchar(32) DEFAULT NULL,
   `layer` int(11) NOT NULL DEFAULT '0' COMMENT '层',
+  `last_edit_name` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of check_items
 -- ----------------------------
-INSERT INTO `check_items` VALUES ('1', 'asdfasfasfdsaf', 'asdfasf', '2015-10-09 09:51:10', '0', null, '0');
-INSERT INTO `check_items` VALUES ('2', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗', '2015-10-09 09:51:50', '0', null, '0');
-INSERT INTO `check_items` VALUES ('3', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:52:58', '0', null, '0');
-INSERT INTO `check_items` VALUES ('4', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:53:33', '0', null, '0');
-INSERT INTO `check_items` VALUES ('5', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:53:37', '0', null, '0');
-INSERT INTO `check_items` VALUES ('6', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 10:23:13', '0', null, '0');
-INSERT INTO `check_items` VALUES ('7', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 10:23:16', '0', null, '0');
-INSERT INTO `check_items` VALUES ('8', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很123', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很123', '2015-10-09 10:23:23', '0', null, '0');
+INSERT INTO `check_items` VALUES ('1', 'asdfasfasfdsaf', 'asdfasf', '2015-10-09 09:51:10', '0', null, '0', null);
+INSERT INTO `check_items` VALUES ('2', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗', '2015-10-09 09:51:50', '0', null, '0', null);
+INSERT INTO `check_items` VALUES ('3', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:52:58', '0', null, '0', null);
+INSERT INTO `check_items` VALUES ('4', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:53:33', '0', null, '0', null);
+INSERT INTO `check_items` VALUES ('5', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:53:37', '0', null, '0', null);
+INSERT INTO `check_items` VALUES ('6', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 10:23:13', '0', null, '0', null);
+INSERT INTO `check_items` VALUES ('7', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 10:23:16', '0', null, '0', null);
+INSERT INTO `check_items` VALUES ('8', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很123', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很123', '2015-10-09 10:23:23', '0', null, '0', null);
 
 -- ----------------------------
 -- Table structure for check_record
@@ -71,20 +73,31 @@ DROP TABLE IF EXISTS `check_record`;
 CREATE TABLE `check_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cp_name` varchar(32) NOT NULL,
-  `check_items` varchar(64) NOT NULL,
+  `check_item_id` varchar(64) NOT NULL,
+  `check_result` text,
   `check_username` varchar(32) NOT NULL,
   `checker_name` varchar(32) NOT NULL,
   `resource_id` int(11) NOT NULL,
   `position` varchar(64) NOT NULL,
   `check_time` datetime NOT NULL,
   `check_server_time` datetime NOT NULL,
+  `res_person_name` varchar(32) DEFAULT NULL,
+  `res_person_call` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `cp_Name` (`cp_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of check_record
 -- ----------------------------
+INSERT INTO `check_record` VALUES ('1', '我1们', '', null, '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', null, null);
+INSERT INTO `check_record` VALUES ('2', '我2们', '', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
+INSERT INTO `check_record` VALUES ('3', '我3们', '', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
+INSERT INTO `check_record` VALUES ('4', '我4们', '', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
+INSERT INTO `check_record` VALUES ('5', '我5们', '', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
+INSERT INTO `check_record` VALUES ('6', '我6们', '', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
+INSERT INTO `check_record` VALUES ('7', '我7们', '', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
+INSERT INTO `check_record` VALUES ('8', '我8们', '', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
 
 -- ----------------------------
 -- Table structure for enforce_record
@@ -138,6 +151,8 @@ CREATE TABLE `notice` (
   `notice_content` text NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '是否顶置 1 顶置  0不顶置',
   `add_time` datetime NOT NULL,
+  `attach_ment` text,
+  `depart_ment` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `status,add_time` (`status`,`add_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -155,6 +170,7 @@ CREATE TABLE `resource` (
   `resource_1_names` varchar(512) DEFAULT NULL,
   `resource_2_names` varchar(512) DEFAULT NULL,
   `resource_3_names` varchar(512) DEFAULT NULL,
+  `resource_4_names` varchar(512) DEFAULT NULL,
   `updated_time` datetime DEFAULT NULL,
   `created_time` datetime DEFAULT NULL,
   PRIMARY KEY (`resource_id`)
@@ -163,7 +179,7 @@ CREATE TABLE `resource` (
 -- ----------------------------
 -- Records of resource
 -- ----------------------------
-INSERT INTO `resource` VALUES ('1', '1d763b5d6062c691.jpg', '1d763b5d6062c691.jpg', '1d763b5d6062c691.jpg', '2015-10-09 10:29:38', '2015-10-09 10:29:41');
+INSERT INTO `resource` VALUES ('1', '1d763b5d6062c691.jpg', '1d763b5d6062c691.jpg', '1d763b5d6062c691.jpg', null, '2015-10-09 10:29:38', '2015-10-09 10:29:41');
 
 -- ----------------------------
 -- Table structure for user
@@ -179,13 +195,14 @@ CREATE TABLE `user` (
   `remark` varchar(512) DEFAULT NULL,
   `up_user` varchar(32) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
+  `depart_ment` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('xx_down', 'LpkBu6U7/DzcaD1DryBisxxpVBg=', '测试账号', '1', '2015-10-07', '', '测试账号', 'admin', '0');
+INSERT INTO `user` VALUES ('xx_down', 'LpkBu6U7/DzcaD1DryBisxxpVBg=', '测试账号', '1', '2015-10-07', '', '测试账号', 'admin', '0', null);
 
 -- ----------------------------
 -- Table structure for version

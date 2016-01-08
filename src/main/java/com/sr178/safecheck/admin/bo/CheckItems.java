@@ -13,6 +13,10 @@ public class CheckItems{
 	private String itemTitle;
 	private String itemContent;
 	private Date addTime;
+	private int parentId;
+	private String departMent;
+	private int layer;
+	private String lastEditName;
 	
 	public Integer getId() {
 		return id;
@@ -39,5 +43,30 @@ public class CheckItems{
 	public Date getAddTime(){
 		return addTime;
 	}
+	public int getParentId() {
+		return parentId;
+	}
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
+	}
+	public String getDepartMent() {
+		return departMent;
+	}
+	public void setDepartMent(String departMent) {
+		this.departMent = departMent;
+	}
+	public int getLayer() {
+		return layer;
+	}
+	public void setLayer(int layer) {
+		this.layer = layer;
+	}
+	public String getLastEditName() {
+		return lastEditName;
+	}
+	public void setLastEditName(String lastEditName) {
+		this.lastEditName = lastEditName;
+	}
+	
 }
 

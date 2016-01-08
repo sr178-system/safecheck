@@ -14,6 +14,8 @@ public class Notice{
 	private String noticeContent;
 	private int status;
 	private Date addTime;
+	private String attachMent;
+	private String departMent;
 	
 	public Integer getId() {
 		return id;
@@ -45,6 +47,18 @@ public class Notice{
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public String getAttachMent() {
+		return attachMent;
+	}
+	public void setAttachMent(String attachMent) {
+		this.attachMent = attachMent;
+	}
+	public String getDepartMent() {
+		return departMent;
+	}
+	public void setDepartMent(String departMent) {
+		this.departMent = departMent;
 	}
 }
 

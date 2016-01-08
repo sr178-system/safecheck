@@ -1,5 +1,7 @@
 package com.sr178.safecheck.app.bean;
 
+import com.sr178.safecheck.admin.bo.CheckItems;
+
 public class CheckItemBean {
 	private int id;
 	private String itemTitle;
@@ -12,7 +14,10 @@ public class CheckItemBean {
 		this.id = id;
 		this.itemTitle = itemTitle;
 	}
-	
+	public CheckItemBean(CheckItems checkItems){
+		this.id = checkItems.getId();
+		this.itemTitle = checkItems.getItemTitle();
+	}
 	
 	public CheckItemBean() {
 		super();

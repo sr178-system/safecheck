@@ -16,6 +16,7 @@ public class User{
 	private String remark;
 	private String upUser;
 	private int status;
+	private String departMent;
 	public void setUserName(String userName){
 	this.userName=userName;
 	}
@@ -83,6 +84,12 @@ public class User{
 		this.upUser = upUser;
 	}
 	public User() {
+	}
+	public String getDepartMent() {
+		return departMent;
+	}
+	public void setDepartMent(String departMent) {
+		this.departMent = departMent;
 	}
 }
 
