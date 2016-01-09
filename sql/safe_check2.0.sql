@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
+Source Server         : 127.0.0.1
 Source Server Version : 50624
 Source Host           : localhost:3306
 Source Database       : safe_check_v2
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-01-08 22:51:16
+Date: 2016-01-09 18:08:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -73,7 +73,7 @@ DROP TABLE IF EXISTS `check_record`;
 CREATE TABLE `check_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cp_name` varchar(32) NOT NULL,
-  `check_item_id` varchar(64) NOT NULL,
+  `check_item_id` int(64) NOT NULL,
   `check_result` text,
   `check_username` varchar(32) NOT NULL,
   `checker_name` varchar(32) NOT NULL,
@@ -90,14 +90,14 @@ CREATE TABLE `check_record` (
 -- ----------------------------
 -- Records of check_record
 -- ----------------------------
-INSERT INTO `check_record` VALUES ('1', '我1们', '', null, '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', null, null);
-INSERT INTO `check_record` VALUES ('2', '我2们', '', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
-INSERT INTO `check_record` VALUES ('3', '我3们', '', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
-INSERT INTO `check_record` VALUES ('4', '我4们', '', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
-INSERT INTO `check_record` VALUES ('5', '我5们', '', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
-INSERT INTO `check_record` VALUES ('6', '我6们', '', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
-INSERT INTO `check_record` VALUES ('7', '我7们', '', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
-INSERT INTO `check_record` VALUES ('8', '我8们', '', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
+INSERT INTO `check_record` VALUES ('1', '我1们', '0', null, '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', null, null);
+INSERT INTO `check_record` VALUES ('2', '我2们', '0', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
+INSERT INTO `check_record` VALUES ('3', '我3们', '0', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
+INSERT INTO `check_record` VALUES ('4', '我4们', '0', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
+INSERT INTO `check_record` VALUES ('5', '我5们', '0', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
+INSERT INTO `check_record` VALUES ('6', '我6们', '0', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
+INSERT INTO `check_record` VALUES ('7', '我7们', '0', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
+INSERT INTO `check_record` VALUES ('8', '我8们', '0', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
 
 -- ----------------------------
 -- Table structure for enforce_record
@@ -149,17 +149,21 @@ CREATE TABLE `notice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `notice_title` varchar(128) NOT NULL,
   `notice_content` text NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '0' COMMENT '是否顶置 1 顶置  0不顶置',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '0 停用   1启用   2顶置',
   `add_time` datetime NOT NULL,
   `attach_ment` text,
   `depart_ment` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `status,add_time` (`status`,`add_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of notice
 -- ----------------------------
+INSERT INTO `notice` VALUES ('1', '123', '123', '1', '2016-01-09 16:49:36', null, null);
+INSERT INTO `notice` VALUES ('2', '11223', '1112334', '1', '2016-01-09 17:40:57', null, null);
+INSERT INTO `notice` VALUES ('3', '1122334', '1122334455', '1', '2016-01-09 17:41:13', null, null);
+INSERT INTO `notice` VALUES ('4', '4', '4', '1', '2016-01-09 17:41:33', null, null);
 
 -- ----------------------------
 -- Table structure for resource
@@ -203,6 +207,23 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('xx_down', 'LpkBu6U7/DzcaD1DryBisxxpVBg=', '测试账号', '1', '2015-10-07', '', '测试账号', 'admin', '0', null);
+
+-- ----------------------------
+-- Table structure for user_notice_readlog
+-- ----------------------------
+DROP TABLE IF EXISTS `user_notice_readlog`;
+CREATE TABLE `user_notice_readlog` (
+  `user_name` varchar(32) DEFAULT NULL,
+  `notice_id` int(11) DEFAULT NULL,
+  `created_time` datetime DEFAULT NULL,
+  UNIQUE KEY `user_name_notice_id` (`user_name`,`notice_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_notice_readlog
+-- ----------------------------
+INSERT INTO `user_notice_readlog` VALUES ('xx_down', '1', '2016-01-09 17:19:23');
+INSERT INTO `user_notice_readlog` VALUES ('xx_down', '4', '2016-01-09 17:47:37');
 
 -- ----------------------------
 -- Table structure for version

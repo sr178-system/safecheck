@@ -30,6 +30,7 @@ import com.sr178.safecheck.admin.bo.Notice;
 import com.sr178.safecheck.admin.bo.Resource;
 import com.sr178.safecheck.admin.bo.User;
 import com.sr178.safecheck.app.bean.FirstCheckItemBean;
+import com.sr178.safecheck.app.bean.NoReadBean;
 import com.sr178.safecheck.app.bean.ResultCheckItemBean;
 import com.sr178.safecheck.app.bean.SecondCheckItemBean;
 import com.sr178.safecheck.app.bean.TrainRecordSimple;
@@ -182,24 +183,44 @@ public class AppService {
 	 * @param checkTime
 	 * @return
 	 */
-	public int saveCheck(String userName,String cpName,String checkIds,String position,Long checkTime){
+	public int saveCheck(String userName,String cpName,int checkId,String position,Long checkTime,String resPersonName,String resPersonCall,String checkResult){
 		ParamCheck.checkString(cpName, 1, "企业名称不能为空");
 		ParamCheck.checkObject(checkTime, 2, "检查时间不能为空");
-		ParamCheck.checkString(checkIds, 3, "检查项不能为空");
+		ParamCheck.checkString(checkResult, 3, "检查结果不能为空");
 		ParamCheck.checkString(position, 4, "位置不能为空");
+		ParamCheck.checkString(resPersonName, 5, "现场负责人不能为空");
+		ParamCheck.checkString(resPersonCall, 6, "现场负责人电话不能为空");
+		
+		checkResultAvalidate(checkResult);
+		
 		User user = userDao.get(new SqlParamBean("user_name", userName));
 		CheckRecord checkRecord = new CheckRecord();
 		checkRecord.setCheckUsername(userName);
 		checkRecord.setCheckerName(user.getName());
 //		checkRecord.setCheckItems(checkIds);
+		checkRecord.setCheckItemId(checkId);
 		checkRecord.setCheckTime(new Date(checkTime));
 		checkRecord.setPosition(position);
 		checkRecord.setCpName(cpName);
+		checkRecord.setCheckResult(checkResult);
+		checkRecord.setResPersonName(resPersonName);
+		checkRecord.setResPersonCall(resPersonCall);
 		int resourceId = addResource();
 		checkRecord.setResourceId(resourceId);
 		checkRecord.setCheckServerTime(new Date());
 		checkRecordDao.add(checkRecord);
 		return resourceId;
+	}
+	
+	private void checkResultAvalidate(String checkResult){
+		String[] strArray =  checkResult.split(":");
+		for(String str:strArray){
+			String[] items = str.split(",");
+			if(items.length!=4){
+				LogSystem.info("错误的检查结果，checkResult="+checkResult);
+				throw new ServiceException(100, "检查结果格式不对！条目间以英文冒号隔开，小项间用英文逗号隔开，【"+str+"】的拼接不符合规范，逗号隔开后，必须要有4个元素。现在只有["+items.length+"]");
+			}
+		}
 	}
 	
 	/**
@@ -230,16 +251,37 @@ public class AppService {
 	 * @param pageSize
 	 * @return
 	 */
-	public IPage<Notice> getPageNotice(String searchStr,int pageIndex,int pageSize){
-		return noticeDao.getNoticePage(searchStr,pageIndex, pageSize);
+	public IPage<Notice> getPageNotice(String searchStr,String userName,int pageIndex,int pageSize){
+		User user = userDao.get(new SqlParamBean("user_name", userName));
+		return noticeDao.getNoticePage(searchStr,userName,user.getDepartMent(),pageIndex, pageSize);
 	}
 	/**
 	 * 查询新闻内容
 	 * @param id
 	 * @return
 	 */
-	public Notice getNotice(int id){
-		return noticeDao.get(new SqlParamBean("id",id));
+	public Notice getNotice(String userName,int id){
+		Notice notice =  noticeDao.get(new SqlParamBean("id",id));
+		if(notice!=null){
+			noticeDao.setIsRead(userName, id);
+		}
+		return notice;
+	}
+	/**
+	 * 查询未读消息数量及最后一条未读消息标题及id
+	 * @param userName
+	 * @return
+	 */
+	public NoReadBean noReadNum(String userName){
+		User user = userDao.get(new SqlParamBean("user_name", userName));
+		List<Notice> list = noticeDao.getNoReadList(userName, user.getDepartMent());
+		NoReadBean result = new NoReadBean();
+		if(list!=null&&list.size()>0){
+			result.setNum(list.size());
+			result.setNoticeId(list.get(0).getId());
+			result.setTitle(list.get(0).getNoticeTitle());
+		}
+		return result;
 	}
 	
 	/**
@@ -249,37 +291,69 @@ public class AppService {
 	 * @param taskId
 	 * @param type
 	 */
-	public void saveFiles(List<File> files,List<String> names,int taskId,int type,String descPath){
-		  Resource resource = resourceDao.get(new SqlParamBean("resource_id", taskId));
-		  if(resource==null){
-			  throw new ServiceException(1, "任务不存在！");
-		  }
-		  List<String> fileNames = Lists.newArrayList();
-		  for(int i=0;i<files.size();i++){
-			  File file = files.get(i);
-			  String oldFileName = names.get(i);
-			  
-			  String prefix = oldFileName.split("\\.")[1];
-			  String fileName = MD5Security.md5_16(UUID.randomUUID().toString())+"."+prefix;
-			  try {
-				FileUtils.copyFile(file, new File(descPath+fileName));
+	public void saveFiles(List<File> files, List<String> names, int taskId, int type, String descPath) {
+		Resource resource = resourceDao.get(new SqlParamBean("resource_id", taskId));
+		if (resource == null) {
+			throw new ServiceException(1, "任务不存在！");
+		}
+		List<String> fileNames = Lists.newArrayList();
+		for (int i = 0; i < files.size(); i++) {
+			File file = files.get(i);
+			String oldFileName = names.get(i);
+			String prefix = oldFileName.split("\\.")[1];
+			String fileName = "";
+			if (type == 2) {
+				fileName = checkFileName(oldFileName) + "_" + MD5Security.md5_16(UUID.randomUUID().toString()) + "."
+						+ prefix;
+			} else {
+				fileName = MD5Security.md5_16(UUID.randomUUID().toString()) + "." + prefix;
+			}
+			try {
+				FileUtils.copyFile(file, new File(descPath + fileName));
 				fileNames.add(fileName);
-				} catch (IOException e) {
-					LogSystem.error(e, "上传图片失败");
-					throw new ServiceException(1, "上传图片失败！请重新上传！");
-				}
-		  }
-		  String source = StringUtils.join(fileNames.iterator(), ",");
-		  if(type==1){
-			  source = joinStr(resource.getResource1Names(),source);
-		  }else if(type==2){
-			  source = joinStr(resource.getResource2Names(),source);
-		  }else if(type==3){
-			  source = joinStr(resource.getResource3Names(),source);
-		  }
-		  resourceDao.updateResource(taskId, source, type);
+			} catch (IOException e) {
+				LogSystem.error(e, "上传图片失败");
+				throw new ServiceException(3, "上传图片失败！请重新上传！");
+			}
+		}
+		String source = StringUtils.join(fileNames.iterator(), ",");
+		if (type == 1) {
+			source = joinStr(resource.getResource1Names(), source);
+		} else if (type == 2) {
+			source = joinStr(resource.getResource2Names(), source);
+		} else if (type == 3) {
+			source = joinStr(resource.getResource3Names(), source);
+		} else if (type == 4) {
+			source = joinStr(resource.getResource4Names(), source);
+		}
+		resourceDao.updateResource(taskId, source, type);
 	}
-	
+	/**
+	 * 检查文件名的合法性
+	 * @param oldFileName
+	 * @return
+	 */
+	private String checkFileName(String oldFileName){
+		 String[] array = oldFileName.split("_");
+		  if(array.length<2||Strings.isNullOrEmpty(array[0])){
+			  LogSystem.info("不合法的文件名"+oldFileName);
+			  throw new ServiceException(2, "上传图片失败！请重新上传！图片格式不正确，type=2的时候要按照规则执行，bigId#smallid_本地文件名.jpg,当前文件名为:"+oldFileName);
+		  }
+		  String bigAndSmallId = array[0];
+		  String[] bas = bigAndSmallId.split("#");
+		  if(bas.length!=2){
+			  LogSystem.info("不合法的文件名"+oldFileName);
+			  throw new ServiceException(2, "上传图片失败！请重新上传！图片格式不正确，type=2的时候要按照规则执行，bigId#smallid_本地文件名.jpg,当前文件名为:"+oldFileName);
+		  }
+		  try {
+			  int bigId = Integer.valueOf(bas[0]);
+			  int smallId = Integer.valueOf(bas[1]);
+		} catch (Exception e) {
+			 LogSystem.info("不合法的文件名"+oldFileName);
+			 throw new ServiceException(2, "上传图片失败！请重新上传！图片格式不正确，type=2的时候要按照规则执行，bigId#smallid_本地文件名.jpg,当前文件名为:"+oldFileName);
+		}
+		return bigAndSmallId;
+	}
 	
 	private String joinStr(String befor,String add){
 		if(Strings.isNullOrEmpty(befor)){

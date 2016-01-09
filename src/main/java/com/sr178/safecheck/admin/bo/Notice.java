@@ -13,10 +13,17 @@ public class Notice{
 	private String noticeTitle;
 	private String noticeContent;
 	private int status;
+	private int read;
 	private Date addTime;
 	private String attachMent;
 	private String departMent;
 	
+	public int getRead() {
+		return read;
+	}
+	public void setRead(int read) {
+		this.read = read;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -60,5 +67,6 @@ public class Notice{
 	public void setDepartMent(String departMent) {
 		this.departMent = departMent;
 	}
+	
 }
 

@@ -1,7 +1,6 @@
 package com.sr178.safecheck.admin.bo;
 
 import java.util.Date;
-import java.util.List;
 
 import org.apache.struts2.json.annotations.JSON;
    /**
@@ -13,7 +12,7 @@ public class CheckRecord{
 	private Integer id;
 	private String cpName;
 	private String cn;
-	private String checkItemId;
+	private int checkItemId;
 	private String checkItemName;
 	private String checkResult;
 	private String checkUsername;
@@ -103,10 +102,10 @@ public class CheckRecord{
 	public void setCn(String cn) {
 		this.cn = cn;
 	}
-	public String getCheckItemId() {
+	public int getCheckItemId() {
 		return checkItemId;
 	}
-	public void setCheckItemId(String checkItemId) {
+	public void setCheckItemId(int checkItemId) {
 		this.checkItemId = checkItemId;
 	}
 	public String getCheckResult() {

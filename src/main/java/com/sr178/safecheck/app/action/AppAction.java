@@ -41,7 +41,10 @@ public class AppAction extends AppBaseActionSupport {
 		AppService appService = ServiceCacheFactory.getService(AppService.class);
 		return renderObjectResult(appService.checkDetails(id));
 	}
-	
+	/**
+	 * 模糊查询企业列表
+	 * @return
+	 */
 	public String companyList(){
 		AppService appService = ServiceCacheFactory.getService(AppService.class);
 		return renderListResult(appService.companyList(cpName));
@@ -59,11 +62,14 @@ public class AppAction extends AppBaseActionSupport {
 	 */
 	private String cpName;
 	private String position;
-	private String checkIds;
+	private int checkId;
 	private Long checkTime;
+	private String checkResult;
+	private String resPersonName;
+	private String resPersonCall;
 	public String saveCheck(){
 		AppService appService = ServiceCacheFactory.getService(AppService.class);
-		return renderKeyValueResult("taskId", appService.saveCheck(super.getLoginUser(), cpName, checkIds,position,checkTime));
+		return renderKeyValueResult("taskId", appService.saveCheck(super.getLoginUser(), cpName, checkId, position, checkTime, resPersonName, resPersonCall, checkResult));
 	}
 	
 	/**
@@ -99,18 +105,24 @@ public class AppAction extends AppBaseActionSupport {
 	private String searchStr;
 	public String newsList(){
 		AppService appService = ServiceCacheFactory.getService(AppService.class);
-		return renderPageResult(appService.getPageNotice(searchStr,pageNo, pageSize));
+		return renderPageResult(appService.getPageNotice(searchStr,super.getLoginUser(),pageNo, pageSize));
 	}
-	
 	/**
 	 * 查询新闻内容
 	 */
 	private int newsId;
 	public String newsContent(){
 		AppService appService = ServiceCacheFactory.getService(AppService.class);
-		return renderObjectResult(appService.getNotice(newsId));
+		return renderObjectResult(appService.getNotice(super.getLoginUser(),newsId));
 	}
-	
+	/**
+	 * 获取用户未读消息条数
+	 * @return
+	 */
+	public String noReadNum(){
+		AppService appService = ServiceCacheFactory.getService(AppService.class);
+		return renderObjectResult(appService.noReadNum(super.getLoginUser()));
+	}
 	/**
 	 * 图片上传
 	 */
@@ -125,8 +137,6 @@ public class AppAction extends AppBaseActionSupport {
 		appService.saveFiles(images,imagesFileName,taskId, type, descDirectoryPath);
 		return renderSuccessResult();
 	}
-	
-	
 	public int getPageNo() {
 		return pageNo;
 	}
@@ -175,11 +185,29 @@ public class AppAction extends AppBaseActionSupport {
 	public void setPosition(String position) {
 		this.position = position;
 	}
-	public String getCheckIds() {
-		return checkIds;
+	public int getCheckId() {
+		return checkId;
 	}
-	public void setCheckIds(String checkIds) {
-		this.checkIds = checkIds;
+	public void setCheckId(int checkId) {
+		this.checkId = checkId;
+	}
+	public String getCheckResult() {
+		return checkResult;
+	}
+	public void setCheckResult(String checkResult) {
+		this.checkResult = checkResult;
+	}
+	public String getResPersonName() {
+		return resPersonName;
+	}
+	public void setResPersonName(String resPersonName) {
+		this.resPersonName = resPersonName;
+	}
+	public String getResPersonCall() {
+		return resPersonCall;
+	}
+	public void setResPersonCall(String resPersonCall) {
+		this.resPersonCall = resPersonCall;
 	}
 	public Long getCheckTime() {
 		return checkTime;
