@@ -7,7 +7,7 @@
   String current = request.getParameter("current");
   AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
   String id = session.getId();
-  String userName = adminService.isLogin(id);
+  String userName = adminService.isLogin(id).getUserName();
   AdminUser adminUser = adminService.getAdminUser(userName);
   String class1 = "\"li1\"";
   String class2 = "\"li2\"";

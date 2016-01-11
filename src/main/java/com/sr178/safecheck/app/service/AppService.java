@@ -191,13 +191,12 @@ public class AppService {
 		ParamCheck.checkString(resPersonName, 5, "现场负责人不能为空");
 		ParamCheck.checkString(resPersonCall, 6, "现场负责人电话不能为空");
 		
-		checkResultAvalidate(checkResult);
+		boolean result = checkResultAvalidate(checkResult);
 		
 		User user = userDao.get(new SqlParamBean("user_name", userName));
 		CheckRecord checkRecord = new CheckRecord();
 		checkRecord.setCheckUsername(userName);
 		checkRecord.setCheckerName(user.getName());
-//		checkRecord.setCheckItems(checkIds);
 		checkRecord.setCheckItemId(checkId);
 		checkRecord.setCheckTime(new Date(checkTime));
 		checkRecord.setPosition(position);
@@ -208,19 +207,57 @@ public class AppService {
 		int resourceId = addResource();
 		checkRecord.setResourceId(resourceId);
 		checkRecord.setCheckServerTime(new Date());
+		checkRecord.setPassStatus(result?1:0);
 		checkRecordDao.add(checkRecord);
 		return resourceId;
 	}
 	
-	private void checkResultAvalidate(String checkResult){
+	/**
+	 * 是否全部通过
+	 * @param checkResult
+	 * @return
+	 */
+	private boolean checkResultAvalidate(String checkResult){
 		String[] strArray =  checkResult.split(":");
+		boolean result = true;
 		for(String str:strArray){
 			String[] items = str.split(",");
 			if(items.length!=4){
 				LogSystem.info("错误的检查结果，checkResult="+checkResult);
 				throw new ServiceException(100, "检查结果格式不对！条目间以英文冒号隔开，小项间用英文逗号隔开，【"+str+"】的拼接不符合规范，逗号隔开后，必须要有4个元素。现在只有["+items.length+"]");
 			}
+			try {
+				int bigid = Integer.valueOf(items[0]);
+				int smallId = Integer.valueOf(items[1]);
+				CheckItems resultItemBig = checkItemsDao.get(new SqlParamBean("id", bigid));
+				CheckItems resultItemSmall = checkItemsDao.get(new SqlParamBean("id", smallId));
+				if(resultItemBig==null){
+					throw new ServiceException(101, "大项id不存在，bigid="+items[0]); 
+				}
+				if(resultItemSmall==null){
+					throw new ServiceException(101, "小项id不存在，bigid="+items[1]); 
+				}
+			} catch (Exception e) {
+				throw new ServiceException(101, "结果对应的大项或小项id错误,id应该为数字类型，但现在不是，bigid="+items[0]+",or smallid="+items[1]); 
+			}
+			
+			String[] resultIds = items[2].split("\\|");
+			for(String idStr:resultIds){
+				try {
+					int id = Integer.valueOf(idStr);
+					CheckItems resultItem = checkItemsDao.get(new SqlParamBean("id", id));
+					if(resultItem==null){
+						throw new ServiceException(101, "结果id不存在,id="+id);
+					}
+					if(resultItem.getSuccessOrFail()==0){
+						result = false;
+					}
+				} catch (Exception e) {
+					throw new ServiceException(101, "结果id错误,id应该为数字类型，但现在不是，id="+idStr);
+				}
+			}
 		}
+		return result;
 	}
 	
 	/**
@@ -346,8 +383,8 @@ public class AppService {
 			  throw new ServiceException(2, "上传图片失败！请重新上传！图片格式不正确，type=2的时候要按照规则执行，bigId#smallid_本地文件名.jpg,当前文件名为:"+oldFileName);
 		  }
 		  try {
-			  int bigId = Integer.valueOf(bas[0]);
-			  int smallId = Integer.valueOf(bas[1]);
+			  Integer.valueOf(bas[0]);
+			  Integer.valueOf(bas[1]);
 		} catch (Exception e) {
 			 LogSystem.info("不合法的文件名"+oldFileName);
 			 throw new ServiceException(2, "上传图片失败！请重新上传！图片格式不正确，type=2的时候要按照规则执行，bigId#smallid_本地文件名.jpg,当前文件名为:"+oldFileName);
@@ -570,11 +607,14 @@ public class AppService {
 	public static void main(String[] args) {
 //		TrainResordBean bean = trainRecod("T510502198803067812");
 //		System.out.println(bean.toString());
-		List<TrainRecordSimple> list = trainSimpleByIdCard("510502198803067812","T510502198803067812");
-
-		for(TrainRecordSimple trainRecordSimple:list){
-			System.out.println(trainRecordSimple.toString());
-		}
+//		List<TrainRecordSimple> list = trainSimpleByIdCard("510502198803067812","T510502198803067812");
+//
+//		for(TrainRecordSimple trainRecordSimple:list){
+//			System.out.println(trainRecordSimple.toString());
+//		}
+		String sst = "1#2#3";
+		String[] str = sst.split("#");
+		System.out.println(str.length);
 	}
 
 }

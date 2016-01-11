@@ -1,5 +1,6 @@
 package com.sr178.safecheck.app.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.google.common.base.Strings;
@@ -14,6 +15,11 @@ public class EnforceRecordDao extends SfDaoBase<EnforceRecord> {
 	public List<EnforceRecord> getEnforceRecordGroupByCpName(List<String> cpNames){
 		String sql = "select * from (select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as er left join resource as r on er.resource_id=r.resource_id where er.cp_name in("+SqlUtil.joinStr(cpNames)+") order by er.enforce_time desc,er.id desc)cc group by cc.cp_name";
 		return super.getJdbc().getList(sql, EnforceRecord.class);
+	}
+	
+	public List<EnforceRecord> getEnforceRecordByDate(Date startTime,Date endTime,String cpName){
+		String sql = "select * from (select er.*,r.resource_1_names,r.resource_2_names,r.resource_3_names from "+super.getTable()+" as er left join resource as r on er.resource_id=r.resource_id where er.cp_name=? and er.enforce_time between ? and ? order by er.enforce_time desc,er.id desc)cc";
+		return super.getJdbc().getList(sql, EnforceRecord.class,SqlParameter.Instance().withString(cpName).withObject(startTime).withObject(endTime));
 	}
 	
 	

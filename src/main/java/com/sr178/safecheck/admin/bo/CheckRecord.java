@@ -27,6 +27,7 @@ public class CheckRecord{
 	private Date checkServerTime;
 	private String resPersonName;
 	private String resPersonCall;
+	private int passStatus;//1全部通过  0 未全部通过
 	
 	public Integer getId() {
 		return id;
@@ -137,6 +138,12 @@ public class CheckRecord{
 	}
 	public void setCheckItemName(String checkItemName) {
 		this.checkItemName = checkItemName;
+	}
+	public int getPassStatus() {
+		return passStatus;
+	}
+	public void setPassStatus(int passStatus) {
+		this.passStatus = passStatus;
 	}
 }
 

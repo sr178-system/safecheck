@@ -22,6 +22,7 @@ public class EnforceRecord{
 	private String resource1Names;
 	private String resource2Names;
 	private String resource3Names;
+	private String resource4Names;
 	
 	public Integer getId() {
 		return id;
@@ -96,6 +97,12 @@ public class EnforceRecord{
 	}
 	public void setUn(String un) {
 		this.un = un;
+	}
+	public String getResource4Names() {
+		return resource4Names;
+	}
+	public void setResource4Names(String resource4Names) {
+		this.resource4Names = resource4Names;
 	}
 }
 

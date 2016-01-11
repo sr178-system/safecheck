@@ -2,6 +2,7 @@ package com.sr178.safecheck.app.dao;
 
 import java.util.List;
 
+import com.google.common.base.Strings;
 import com.sr178.common.jdbc.SqlParameter;
 import com.sr178.safecheck.admin.bo.CheckItems;
 import com.sr178.safecheck.app.bo.BigCheckItemBO;
@@ -19,9 +20,13 @@ public class CheckItemsDao extends SfDaoBase<CheckItems> {
 	}
 	
 	public List<BigCheckItemBO> getBigCheckItemBOList(String departMent){
-		String sql = "select id,item_title from "+super.getTable()+" where departMent=? and parent_id=0";
+		String sql = "select id,item_title from "+super.getTable()+" where parent_id=0";
 		SqlParameter parameter = SqlParameter.Instance();
-		parameter.withString(departMent);
+		if(!Strings.isNullOrEmpty(departMent)){
+			sql = sql +" and departMent=?";
+			parameter.withString(departMent);
+		}
 		return super.getJdbc().getList(sql, BigCheckItemBO.class, parameter);
 	}
+	
 }

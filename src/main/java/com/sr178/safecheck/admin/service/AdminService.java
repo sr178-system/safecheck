@@ -18,9 +18,13 @@ import com.google.common.collect.Maps;
 import com.sr178.common.jdbc.bean.IPage;
 import com.sr178.common.jdbc.bean.Page;
 import com.sr178.common.jdbc.bean.SqlParamBean;
+import com.sr178.game.framework.log.LogSystem;
+import com.sr178.safecheck.admin.bean.CheckRecordDetailsBean;
+import com.sr178.safecheck.admin.bean.CheckResultBean;
 import com.sr178.safecheck.admin.bean.JcdcBean;
 import com.sr178.safecheck.admin.bean.JctjBean;
 import com.sr178.safecheck.admin.bean.MixCheckAndEnforceBean;
+import com.sr178.safecheck.admin.bean.UserInfo;
 import com.sr178.safecheck.admin.bo.AdminUser;
 import com.sr178.safecheck.admin.bo.CheckItems;
 import com.sr178.safecheck.admin.bo.CheckRecord;
@@ -28,11 +32,14 @@ import com.sr178.safecheck.admin.bo.EnforceRecord;
 import com.sr178.safecheck.admin.bo.Notice;
 import com.sr178.safecheck.admin.bo.User;
 import com.sr178.safecheck.admin.dao.AdminUserDao;
+import com.sr178.safecheck.app.bean.ZeroCheckItemBean;
+import com.sr178.safecheck.app.bo.BigCheckItemBO;
 import com.sr178.safecheck.app.dao.CheckItemsDao;
 import com.sr178.safecheck.app.dao.CheckRecordDao;
 import com.sr178.safecheck.app.dao.EnforceRecordDao;
 import com.sr178.safecheck.app.dao.NoticeDao;
 import com.sr178.safecheck.app.dao.UserDao;
+import com.sr178.safecheck.app.service.AppService;
 import com.sr178.safecheck.common.exception.ServiceException;
 import com.sr178.safecheck.common.utils.MacShaUtils;
 import com.sr178.safecheck.common.utils.ParamCheck;
@@ -44,7 +51,7 @@ public class AdminService {
 	public static final String AND = "and";
 	public static final String OR = "or";
 
-  	private Cache<String,String> userSession = CacheBuilder.newBuilder().expireAfterAccess(30, TimeUnit.MINUTES).maximumSize(2000).build();
+  	private Cache<String,UserInfo> userSession = CacheBuilder.newBuilder().expireAfterAccess(30, TimeUnit.MINUTES).maximumSize(2000).build();
 
 	@Autowired
 	private UserDao userDao;
@@ -58,6 +65,8 @@ public class AdminService {
 	private NoticeDao noticeDao;
 	@Autowired
 	private AdminUserDao adminUserDao;
+	@Autowired
+	private AppService appService;
 	
 	private static final String SHA_SECRET = "!@#asDFA55214644";
 	/**
@@ -74,7 +83,7 @@ public class AdminService {
 	 * @param sessionId
 	 * @return
 	 */
-	public String isLogin(String sessionId) {
+	public UserInfo isLogin(String sessionId) {
 		return userSession.getIfPresent(sessionId);
 	}
     /**
@@ -86,13 +95,33 @@ public class AdminService {
 	public void login(String userName, String passWord,String sessionId) {
 		passWord = MacShaUtils.doEncryptBase64(passWord, SHA_SECRET);
 		AdminUser adminUser = adminUserDao.get(new SqlParamBean("user_name", userName), new SqlParamBean(AND, "pass_word", passWord));
+		UserInfo userInfo = new UserInfo();
 		if(adminUser==null){
-			throw new ServiceException(1, "用户名或密码错误！");
+			User user = userDao.get(new SqlParamBean("user_name", userName), new SqlParamBean(AND, "pass_word", passWord));
+			if(user==null){
+				throw new ServiceException(1, "用户名或密码错误！");
+			}else if(user.getStatus()==1){
+				throw new ServiceException(2, "该用户已被禁用，请及时联系管理员！");
+			}
+			userInfo.setUserName(userName);
+			userInfo.setRoleType(0);
+			userInfo.setName(user.getName());
+			userInfo.setDepartMent(user.getDepartMent());
+		}else{
+			if(adminUser.getStatus()==1){
+				throw new ServiceException(2, "该用户已被禁用，请及时联系管理员！");
+			}
+			userInfo.setUserName(userName);
+			if(!Strings.isNullOrEmpty(adminUser.getDepartMent())){
+				userInfo.setRoleType(1);
+				userInfo.setDepartMent(adminUser.getDepartMent());
+				userInfo.setName(adminUser.getName());
+			}else{
+				userInfo.setRoleType(2);
+				userInfo.setName(adminUser.getName());
+			}
 		}
-		if(adminUser.getStatus()==1){
-			throw new ServiceException(2, "该用户已被禁用，请及时联系管理员！");
-		}
-		userSession.put(sessionId, adminUser.getUserName());
+		userSession.put(sessionId, userInfo);
 	}
 	/**
 	 * 登出
@@ -100,6 +129,181 @@ public class AdminService {
 	 */
 	public void loginout(String sessionId){
 		userSession.invalidate(sessionId);
+	}
+	/**
+	 * 查询检查记录
+	 * @param sessionId
+	 * @param startDate
+	 * @param endDate
+	 * @param cpName
+	 * @param checkName
+	 * @param checkId
+	 * @param checkResult
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	public IPage<CheckRecord> getCheckRecordPage(String sessionId,String startDate,String endDate,String cpName,String checkName,Integer checkId,Integer checkResult,int pageIndex,int pageSize){
+		UserInfo userInfo = this.isLogin(sessionId);
+		String departMent = null;
+		if(userInfo.getRoleType()==0){
+			//普通用户只能看到自己的记录
+			checkName = userInfo.getName();
+		}else if(userInfo.getRoleType()==1){//部门管理员只能看到自己部门的检查记录
+			departMent = userInfo.getDepartMent();
+		}
+		return checkRecordDao.getCheckRecordPage(departMent, startDate, endDate, cpName, checkName, checkId, checkResult, pageIndex, pageSize);
+	}
+	/**
+	 * 获取当前登录用户的所有大类型
+	 * @param sessionId
+	 * @return
+	 */
+	public List<BigCheckItemBO> getAllParentCheckItems(String sessionId){
+		UserInfo userInfo = this.isLogin(sessionId);
+		String departMent = null;
+		if(userInfo.getRoleType()==0||userInfo.getRoleType()==1){
+			departMent = userInfo.getDepartMent();
+		}
+		return checkItemsDao.getBigCheckItemBOList(departMent);
+	}
+	
+	/**
+	 * 检查记录详情
+	 * @param recordId
+	 * @return
+	 */
+	public CheckRecordDetailsBean getCheckRecordDetailsBean(int recordId){
+		CheckRecordDetailsBean result = new CheckRecordDetailsBean();
+		CheckRecord record = checkRecordDao.getCheckRecord(recordId);
+		if(record==null){
+			throw new ServiceException(1, "检查记录不存在");
+		}
+		ZeroCheckItemBean checkModelBean = appService.checkDetails(recordId);
+		String checkResult = record.getCheckResult();
+		Map<String,CheckResultBean> map = transferToCheckResultBeanMap(checkResult, record);
+		result.setCheckRecord(record);
+		result.setCheckModelBean(checkModelBean);
+		result.setResultMap(map);
+		result.setEnforceList(getEnforceRecordList(record.getCheckTime(), record.getCpName()));
+		return result;
+	}
+	
+	/**
+	 * 获取检查记录相关的执法记录
+	 * @param checkTime
+	 * @param cpName
+	 * @return
+	 */
+	private List<EnforceRecord> getEnforceRecordList(Date checkTime,String cpName){
+		Date nextTime = checkRecordDao.getNextCheckTime(checkTime,cpName);
+		List<EnforceRecord> enList = enforceRecordDao.getEnforceRecordByDate(checkTime, nextTime, cpName);
+		return enList;
+	}
+	/**
+	 * 
+	 * @param checkResult
+	 * @param checkRecord
+	 * @return  key为:[大项id+"#"+小项id],value为[检查的结果情况，包括结果选项，情况说明及资源地址]
+	 */
+	private Map<String,CheckResultBean> transferToCheckResultBeanMap(String checkResult,CheckRecord checkRecord){
+		String[] strArray =  checkResult.split(":");
+		Map<String,CheckResultBean> result = Maps.newHashMap();
+		Map<String,List<String>> photoMap = getItemPhoto(checkRecord.getResource2Names());
+		for(String str:strArray){
+			CheckResultBean temp = trasferToCheckResultBean(str);
+			if(temp==null){
+				continue;
+			}
+			String key = temp.getFirstItem().getId().intValue()+"#"+temp.getSecondItem().getId().intValue();
+			temp.setResource(photoMap.get(key));
+			result.put(key, temp);
+		}
+		return result;
+	}
+	/**
+	 * 解析图片资源对应的项map
+	 * @param resourceStr
+	 * @return
+	 */
+	private Map<String,List<String>> getItemPhoto(String resourceStr){
+		String[] resources = resourceStr.split(",");
+		Map<String,List<String>> result = Maps.newHashMap();
+		for(String resource:resources){
+			 String[] array = resource.split("_");
+			  if(array.length<2||Strings.isNullOrEmpty(array[0])){
+				  LogSystem.warn("不合法的文件名"+resource);
+				  continue;
+			  }
+			  String bigAndSmallId = array[0];
+			  String[] bas = bigAndSmallId.split("#");
+			  if(bas.length!=2){
+				  LogSystem.warn("不合法的文件名"+resource);
+				  continue;
+			  }
+			  try {
+				  Integer.valueOf(bas[0]);
+				  Integer.valueOf(bas[1]);
+			} catch (Exception e) {
+				 LogSystem.warn("不合法的文件名"+resource);
+				 continue;
+			}
+			if(result.containsKey(bigAndSmallId)){
+				List<String> list = result.get(bigAndSmallId);
+				list.add(resource);
+			}else{
+				List<String> list = Lists.newArrayList();
+				list.add(resource);
+				result.put(bigAndSmallId, list);
+			}
+		}
+		return result;
+	}
+	/**
+	 * 填充CheckResultBean的大项及小项名称及结果 及说明情况
+	 * @param resultItems
+	 * @return
+	 */
+	private CheckResultBean trasferToCheckResultBean(String resultItems){
+		CheckResultBean result = new CheckResultBean();
+		String[] items = resultItems.split(",");
+		if(items.length!=4){
+			 return null;
+		}
+		try {
+			int bigid = Integer.valueOf(items[0]);
+			int smallId = Integer.valueOf(items[1]);
+			CheckItems resultItemBig = checkItemsDao.get(new SqlParamBean("id", bigid));
+			CheckItems resultItemSmall = checkItemsDao.get(new SqlParamBean("id", smallId));
+			if(resultItemBig==null){
+				return null; 
+			}
+			result.setFirstItem(resultItemBig);
+			if(resultItemSmall==null){
+				return null; 
+			}
+			result.setSecondItem(resultItemSmall);
+		} catch (Exception e) {
+			return null;
+		}
+		String[] resultIds = items[2].split("\\|");
+		List<CheckItems> resultList = Lists.newArrayList();
+		for(String idStr:resultIds){
+			try {
+				int id = Integer.valueOf(idStr);
+				CheckItems resultItem = checkItemsDao.get(new SqlParamBean("id", id));
+				if(resultItem==null){
+					LogSystem.warn("无法找到结果id=["+idStr+"]");
+					continue;
+				}
+				resultList.add(resultItem);
+			} catch (Exception e) {
+				LogSystem.warn("结果id错误,id应该为数字类型，但现在不是，id="+idStr);
+				continue;
+			}
+		}
+		result.setDescription(items[3]);
+		return result;
 	}
 	/**
 	 * 获取检查项Map
@@ -239,17 +443,17 @@ public class AdminService {
 	 * @param pageSize
 	 * @return
 	 */
-	public IPage<CheckRecord> getCheckRecordPage(String cpName,int pageIndex,int pageSize){
-		IPage<CheckRecord> page =  checkRecordDao.getCheckRecordByCpName(cpName, pageIndex, pageSize);
-		if(page!=null&&page.getData()!=null){
-			//设置检查项
-			Map<Integer,CheckItems> checkItemsMap = getCheckItemsMap();
-			for(CheckRecord record:page.getData()){
-//				record.setCheckItemNames(idsToNames(record.getCheckItems(), checkItemsMap));
-			}
-		}
-		return page;
-	}
+//	public IPage<CheckRecord> getCheckRecordPage(String cpName,int pageIndex,int pageSize){
+//		IPage<CheckRecord> page =  checkRecordDao.getCheckRecordByCpName(cpName, pageIndex, pageSize);
+//		if(page!=null&&page.getData()!=null){
+//			//设置检查项
+//			Map<Integer,CheckItems> checkItemsMap = getCheckItemsMap();
+//			for(CheckRecord record:page.getData()){
+////				record.setCheckItemNames(idsToNames(record.getCheckItems(), checkItemsMap));
+//			}
+//		}
+//		return page;
+//	}
 	
 	
 	/**
