@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
+Source Server         : localhost
 Source Server Version : 50624
 Source Host           : localhost:3306
 Source Database       : safe_check_v2
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-01-11 16:50:47
+Date: 2016-01-12 00:32:18
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -84,6 +84,7 @@ CREATE TABLE `check_record` (
   `check_server_time` datetime NOT NULL,
   `res_person_name` varchar(32) DEFAULT NULL,
   `res_person_call` varchar(32) DEFAULT NULL,
+  `pass_status` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `cp_Name` (`cp_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
@@ -91,14 +92,14 @@ CREATE TABLE `check_record` (
 -- ----------------------------
 -- Records of check_record
 -- ----------------------------
-INSERT INTO `check_record` VALUES ('1', '我1们', '0', null, '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', null, null);
-INSERT INTO `check_record` VALUES ('2', '我2们', '0', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
-INSERT INTO `check_record` VALUES ('3', '我3们', '0', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
-INSERT INTO `check_record` VALUES ('4', '我4们', '0', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
-INSERT INTO `check_record` VALUES ('5', '我5们', '0', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
-INSERT INTO `check_record` VALUES ('6', '我6们', '0', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
-INSERT INTO `check_record` VALUES ('7', '我7们', '0', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
-INSERT INTO `check_record` VALUES ('8', '我8们', '0', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '');
+INSERT INTO `check_record` VALUES ('1', '我1们', '1', null, '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', null, null, '0');
+INSERT INTO `check_record` VALUES ('2', '我2们', '2', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '', '0');
+INSERT INTO `check_record` VALUES ('3', '我3们', '3', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '', '0');
+INSERT INTO `check_record` VALUES ('4', '我4们', '4', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '', '0');
+INSERT INTO `check_record` VALUES ('5', '我5们', '5', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '', '0');
+INSERT INTO `check_record` VALUES ('6', '我6们', '6', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '', '0');
+INSERT INTO `check_record` VALUES ('7', '我7们', '7', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '', '0');
+INSERT INTO `check_record` VALUES ('8', '我8们', '8', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '', '0');
 
 -- ----------------------------
 -- Table structure for enforce_record
