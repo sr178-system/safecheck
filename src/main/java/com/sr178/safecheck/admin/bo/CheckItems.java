@@ -17,6 +17,7 @@ public class CheckItems{
 	private String departMent;
 	private int layer;
 	private String lastEditName;
+	private int successOrFail;
 	
 	public Integer getId() {
 		return id;
@@ -67,6 +68,11 @@ public class CheckItems{
 	public void setLastEditName(String lastEditName) {
 		this.lastEditName = lastEditName;
 	}
-	
+	public int getSuccessOrFail() {
+		return successOrFail;
+	}
+	public void setSuccessOrFail(int successOrFail) {
+		this.successOrFail = successOrFail;
+	}
 }
 
