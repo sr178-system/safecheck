@@ -1,14 +1,12 @@
 package com.sr178.safecheck.admin.action;
 
-import java.util.Date;
 import java.util.List;
 
 import com.sr178.game.framework.context.ServiceCacheFactory;
-import com.sr178.safecheck.admin.bo.AdminUser;
+import com.sr178.safecheck.admin.bean.UserInfo;
 import com.sr178.safecheck.admin.bo.User;
 import com.sr178.safecheck.admin.service.AdminService;
 import com.sr178.safecheck.common.action.ALDAdminPageActionSupport;
-import com.sr178.safecheck.common.utils.DateUtils;
 
 public class UserAction extends ALDAdminPageActionSupport<User> {
 	/**
@@ -21,9 +19,11 @@ public class UserAction extends ALDAdminPageActionSupport<User> {
 	 * 获取当前管理员下的用户列表
 	 * @return
 	 */
+	private String uname;
+	private String departMent;
 	public String showListu(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
-		super.initPage(adminService.getUserPageList(super.getUserName(),super.getToPage(), 10));
+		super.initPage(adminService.getUserPageList(super.getSessionId(),uname,name,departMent,super.getToPage(), 10));
 		return SUCCESS;
 	}
 	/**
@@ -49,7 +49,7 @@ public class UserAction extends ALDAdminPageActionSupport<User> {
 		return SUCCESS;
 	}
 	/**
-	 * 编辑管理员
+	 * 编辑执法人员
 	 */
 	private String adminUserName;
 	private String passWord;
@@ -57,20 +57,17 @@ public class UserAction extends ALDAdminPageActionSupport<User> {
 	private String name;
 	private String call;
 	private String remark;
-	private String upUser;
-	private String birthday;
-	private List<AdminUser> admins;
+	private List<String> dps;
 	private User user;
 	public String editUser(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		if(st==0){
-			admins = adminService.getAllAdminUser();
+			dps = adminService.getMyDepartMent(super.getSessionId());
 			user = adminService.getByUserName(adminUserName);
 			return INPUT;
 		}
-		
-		Date birth = DateUtils.StringToDate(birthday);
-		adminService.editUsers(adminUserName, passWord, sex, name, call, remark, upUser, birth);
+		UserInfo userInfo = adminService.isLogin(super.getSessionId());
+		adminService.editUsers(adminUserName, passWord, sex, name, call, remark, departMent,userInfo.getName());
 		super.setCode(2001);
 		return SUCCESS;
 	}
@@ -78,15 +75,14 @@ public class UserAction extends ALDAdminPageActionSupport<User> {
 	 * 添加管理员
 	 * @return
 	 */
-	
 	public String addUser(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		if(st==0){
-			admins = adminService.getAllAdminUser();
+			dps = adminService.getMyDepartMent(super.getSessionId());
 			return INPUT;
 		}
-		Date birth = DateUtils.StringToDate(birthday);
-		adminService.addUsers(adminUserName, passWord, sex, name, call, remark, upUser, birth);
+		UserInfo userInfo = adminService.isLogin(super.getSessionId());
+		adminService.addUsers(adminUserName, passWord, sex, name, call, remark, departMent,userInfo.getName());
 		super.setCode(2000);
 		return SUCCESS;
 	}
@@ -155,37 +151,34 @@ public class UserAction extends ALDAdminPageActionSupport<User> {
 		this.remark = remark;
 	}
 
-	public String getUpUser() {
-		return upUser;
-	}
-
-	public void setUpUser(String upUser) {
-		this.upUser = upUser;
-	}
-
-	public String getBirthday() {
-		return birthday;
-	}
-
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
-	}
 	public String[] getUserNames() {
 		return userNames;
 	}
 	public void setUserNames(String[] userNames) {
 		this.userNames = userNames;
 	}
-	public List<AdminUser> getAdmins() {
-		return admins;
-	}
-	public void setAdmins(List<AdminUser> admins) {
-		this.admins = admins;
-	}
 	public User getUser() {
 		return user;
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public String getUname() {
+		return uname;
+	}
+	public void setUname(String uname) {
+		this.uname = uname;
+	}
+	public String getDepartMent() {
+		return departMent;
+	}
+	public void setDepartMent(String departMent) {
+		this.departMent = departMent;
+	}
+	public List<String> getDps() {
+		return dps;
+	}
+	public void setDps(List<String> dps) {
+		this.dps = dps;
 	}
 }

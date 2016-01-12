@@ -19,7 +19,7 @@ public class AdminUserDao extends SfDaoBase<AdminUser> {
 	 * @return
 	 */
 	public boolean deleteAdmins(List<String> admins){
-		String sql = "delete from "+super.getTable()+" where user_name in("+SqlUtil.joinStr(admins)+") and up_user<>''";
+		String sql = "delete from "+super.getTable()+" where user_name in("+SqlUtil.joinStr(admins)+") and depart_ment<>''";
 		return super.getJdbc().update(sql, null)>0;
 	}
 	/**
@@ -28,17 +28,21 @@ public class AdminUserDao extends SfDaoBase<AdminUser> {
 	 * @return
 	 */
 	public boolean updateAll(AdminUser adminUser){
-		String sql = "update "+super.getTable()+" set pass_word=?,name=?,sex=?,birthday=?,`call`=?,remark=?,up_user=?,status=? where user_name=? limit 1";
+		String sql = "update "+super.getTable()+" set pass_word=?,name=?,sex=?,`call`=?,remark=?,status=?,depart_ment=? where user_name=? limit 1";
 		SqlParameter parameter = SqlParameter.Instance();
 		parameter.setString(adminUser.getPassWord());
 		parameter.setString(adminUser.getName());
 		parameter.setInt(adminUser.getSex());
-		parameter.setObject(adminUser.getBirthday());
 		parameter.setString(adminUser.getCall());
 		parameter.setString(adminUser.getRemark());
-		parameter.setString(adminUser.getUpUser());
 		parameter.setInt(adminUser.getStatus());
+		parameter.setString(adminUser.getDepartMent());
 		parameter.setString(adminUser.getUserName());
 		return super.getJdbc().update(sql, parameter)>0;
+	}
+	
+	public List<String> getAllDepartMent(){
+		String sql = "select distinct depart_ment from "+super.getTable()+" where depart_ment<>''";
+		return jdbc.queryForList(sql, String.class, null);
 	}
 }

@@ -21,7 +21,6 @@ import com.sr178.common.jdbc.bean.SqlParamBean;
 import com.sr178.game.framework.log.LogSystem;
 import com.sr178.safecheck.admin.bean.CheckRecordDetailsBean;
 import com.sr178.safecheck.admin.bean.CheckResultBean;
-import com.sr178.safecheck.admin.bean.JcdcBean;
 import com.sr178.safecheck.admin.bean.JctjBean;
 import com.sr178.safecheck.admin.bean.MixCheckAndEnforceBean;
 import com.sr178.safecheck.admin.bean.UserInfo;
@@ -73,10 +72,20 @@ public class AdminService {
 	 * 获取所有管理原用户
 	 * @return
 	 */
-	public List<AdminUser> getAllAdminUser(){
-		return adminUserDao.getAll();
-	}
+//	public List<AdminUser> getAllAdminUser(){
+//		return adminUserDao.getAll();
+//	}
 
+	public List<String> getMyDepartMent(String sessionId){
+		UserInfo userInfo = this.isLogin(sessionId);
+		if(userInfo.getRoleType()==1){
+			List<String> result = Lists.newArrayList();
+			result.add(userInfo.getDepartMent());
+			return result;
+		}else{
+			return adminUserDao.getAllDepartMent();
+		}
+	}
 	/**
 	 * 查看是否登录了
 	 * 
@@ -463,51 +472,51 @@ public class AdminService {
 	 * @param pageSize
 	 * @return
 	 */
-	public IPage<JcdcBean> getJcdcBeanPageList(String adminUserName,String searchUn,int pageIndex,int pageSize){
-		AdminUser adminUser = adminUserDao.get(new SqlParamBean("user_name", adminUserName));
-		List<String> findUser = null;//如果是null 则是超级管理员  需要查询出全部  如果不是null  则需要查询指定数量的用户记录出来
-		long totalSize = 0;
-		
-		Collection<JcdcBean> trasferDate = new ArrayList<JcdcBean>();
-		
-		if(!Strings.isNullOrEmpty(adminUser.getUpUser())){//非超级管理员  
-			findUser = Lists.newArrayList();
-			//c查询出他的下属
-			List<User> listUser = userDao.getList(new SqlParamBean("up_user", adminUserName));
-			if(listUser!=null&&listUser.size()>0){
-				 for(User user:listUser){
-					 findUser.add(user.getUserName());
-				 }
-			}
-		}
-		IPage<EnforceRecord> recordList = null;
-		if(findUser==null||findUser.size()!=0){//是管理员 或有下属的才进行查询
-			recordList = enforceRecordDao.getEnforceRecordGroupByEnforceUserName(searchUn,findUser,pageIndex,pageSize);
-		}
-		if(recordList!=null&&recordList.getTotalSize()>0){
-			totalSize = recordList.getTotalSize();
-			List<String> haveUserNames = Lists.newArrayList();
-			for(EnforceRecord enforceRecord:recordList.getData()){
-				haveUserNames.add(enforceRecord.getUn());
-			}
-			Map<String,CheckRecord> map =  getRecentUserCheckRecord(haveUserNames);
-			JcdcBean bean = null; 
-			for(EnforceRecord enforceRecord:recordList.getData()){
-				bean = new JcdcBean();
-				bean.setEnforceRecord(enforceRecord);
-				CheckRecord recentCheckRecord = map.get(enforceRecord.getUn());
-				if(recentCheckRecord!=null){
-					bean.setCheckRecord(recentCheckRecord);
-					enforceRecord.setEnforceName(recentCheckRecord.getCheckerName());
-				}
-				bean.setUserName(enforceRecord.getUn());
-				trasferDate.add(bean);
-			}
-			
-		}
-		IPage<JcdcBean> result = new Page<JcdcBean>(trasferDate, totalSize, pageSize, pageIndex);
-		return result;
-	}
+//	public IPage<JcdcBean> getJcdcBeanPageList(String adminUserName,String searchUn,int pageIndex,int pageSize){
+//		AdminUser adminUser = adminUserDao.get(new SqlParamBean("user_name", adminUserName));
+//		List<String> findUser = null;//如果是null 则是超级管理员  需要查询出全部  如果不是null  则需要查询指定数量的用户记录出来
+//		long totalSize = 0;
+//		
+//		Collection<JcdcBean> trasferDate = new ArrayList<JcdcBean>();
+//		
+//		if(!Strings.isNullOrEmpty(adminUser.getUpUser())){//非超级管理员  
+//			findUser = Lists.newArrayList();
+//			//c查询出他的下属
+//			List<User> listUser = userDao.getList(new SqlParamBean("up_user", adminUserName));
+//			if(listUser!=null&&listUser.size()>0){
+//				 for(User user:listUser){
+//					 findUser.add(user.getUserName());
+//				 }
+//			}
+//		}
+//		IPage<EnforceRecord> recordList = null;
+//		if(findUser==null||findUser.size()!=0){//是管理员 或有下属的才进行查询
+//			recordList = enforceRecordDao.getEnforceRecordGroupByEnforceUserName(searchUn,findUser,pageIndex,pageSize);
+//		}
+//		if(recordList!=null&&recordList.getTotalSize()>0){
+//			totalSize = recordList.getTotalSize();
+//			List<String> haveUserNames = Lists.newArrayList();
+//			for(EnforceRecord enforceRecord:recordList.getData()){
+//				haveUserNames.add(enforceRecord.getUn());
+//			}
+//			Map<String,CheckRecord> map =  getRecentUserCheckRecord(haveUserNames);
+//			JcdcBean bean = null; 
+//			for(EnforceRecord enforceRecord:recordList.getData()){
+//				bean = new JcdcBean();
+//				bean.setEnforceRecord(enforceRecord);
+//				CheckRecord recentCheckRecord = map.get(enforceRecord.getUn());
+//				if(recentCheckRecord!=null){
+//					bean.setCheckRecord(recentCheckRecord);
+//					enforceRecord.setEnforceName(recentCheckRecord.getCheckerName());
+//				}
+//				bean.setUserName(enforceRecord.getUn());
+//				trasferDate.add(bean);
+//			}
+//			
+//		}
+//		IPage<JcdcBean> result = new Page<JcdcBean>(trasferDate, totalSize, pageSize, pageIndex);
+//		return result;
+//	}
 	
 	/**
 	 * 检查督查详情页
@@ -580,17 +589,17 @@ public class AdminService {
 	}
 	
 	/**
-	 * 查询所有管理员列表
+	 * 查询所有执法人员列表
 	 * @param pageIndex
 	 * @param pageSize
 	 * @return
 	 */
-	public IPage<User> getUserPageList(String adminUser,int pageIndex,int pageSize){
-		AdminUser adminUserBean = adminUserDao.get(new SqlParamBean("user_name", adminUser));
-		if(Strings.isNullOrEmpty(adminUserBean.getUpUser())){//如果是超级管理员  则返回全部
-			return userDao.getPageList(pageIndex, pageSize, "");
+	public IPage<User> getUserPageList(String sessionId,String uname,String name,String departMent,int pageIndex,int pageSize){
+		UserInfo userInfo = this.isLogin(sessionId);
+		if(userInfo.getRoleType()==1){
+			departMent = userInfo.getDepartMent();
 		}
-		return userDao.getPageList(pageIndex, pageSize, new SqlParamBean("up_user", adminUser));
+		return userDao.getUserPageList(uname, name, departMent, pageIndex, pageSize);
 	}
 	/**
 	 * 获取一个管理员
@@ -644,19 +653,19 @@ public class AdminService {
 	 * @param upUser
 	 * @param birthday
 	 */
-	public void addAdmins(String userName,String passWord,int sex,String name,String call,String remark,String upUser,Date birthday){
+	public void addAdmins(String userName,String passWord,int sex,String name,String call,String remark,String departMent){
 		ParamCheck.checkString(userName, 1, "用户名不能为空");
 		ParamCheck.checkString(passWord, 2, "密码不能为空");
 		ParamCheck.checkString(name, 3, "名字不能为空");
 //		ParamCheck.checkString(call, 4, "电话不能为空");
-		ParamCheck.checkString(upUser, 5, "上级用户不能为空");
-//		ParamCheck.checkObject(birthday, 6, "生日不能为空");
+//		ParamCheck.checkString(upUser, 5, "上级用户不能为空");
+		ParamCheck.checkObject(departMent, 6, "部门不能为空");
 		AdminUser adminUser = adminUserDao.get(new SqlParamBean("user_name", userName));
 		if(adminUser!=null){
 			throw new ServiceException(7, "用户名已被注册了");
 		}
 		passWord = MacShaUtils.doEncryptBase64(passWord, SHA_SECRET);
-		adminUser = new AdminUser(userName, passWord, name, sex, birthday, call, remark, upUser);
+		adminUser = new AdminUser(userName, passWord, name, sex, call, remark, departMent);
 		if(!adminUserDao.add(adminUser)){
 			throw new ServiceException(8, "添加失败！");
 		}
@@ -672,19 +681,20 @@ public class AdminService {
 	 * @param upUser
 	 * @param birthday
 	 */
-	public void addUsers(String userName,String passWord,int sex,String name,String call,String remark,String upUser,Date birthday){
+	public void addUsers(String userName,String passWord,int sex,String name,String call,String remark,String departMent,String lastEditName){
 		ParamCheck.checkString(userName, 1, "用户名不能为空");
 		ParamCheck.checkString(passWord, 2, "密码不能为空");
 		ParamCheck.checkString(name, 3, "名字不能为空");
 //		ParamCheck.checkString(call, 4, "电话不能为空");
-		ParamCheck.checkString(upUser, 5, "上级用户不能为空");
+		ParamCheck.checkString(departMent, 5, "部门不能为空");
 //		ParamCheck.checkObject(birthday, 6, "生日不能为空");
 		User adminUser = userDao.get(new SqlParamBean("user_name", userName));
 		if(adminUser!=null){
 			throw new ServiceException(7, "用户名已被注册了");
 		}
 		passWord = MacShaUtils.doEncryptBase64(passWord, SHA_SECRET);
-		adminUser = new User(userName, passWord, name, sex, birthday, call, remark, upUser);
+		adminUser = new User(userName, passWord, name, sex, call, remark, departMent);
+		adminUser.setLastEditName(lastEditName);
 		if(!userDao.add(adminUser)){
 			throw new ServiceException(8, "添加失败！");
 		}
@@ -700,7 +710,7 @@ public class AdminService {
 	 * @param upUser
 	 * @param birthday
 	 */
-	public void editAdmins(String userName,String passWord,int sex,String name,String call,String remark,String upUser,Date birthday){
+	public void editAdmins(String userName,String passWord,int sex,String name,String call,String remark,String departMent){
 		ParamCheck.checkString(userName, 1, "用户名不能为空");
 		ParamCheck.checkString(name, 3, "名字不能为空");
 //		ParamCheck.checkString(call, 4, "电话不能为空");
@@ -713,9 +723,8 @@ public class AdminService {
 			passWord = MacShaUtils.doEncryptBase64(passWord, SHA_SECRET);
 		}
 		
-		AdminUser newAdminUser = new AdminUser(userName, passWord, name, sex, birthday, call, remark, upUser);
+		AdminUser newAdminUser = new AdminUser(userName, passWord, name, sex, call, remark, departMent);
 		newAdminUser.setStatus(adminUser.getStatus());
-		newAdminUser.setUpUser(adminUser.getUpUser());
 		if(Strings.isNullOrEmpty(passWord)){
 			newAdminUser.setPassWord(adminUser.getPassWord());
 		}
@@ -735,11 +744,11 @@ public class AdminService {
 	 * @param upUser
 	 * @param birthday
 	 */
-	public void editUsers(String userName,String passWord,int sex,String name,String call,String remark,String upUser,Date birthday){
+	public void editUsers(String userName,String passWord,int sex,String name,String call,String remark,String departMent,String lastEditName){
 		ParamCheck.checkString(userName, 1, "用户名不能为空");
 		ParamCheck.checkString(name, 3, "名字不能为空");
 //		ParamCheck.checkString(call, 4, "电话不能为空");
-		ParamCheck.checkString(upUser, 5, "上级用户不能为空");
+		ParamCheck.checkString(departMent, 5, "部门不能为空");
 //		ParamCheck.checkObject(birthday, 6, "生日不能为空");
 		User adminUser = userDao.get(new SqlParamBean("user_name", userName));
 		if(adminUser==null){
@@ -748,11 +757,12 @@ public class AdminService {
 		if(!Strings.isNullOrEmpty(passWord)){
 			passWord = MacShaUtils.doEncryptBase64(passWord, SHA_SECRET);
 		}
-		User newAdminUser = new User(userName, passWord, name, sex, birthday, call, remark, upUser);
+		User newAdminUser = new User(userName, passWord, name, sex, call, remark, departMent);
 		newAdminUser.setStatus(adminUser.getStatus());
 		if(Strings.isNullOrEmpty(passWord)){
 			newAdminUser.setPassWord(adminUser.getPassWord());
 		}
+		newAdminUser.setLastEditName(lastEditName);
 		if(!userDao.updateAll(newAdminUser)){
 			throw new ServiceException(8, "更新失败！");
 		}

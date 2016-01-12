@@ -25,7 +25,7 @@
 						<th width="10%">状态</th>
 						<th width="10%">姓名</th>
 						<th width="7%">性别</th>
-						<th width="13%">出生日期</th>
+						<th width="13%">部门</th>
 						<th width="15%">电话号码</th>
 						<th width="23%">备注</th>
 						<th width="8%">操作</th>
@@ -37,7 +37,7 @@
 						<c:if test="${data.status==0}"><td>已启用</td></c:if><c:if test="${data.status==1}"><td class="red">已禁用</td></c:if>
 						<td>${data.name}</td>
 						<td><c:if test="${data.sex==1}">男</c:if><c:if test="${data.sex==2}">女</c:if></td>
-						<td><fmt:formatDate value="${data.birthday}" type="both" pattern="yyyy.MM.dd"/></td>
+						<td>${data.departMent}</td>
 						<td>${data.call}</td>
 						<td style="text-align: left;">${data.remark}</td>
 						<td><a href="/admin/editAdmin?adminUserName=${data.userName}">编辑</a></td>

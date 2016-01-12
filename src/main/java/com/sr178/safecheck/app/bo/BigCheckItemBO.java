@@ -29,5 +29,8 @@ public class BigCheckItemBO {
 		this.id = check.getId();
 		this.itemTitle = check.getItemTitle();
 	}
+	public BigCheckItemBO() {
+		super();
+	}
 	
 }

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-01-12 00:32:18
+Date: 2016-01-12 23:59:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,6 +37,8 @@ CREATE TABLE `admin_user` (
 -- Records of admin_user
 -- ----------------------------
 INSERT INTO `admin_user` VALUES ('admin', 'FoxpBwf+x4bDmWQtNCx7vojz8Oc=', '超级管理员', '1', '2015-09-11', '111', '超级管理员', '', '0', null);
+INSERT INTO `admin_user` VALUES ('dogdog', 'FoxpBwf+x4bDmWQtNCx7vojz8Oc=', 'chaoge', '1', null, '', '', null, '0', '资源部');
+INSERT INTO `admin_user` VALUES ('dogdog2', 'FoxpBwf+x4bDmWQtNCx7vojz8Oc=', 'jjasdf', '1', null, '', '', null, '0', '建设部');
 
 -- ----------------------------
 -- Table structure for check_items
@@ -51,6 +53,7 @@ CREATE TABLE `check_items` (
   `depart_ment` varchar(32) DEFAULT NULL,
   `layer` int(11) NOT NULL DEFAULT '0' COMMENT '层',
   `last_edit_name` varchar(32) DEFAULT NULL,
+  `edit_time` datetime DEFAULT NULL,
   `success_or_fail` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
@@ -58,14 +61,14 @@ CREATE TABLE `check_items` (
 -- ----------------------------
 -- Records of check_items
 -- ----------------------------
-INSERT INTO `check_items` VALUES ('1', 'asdfasfasfdsaf', 'asdfasf', '2015-10-09 09:51:10', '0', null, '0', null, null);
-INSERT INTO `check_items` VALUES ('2', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗', '2015-10-09 09:51:50', '0', null, '0', null, null);
-INSERT INTO `check_items` VALUES ('3', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:52:58', '0', null, '0', null, null);
-INSERT INTO `check_items` VALUES ('4', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:53:33', '0', null, '0', null, null);
-INSERT INTO `check_items` VALUES ('5', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:53:37', '0', null, '0', null, null);
-INSERT INTO `check_items` VALUES ('6', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 10:23:13', '0', null, '0', null, null);
-INSERT INTO `check_items` VALUES ('7', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 10:23:16', '0', null, '0', null, null);
-INSERT INTO `check_items` VALUES ('8', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很123', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很123', '2015-10-09 10:23:23', '0', null, '0', null, null);
+INSERT INTO `check_items` VALUES ('1', 'asdfasfasfdsaf', 'asdfasf', '2015-10-09 09:51:10', '0', null, '0', null, null, '1');
+INSERT INTO `check_items` VALUES ('2', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗城市的月光还有很多人在那里呢你们知道吗', '2015-10-09 09:51:50', '0', null, '0', null, null, '1');
+INSERT INTO `check_items` VALUES ('3', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:52:58', '0', null, '0', null, null, '1');
+INSERT INTO `check_items` VALUES ('4', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:53:33', '0', null, '0', null, null, '1');
+INSERT INTO `check_items` VALUES ('5', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 09:53:37', '0', null, '0', null, null, '1');
+INSERT INTO `check_items` VALUES ('6', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 10:23:13', '0', null, '0', null, null, '1');
+INSERT INTO `check_items` VALUES ('7', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很', '2015-10-09 10:23:16', '0', null, '0', null, null, '1');
+INSERT INTO `check_items` VALUES ('8', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很123', '城市的月光还有很多人在那里呢你们知道吗城市的月光还有很123', '2015-10-09 10:23:23', '0', null, '0', null, null, '1');
 
 -- ----------------------------
 -- Table structure for check_record
@@ -202,13 +205,16 @@ CREATE TABLE `user` (
   `up_user` varchar(32) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   `depart_ment` varchar(32) DEFAULT NULL,
+  `last_edit_name` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('xx_down', 'LpkBu6U7/DzcaD1DryBisxxpVBg=', '测试账号', '1', '2015-10-07', '', '测试账号', 'admin', '0', null);
+INSERT INTO `user` VALUES ('zhifa1', 'FoxpBwf+x4bDmWQtNCx7vojz8Oc=', '执法', '2', null, 'dianhua1', '备注', null, '0', '资源部', '超级管理员');
+INSERT INTO `user` VALUES ('zhifa2', 'FoxpBwf+x4bDmWQtNCx7vojz8Oc=', '执法2', '1', null, 'dianhua', '备注', null, '1', '建设部', null);
+INSERT INTO `user` VALUES ('zhifa3', 'FoxpBwf+x4bDmWQtNCx7vojz8Oc=', '执法3', '1', null, '', '', null, '0', '资源部', '超级管理员');
 
 -- ----------------------------
 -- Table structure for user_notice_readlog

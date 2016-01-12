@@ -13,22 +13,21 @@
     		</div>
     		<div>
     			<form class="form form1" method="POST" action="editUser?st=1&adminUserName=${user.userName}" name="FormAddAdmin" id="FormAddAdmin">
-    				<p><label>登录名：</label>${user.userName}</p>
+    				<p><label><span style="font-size:12px;color:red">*</span>登录名：</label>${user.userName}</p>
 					<p><label>密　码：</label><input type="password"  name="passWord" id="passWord">如不修改密码,请留空</p>
 					<p><label>确认密码：</label><input type="password"  name="passWord2" id="passWord2">如不修改密码,请留空</p>
-					<p><label>姓　名：</label><input type="text" name="name" id="name" value="${user.name}"></p>
+					<p><label><span style="font-size:12px;color:red">*</span>姓　名：</label><input type="text" name="name" id="name" value="${user.name}"></p>
 					<p class="sexs"><label>性　别：</label><input type="radio" <c:if test="${user.sex==1}">checked="checked"</c:if> name="sex" id="sex" value="1">男　　<input type="radio" <c:if test="${user.sex==2}">checked="checked"</c:if> name="sex" id="sex" value="2">女</p>
-					<p><label>出生日期：</label><input type="text" name="birthday" id="birthday" value="<fmt:formatDate value="${user.birthday}" type="both" pattern="yyyy/MM/dd"/>"></p>
+					<p><label><span style="font-size:12px;color:red">*</span>部门：</label><select name="departMent" id="departMent">
+					        <c:set var="cun" value="${user.departMent}"></c:set>
+					       <s:iterator var="data" value="dps">
+					          <option value="${data}" <c:if test="${cun==data}">selected</c:if>>${data}</option>
+					       </s:iterator>
+					</select></p>
 					<p><label>电话号码：</label><input type="text" name="call" id="call" value="${user.call}"></p>
 					<p><label>备　注：</label></p>
 					<p><textarea name="remark" id="remark">${user.remark}</textarea></p>
-					<p><label>管理员：</label><select name="upUser" id="upUser">
-					        <option value="">=请选择=</option>
-					        <c:set var="cun" value="${user.upUser}"></c:set>
-					       <s:iterator var="data" value="admins">
-					          <option value="${data.userName}" <c:if test="${cun==data.userName}">selected</c:if>>${data.name}</option>
-					       </s:iterator>
-					</select></p>
+
 					<p class="fbnt"><a href="#" onClick="checkParam()">保存</a> <a href="/admin/adminList">取消</a></p>
     			</form>
     		</div>
@@ -72,9 +71,9 @@
 				$('#remark').focus().select();
 				return;
 			}
-			if ($('#upUser').val() == '') {
-				alert('请选择该用户的上级管理员！');
-				$('#upUser').focus().select();
+			if ($('#departMent').val() == '') {
+				alert('请选择该用户的所属部门！');
+				$('#departMent').focus().select();
 				return;
 			}
 			$('#FormAddAdmin').submit();

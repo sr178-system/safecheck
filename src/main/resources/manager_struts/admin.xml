@@ -11,9 +11,9 @@
 			  <param name="includeProperties">code</param>
 			</result>
 		</action>
-		<action name="adminindex" class="com.sr178.safecheck.admin.action.JctjAction" method="cpList">
+		<action name="adminindex" class="com.sr178.safecheck.admin.action.CheckRecordAction" method="recordList">
 			<result name="success">
-			   /admin/jctj.jsp
+			   /admin/checkrecord.jsp
 			</result>
 		</action>
 		<action name="checkRecordList" class="com.sr178.safecheck.admin.action.JctjAction" method="checkList">

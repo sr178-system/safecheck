@@ -16,9 +16,9 @@
     				<p><label>登录名：</label>${adminUser.userName}</p>
 					<p><label>密　码：</label><input type="password"  name="passWord" id="passWord">如不修改密码,请留空</p>
 					<p><label>确认密码：</label><input type="password"  name="passWord2" id="passWord2">如不修改密码,请留空</p>
-					<p><label>姓　名：</label><input type="text" name="name" id="name" value="${adminUser.name}"></p>
+					<p><label><span style="font-size:12px;color:red">*</span>姓　名：</label><input type="text" name="name" id="name" value="${adminUser.name}"></p>
 					<p class="sexs"><label>性　别：</label><input type="radio" <c:if test="${adminUser.sex==1}">checked="checked"</c:if> name="sex" id="sex" value="1">男　　<input type="radio" <c:if test="${adminUser.sex==2}">checked="checked"</c:if> name="sex" id="sex" value="2">女</p>
-					<p><label>出生日期：</label><input type="text" name="birthday" id="birthday" value="<fmt:formatDate value="${adminUser.birthday}" type="both" pattern="yyyy/MM/dd"/>"></p>
+					<c:if test="${adminUser.userName!='admin'}"><p><label><span style="font-size:12px;color:red">*</span>部门：</label><input type="text" name="departMent" id="departMent" value="${adminUser.departMent}"></p></c:if>
 					<p><label>电话号码：</label><input type="text" name="call" id="call" value="${adminUser.call}"></p>
 					<p><label>备　注：</label></p>
 					<p><textarea name="remark" id="remark">${adminUser.remark}</textarea></p>
@@ -49,6 +49,13 @@
 				$('#name').focus().select();
 				return;
 			}
+			<c:if test="${adminUser.userName!='admin'}">
+		    if($('#departMent').val()==''){
+		  	   alert('部门不能为空！');
+		  	   $('#departMent').focus().select();
+		  	   return;
+		  	}
+		    </c:if>
 			if (checkParamLenght($('#name').val(), 16)) {
 				alert('名字不能超过16个字符！');
 				$('#name').focus().select();
@@ -68,14 +75,5 @@
 			}
 			$('#FormAddAdmin').submit();
 		}
-
-		$('#birthday').datetimepicker({
-			yearOffset : 0,
-			lang : 'ch',
-			timepicker : false,
-			format : 'Y/m/d',
-			formatDate : 'Y/m/d',
-		//		minDate:'1970/01/01', // yesterday is minimum date
-		//		maxDate:'+1970/01/02' // and tommorow is maximum date calendar
-		});
+		
 	</script>

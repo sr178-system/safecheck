@@ -1,3 +1,4 @@
+<%@page import="com.sr178.safecheck.admin.bean.UserInfo"%>
 <%@page import="com.google.common.base.Strings"%>
 <%@page import="com.sr178.safecheck.admin.bo.AdminUser"%>
 <%@page import="com.sr178.safecheck.admin.service.AdminService"%>
@@ -7,8 +8,7 @@
   String current = request.getParameter("current");
   AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
   String id = session.getId();
-  String userName = adminService.isLogin(id).getUserName();
-  AdminUser adminUser = adminService.getAdminUser(userName);
+  UserInfo userInfo = adminService.isLogin(id);
   String class1 = "\"li1\"";
   String class2 = "\"li2\"";
   String class3 = "\"li3\"";
@@ -31,13 +31,12 @@
 %>
 <div class="lefter" region="west">
 	<ul>
-		<li><a class=<%=class1%> href="/adminindex">检查统计</a></li>
-		<li><a class=<%=class2%> href="/jcdc">检查督查</a></li>
-	    <% if(Strings.isNullOrEmpty(adminUser.getUpUser())){%>
+		<li><a class=<%=class1%> href="/adminindex">检查记录</a></li>
+		<% if(userInfo.getRoleType()>0){%>
+	    <% if(userInfo.getRoleType()==2){%>
 	    <li><a class=<%=class3%> href="/adminList">管理员管理</a></li>
 	    <% }%>
 		<li><a class=<%=class4%> href="/userList">执法人员管理</a></li>
-		<% if(Strings.isNullOrEmpty(adminUser.getUpUser())){%>
 		<li><a class=<%=class5%> href="/checkItemList">检查项管理</a></li>
 		<li><a class=<%=class6%> href="/noticeList">发布通知公告</a></li>
 		<% }%>

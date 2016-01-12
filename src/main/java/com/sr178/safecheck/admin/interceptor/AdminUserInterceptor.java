@@ -27,7 +27,11 @@ public class AdminUserInterceptor extends AbstractInterceptor {
                 .getService(AdminService.class);
         HttpSession sessionhttp = ServletActionContext.getRequest()
                 .getSession();
-        UserInfo userName = aus.isLogin(sessionhttp.getId());
+        UserInfo userInfo = aus.isLogin(sessionhttp.getId());
+        String userName=null;
+        if(userInfo!=null){
+        	userName = userInfo.getUserName();
+        }
         Object obj = actionInvocation.getAction();
         String className = obj.getClass().getCanonicalName();
         if (userName==null&&!className.equals("com.sr178.safecheck.admin.action.AdminLogin")) {
@@ -38,7 +42,7 @@ public class AdminUserInterceptor extends AbstractInterceptor {
             
             if (obj instanceof ALDAdminActionSupport) {
                 aldAction = (ALDAdminActionSupport) obj;
-                aldAction.setUserName(userName.getUserName());
+                aldAction.setUserName(userName);
             } else {
                 throw new RuntimeException("ACTION继承的类非ALDAdminActionSupport"+className);
             }

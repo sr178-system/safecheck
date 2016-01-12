@@ -23,7 +23,7 @@ public class CheckItemsDao extends SfDaoBase<CheckItems> {
 		String sql = "select id,item_title from "+super.getTable()+" where parent_id=0";
 		SqlParameter parameter = SqlParameter.Instance();
 		if(!Strings.isNullOrEmpty(departMent)){
-			sql = sql +" and departMent=?";
+			sql = sql +" and depart_ment=?";
 			parameter.withString(departMent);
 		}
 		return super.getJdbc().getList(sql, BigCheckItemBO.class, parameter);

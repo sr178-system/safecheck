@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/admin/head.jsp"%>
-
 <c:if test="${code==7}"><script type="text/javascript">alert("该用户名[${adminUserName}]已被占用！请重新注册",function(){history.go(-1);});</script></c:if>
 <c:if test="${code==2000}"><script type="text/javascript">alert("添加用户成功！",function(){location.href='/admin/adminList';});</script></c:if>
 <link rel="stylesheet" type="text/css" href="/scripts/jquery.datetimepicker.css"/>
@@ -14,12 +13,12 @@
     		</div>
     		<div>
     			<form class="form form1" method="POST" action="addAdmin?st=1" name="FormAddAdmin" id="FormAddAdmin">
-    				<p><label>登录名：</label><input type="text" name="adminUserName" id="adminUserName"></p>
-					<p><label>密　码：</label><input type="password"  name="passWord" id="passWord"></p>
-					<p><label>确认密码：</label><input type="password"  name="passWord2" id="passWord2"></p>
-					<p><label>姓　名：</label><input type="text" name="name" id="name"></p>
+    				<p><label><span style="font-size:12px;color:red">*</span>登录名：</label><input type="text" name="adminUserName" id="adminUserName" onKeyUp="value=value.replace(/[\W]/g,'')"></p>
+					<p><label><span style="font-size:12px;color:red">*</span>密　码：</label><input type="password"  name="passWord" id="passWord"></p>
+					<p><label><span style="font-size:12px;color:red">*</span>确认密码</label><input type="password"  name="passWord2" id="passWord2"></p>
+					<p><label><span style="font-size:12px;color:red">*</span>姓　名：</label><input type="text" name="name" id="name"></p>
 					<p class="sexs"><label>性　别：</label><input type="radio" checked="checked" name="sex" id="sex" value="1">男　　<input type="radio" name="sex" value="2">女</p>
-					<p><label>出生日期：</label><input type="text" name="birthday" id="birthday"></p>
+					<p><label><span style="font-size:12px;color:red">*</span>部门：</label><input type="text" name="departMent" id="departMent"></p>
 					<p><label>电话号码：</label><input type="text" name="call" id="call"></p>
 					<p><label>备　注：</label></p>
 					<p><textarea name="remark" id="remark"></textarea></p>
@@ -68,6 +67,11 @@
  	   $('#name').focus().select();
  	   return;
  	}
+    if($('#departMent').val()==''){
+ 	   alert('部门不能为空！');
+ 	   $('#departMent').focus().select();
+ 	   return;
+ 	}
     if($('#call').val()!='' && checkParamLenght($('#call').val(),32)){
   	   alert('电话号码不能超过32个字符！');
 	   $('#call').focus().select();
@@ -81,13 +85,4 @@
     $('#FormAddAdmin').submit();
  }
  
- $('#birthday').datetimepicker({
-		yearOffset:0,
-		lang:'ch',
-		timepicker:false,
-		format:'Y/m/d',
-		formatDate:'Y/m/d',
-//		minDate:'1970/01/01', // yesterday is minimum date
-//		maxDate:'+1970/01/02' // and tommorow is maximum date calendar
-	});
 </script>

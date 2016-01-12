@@ -18,6 +18,7 @@ public class CheckItems{
 	private int layer;
 	private String lastEditName;
 	private int successOrFail;
+	private Date editTime;
 	
 	public Integer getId() {
 		return id;
@@ -73,6 +74,12 @@ public class CheckItems{
 	}
 	public void setSuccessOrFail(int successOrFail) {
 		this.successOrFail = successOrFail;
+	}
+	public Date getEditTime() {
+		return editTime;
+	}
+	public void setEditTime(Date editTime) {
+		this.editTime = editTime;
 	}
 }
 

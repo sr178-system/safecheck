@@ -1,12 +1,10 @@
 package com.sr178.safecheck.admin.action;
 
-import java.util.Date;
 
 import com.sr178.game.framework.context.ServiceCacheFactory;
 import com.sr178.safecheck.admin.bo.AdminUser;
 import com.sr178.safecheck.admin.service.AdminService;
 import com.sr178.safecheck.common.action.ALDAdminPageActionSupport;
-import com.sr178.safecheck.common.utils.DateUtils;
 
 public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 	/**
@@ -65,8 +63,7 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 	private String name;
 	private String call;
 	private String remark;
-	private String upUser;
-	private String birthday;
+	private String departMent;
 	
 	private AdminUser adminUser;
 	public String editAdmin(){
@@ -75,8 +72,7 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 			adminUser = adminService.getAdminByUserName(adminUserName);
 			return INPUT;
 		}
-		Date birth = DateUtils.StringToDate(birthday);
-		adminService.editAdmins(adminUserName, passWord, sex, name, call, remark, upUser, birth);
+		adminService.editAdmins(adminUserName, passWord, sex, name, call, remark,  departMent);
 		super.setCode(2001);
 		return SUCCESS;
 	}
@@ -89,8 +85,7 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 			return INPUT;
 		}
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
-		Date birth = DateUtils.StringToDate(birthday);
-		adminService.addAdmins(adminUserName, passWord, sex, name, call, remark, super.getUserName(), birth);
+		adminService.addAdmins(adminUserName, passWord, sex, name, call, remark,departMent);
 		super.setCode(2000);
 		return SUCCESS;
 	}
@@ -177,20 +172,14 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 		this.remark = remark;
 	}
 
-	public String getUpUser() {
-		return upUser;
+
+
+	public String getDepartMent() {
+		return departMent;
 	}
 
-	public void setUpUser(String upUser) {
-		this.upUser = upUser;
-	}
-
-	public String getBirthday() {
-		return birthday;
-	}
-
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
+	public void setDepartMent(String departMent) {
+		this.departMent = departMent;
 	}
 
 	public String getOldPasswd() {
