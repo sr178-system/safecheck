@@ -17,6 +17,9 @@ public class Notice{
 	private Date addTime;
 	private String attachMent;
 	private String departMent;
+	private String lastEditName;
+	private Date editTime;
+	
 	
 	public int getRead() {
 		return read;
@@ -67,6 +70,17 @@ public class Notice{
 	public void setDepartMent(String departMent) {
 		this.departMent = departMent;
 	}
-	
+	public String getLastEditName() {
+		return lastEditName;
+	}
+	public void setLastEditName(String lastEditName) {
+		this.lastEditName = lastEditName;
+	}
+	public Date getEditTime() {
+		return editTime;
+	}
+	public void setEditTime(Date editTime) {
+		this.editTime = editTime;
+	}
 }
 

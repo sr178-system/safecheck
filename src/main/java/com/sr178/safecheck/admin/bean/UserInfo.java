@@ -40,5 +40,12 @@ public class UserInfo {
 	public UserInfo() {
 		super();
 	}
+	
+	public String getCurrentDepartMent(){
+		if(roleType==1){
+			return departMent;
+		}
+		return null;
+	}
     
 }

@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
+Source Server         : localhost
 Source Server Version : 50624
 Source Host           : localhost:3306
 Source Database       : safe_check_v2
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-01-13 17:05:50
+Date: 2016-01-14 00:25:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -159,6 +159,8 @@ CREATE TABLE `notice` (
   `add_time` datetime NOT NULL,
   `attach_ment` text,
   `depart_ment` varchar(32) DEFAULT NULL,
+  `edit_time` datetime DEFAULT NULL,
+  `last_edit_name` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `status,add_time` (`status`,`add_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
@@ -166,10 +168,10 @@ CREATE TABLE `notice` (
 -- ----------------------------
 -- Records of notice
 -- ----------------------------
-INSERT INTO `notice` VALUES ('1', '123', '123', '1', '2016-01-09 16:49:36', null, null);
-INSERT INTO `notice` VALUES ('2', '11223', '1112334', '1', '2016-01-09 17:40:57', null, null);
-INSERT INTO `notice` VALUES ('3', '1122334', '1122334455', '1', '2016-01-09 17:41:13', null, null);
-INSERT INTO `notice` VALUES ('4', '4', '4', '1', '2016-01-09 17:41:33', null, null);
+INSERT INTO `notice` VALUES ('1', '123', '123', '1', '2016-01-09 16:49:36', null, null, null, null);
+INSERT INTO `notice` VALUES ('2', '11223', '1112334', '1', '2016-01-09 17:40:57', null, null, null, null);
+INSERT INTO `notice` VALUES ('3', '1122334', '1122334455', '1', '2016-01-09 17:41:13', null, null, null, null);
+INSERT INTO `notice` VALUES ('4', '4', '4', '1', '2016-01-09 17:41:33', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for resource

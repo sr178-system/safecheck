@@ -1,6 +1,11 @@
 package com.sr178.safecheck.admin.action;
 
+import java.io.File;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
 
 import com.sr178.game.framework.context.ServiceCacheFactory;
 import com.sr178.safecheck.admin.bo.Notice;
@@ -16,22 +21,21 @@ public class NoticeAction extends ALDAdminPageActionSupport<Notice> {
 	private List<Notice> list;
 	public String showList(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
-        list = adminService.getNoticeList();
+        list = adminService.getNoticeList(super.getSessionId());
 		return SUCCESS;
 	}
-	
-	
 	
 	
 	private Integer id;
 	private String title;
 	private String content1;
+	private String attachMent;
 	public String add(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		if(id==null){
-			adminService.addNotice(title, content1);
+			adminService.addNotice(super.getSessionId(), title, content1, attachMent);
 		}else{
-			adminService.editNotice(id, title, content1);
+			adminService.editNotice(super.getSessionId(), id, title, content1, attachMent);
 		}
 		return SUCCESS;
 	}
@@ -63,6 +67,25 @@ public class NoticeAction extends ALDAdminPageActionSupport<Notice> {
 		return SUCCESS;
 	}
 	
+	
+	
+	
+	/**
+	 * 图片上传
+	 */
+	private List<File> attach;
+	private List<String> attachFileName;
+	private List<String> attachContentType;
+	private String serverFileName;
+	private String clientFileName;
+	public String uploadAttach() {
+		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+		String path = ServletActionContext.getServletContext().getRealPath("/");
+		String descDirectoryPath = path + "/uploads/attach/";
+		clientFileName = attachFileName.get(0);
+		serverFileName = adminService.saveAttach(attach.get(0), attachFileName.get(0), descDirectoryPath);
+		return SUCCESS;
+	}
 	public String getTitle() {
 		return title;
 	}
@@ -116,4 +139,43 @@ public class NoticeAction extends ALDAdminPageActionSupport<Notice> {
 	public void setNotice(Notice notice) {
 		this.notice = notice;
 	}
+
+	public String getAttachMent() {
+		return attachMent;
+	}
+
+	public void setAttachMent(String attachMent) {
+		this.attachMent = attachMent;
+	}
+	public List<File> getAttach() {
+		return attach;
+	}
+	public void setAttach(List<File> attach) {
+		this.attach = attach;
+	}
+	public List<String> getAttachFileName() {
+		return attachFileName;
+	}
+	public void setAttachFileName(List<String> attachFileName) {
+		this.attachFileName = attachFileName;
+	}
+	public List<String> getAttachContentType() {
+		return attachContentType;
+	}
+	public void setAttachContentType(List<String> attachContentType) {
+		this.attachContentType = attachContentType;
+	}
+	public String getServerFileName() {
+		return serverFileName;
+	}
+	public void setServerFileName(String serverFileName) {
+		this.serverFileName = serverFileName;
+	}
+	public String getClientFileName() {
+		return clientFileName;
+	}
+	public void setClientFileName(String clientFileName) {
+		this.clientFileName = clientFileName;
+	}
+	
 }

@@ -1,11 +1,16 @@
 package com.sr178.safecheck.admin.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Strings;
@@ -25,6 +30,7 @@ import com.sr178.safecheck.admin.bo.CheckItems;
 import com.sr178.safecheck.admin.bo.CheckRecord;
 import com.sr178.safecheck.admin.bo.EnforceRecord;
 import com.sr178.safecheck.admin.bo.Notice;
+import com.sr178.safecheck.admin.bo.Resource;
 import com.sr178.safecheck.admin.bo.User;
 import com.sr178.safecheck.admin.dao.AdminUserDao;
 import com.sr178.safecheck.app.bean.ZeroCheckItemBean;
@@ -36,6 +42,7 @@ import com.sr178.safecheck.app.dao.NoticeDao;
 import com.sr178.safecheck.app.dao.UserDao;
 import com.sr178.safecheck.app.service.AppService;
 import com.sr178.safecheck.common.exception.ServiceException;
+import com.sr178.safecheck.common.utils.MD5Security;
 import com.sr178.safecheck.common.utils.MacShaUtils;
 import com.sr178.safecheck.common.utils.ParamCheck;
 
@@ -1003,21 +1010,34 @@ public class AdminService {
 	 * @param pageSize
 	 * @return
 	 */
-	public List<Notice> getNoticeList(){
-		return noticeDao.getAllOrder("order by status desc,id desc");
+	public List<Notice> getNoticeList(String sessionId){
+		UserInfo userInfo = this.isLogin(sessionId);
+		String departMent = null;
+		String sql = "";
+		if(userInfo.getRoleType()==1){
+			departMent = userInfo.getDepartMent();
+			sql = sql + " where depart_ment='"+departMent+"'";
+		}
+		sql = sql + " order by status desc,id desc";
+		return noticeDao.getAllOrder(sql);
 	}
 	/**
 	 * 添加检查项
 	 * @param title
 	 * @param content
 	 */
-	public void addNotice(String title,String content){
+	public void addNotice(String sessionId,String title,String content,String attachMent){
 		ParamCheck.checkString(title, 1, "标题不能为空");
 		ParamCheck.checkString(content, 2, "内容不能为空");
+		UserInfo userInfo = this.isLogin(sessionId);
 		Notice t = new Notice();
 		t.setNoticeTitle(title);
 		t.setNoticeContent(content);
 		t.setAddTime(new Date());
+		t.setEditTime(new Date());
+		t.setLastEditName(userInfo.getName());
+		t.setDepartMent(userInfo.getCurrentDepartMent());
+		t.setAttachMent(attachMent);
 		t.setStatus(1);
 		noticeDao.add(t);
 	}
@@ -1027,10 +1047,11 @@ public class AdminService {
 	 * @param title
 	 * @param content
 	 */
-	public void editNotice(int id,String title,String content){
+	public void editNotice(String sessionId,int id,String title,String content,String attachMent){
 		ParamCheck.checkString(title, 1, "标题不能为空");
 		ParamCheck.checkString(content, 2, "内容不能为空");
-		noticeDao.update(id, title, content);
+		UserInfo userInfo = this.isLogin(sessionId);
+		noticeDao.update(id, title, content, userInfo.getName(), attachMent, userInfo.getCurrentDepartMent());
 	}
 	/**
 	 * 删除检查项
@@ -1050,10 +1071,33 @@ public class AdminService {
 		for(int id:ids){
 			noticeDao.updateStatus(id, status);
 		}
-	}	
+	}
+	
+	
 	
 	public Notice getOne(int id){
 		return noticeDao.get(new SqlParamBean("id", id));
+	}
+	
+	/**
+	 * 保存图片
+	 * @param files
+	 * @param fileNames
+	 * @param taskId
+	 * @param type
+	 */
+	public String saveAttach(File file, String names,String descPath) {
+			String oldFileName = names;
+			String[] prefixArray = oldFileName.split("\\.");
+			String prefix = prefixArray[prefixArray.length-1];
+			String fileName = MD5Security.md5_16(UUID.randomUUID().toString()) + "." + prefix;
+			try {
+				FileUtils.copyFile(file, new File(descPath + fileName));
+			} catch (IOException e) {
+				LogSystem.error(e, "上传附件失败");
+				throw new ServiceException(3, "上传附件失败！请重新上传！");
+			}
+			return fileName;
 	}
 	public static void main(String[] args) {
 		System.out.println( MacShaUtils.doEncryptBase64("xx", SHA_SECRET));

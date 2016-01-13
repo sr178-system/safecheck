@@ -171,9 +171,24 @@
 			    <param name="ignoreHierarchy">false</param>
 				<param name="includeProperties">code</param>
 			</result>
-		</action>											
+		</action>
+		
+		<action name="uploadAttach" class="com.sr178.safecheck.admin.action.NoticeAction" method="uploadAttach">
+            <result name="success" type="json" >
+				<param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">clientFileName,serverFileName</param>
+			</result>		
+		</action>
 	</package>
 	
+	<package name="test" extends="myInterceptor" namespace="/test">
+	  <action name="uploadAttach" class="com.sr178.safecheck.admin.action.NoticeAction" method="uploadAttach">
+            <result name="success" type="json" >
+				<param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">clientFileName,serverFileName</param>
+			</result>		
+		</action>
+	</package>
 	
 	<package name="adminInterceptor" extends="myInterceptor">
 		<interceptors>

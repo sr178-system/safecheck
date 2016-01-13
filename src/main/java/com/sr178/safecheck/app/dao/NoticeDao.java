@@ -28,11 +28,14 @@ public class NoticeDao extends SfDaoBase<Notice> {
 	}
 	
 	
-	public boolean update(int id,String title,String content){
-		String sql = "update "+super.getTable()+" set notice_title=?,notice_content=? where id=? limit 1";
+	public boolean update(int id,String title,String content,String lastEditName,String attachMent,String departMent){
+		String sql = "update "+super.getTable()+" set notice_title=?,notice_content=?,last_edit_name=?,edit_time=now(),attach_ment=?,depart_ment=? where id=? limit 1";
 		SqlParameter parameter = SqlParameter.Instance();
 		parameter.withString(title);
 		parameter.withString(content);
+		parameter.withString(lastEditName);
+		parameter.withString(attachMent);
+		parameter.withString(departMent);
 		parameter.withInt(id);
 		return super.getJdbc().update(sql, parameter)>0;
 	}
