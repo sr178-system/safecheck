@@ -11,7 +11,6 @@ import org.apache.struts2.json.annotations.JSON;
 public class CheckItems{
 	private Integer id;
 	private String itemTitle;
-	private String itemContent;
 	private Date addTime;
 	private int parentId;
 	private String departMent;
@@ -19,6 +18,7 @@ public class CheckItems{
 	private String lastEditName;
 	private int successOrFail;
 	private Date editTime;
+	private int status;
 	
 	public Integer getId() {
 		return id;
@@ -31,12 +31,6 @@ public class CheckItems{
 	}
 	public String getItemTitle(){
 		return itemTitle;
-	}
-	public void setItemContent(String itemContent){
-	this.itemContent=itemContent;
-	}
-	public String getItemContent(){
-		return itemContent;
 	}
 	public void setAddTime(Date addTime){
 	this.addTime=addTime;
@@ -80,6 +74,12 @@ public class CheckItems{
 	}
 	public void setEditTime(Date editTime) {
 		this.editTime = editTime;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }
 

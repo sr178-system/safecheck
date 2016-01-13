@@ -3,6 +3,7 @@ package com.sr178.safecheck.admin.action;
 import java.util.List;
 
 import com.sr178.game.framework.context.ServiceCacheFactory;
+import com.sr178.safecheck.admin.bean.UserInfo;
 import com.sr178.safecheck.admin.bo.CheckItems;
 import com.sr178.safecheck.admin.service.AdminService;
 import com.sr178.safecheck.common.action.ALDAdminPageActionSupport;
@@ -13,31 +14,92 @@ public class CheckItemAction extends ALDAdminPageActionSupport<CheckItems> {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private List<CheckItems> list;
+	/**
+	 * 大类列表
+	 * @return
+	 */
 	public String showList(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
-        list = adminService.getCheckItemsPageList();
+        super.initPage(adminService.getZeroCheckItemsPageList(super.getSessionId(), super.getToPage(), 10));
 		return SUCCESS;
 	}
-	private Integer id;
-	private String title;
-	private String content1;
-	public String add(){
+	/**
+	 * 删大类
+	 * @return
+	 */
+	public String deleteBigCheckItems(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
-		if(id==null){
-			adminService.addCheckItems(title, content1);
-		}else{
-			adminService.editCheckItems(id, title, content1);
-		}
+		adminService.deleteBigCheckItems(ids);
 		return SUCCESS;
 	}
 	
-	private int[] ids;
-	public String delete(){
+	private int status;
+	public String updateStatus(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
-		adminService.deleteCheckItems(ids);
+		adminService.updateBigCheckItemsStatus(ids, status);
 		return SUCCESS;
 	}
+	/**
+	 * 查询大类详情
+	 */
+	private CheckItems bigCheck;
+	private int roleType;
+	public String requestBigCheckDetails(){
+		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+		UserInfo userInfo = adminService.isLogin(super.getSessionId());
+		roleType = userInfo.getRoleType();
+		bigCheck = adminService.getBigCheck(id);
+		return SUCCESS;
+	}
+	/**
+	 * 获取下级列表
+	 */
+	private int parentId;
+	private List<CheckItems> downList;
+	public String requestDownList(){
+		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+		downList = adminService.getDownCheckItems(parentId);
+		return SUCCESS;
+	}
+	
+	/**
+	 * 删小类
+	 */
+	private int[] ids;
+	public String deleteSmallCheckItems(){
+		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+		adminService.deleteSmallCheckItems(ids);
+		return SUCCESS;
+	}
+	
+	private Integer id;   //大类id
+	private String title;//大类名称
+	private String firstItemName;//大项名称
+	private String secondItemName;//子项名称
+	private String resultItemName;//结果名称
+	private int successOrFail;//0 失败 标识 1成功标识
+	private String departMent;//部门
+	private int st;
+	private List<String> dps;
+	public String addOrEdit(){
+		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+		if (st == 0) {
+			dps = adminService.getMyDepartMent(super.getSessionId());
+			if (id == null) {// 添加
+				return SUCCESS;
+			} else {// 修改 查询大类信息 子类信息通过ajax异步请求接口
+				bigCheck = adminService.getBigCheck(id);
+				return SUCCESS;
+			}
+		}
+		if(id==null){
+			adminService.addCheckItems(super.getSessionId(), title, firstItemName, secondItemName, resultItemName, departMent, successOrFail);
+		}else{
+			adminService.editCheckItems(super.getSessionId(),id, title, firstItemName, secondItemName, resultItemName, departMent, successOrFail);
+		}
+		return SUCCESS;
+	}
+
 	
 	public String getTitle() {
 		return title;
@@ -45,13 +107,6 @@ public class CheckItemAction extends ALDAdminPageActionSupport<CheckItems> {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-	public String getContent1() {
-		return content1;
-	}
-
-	public void setContent1(String content1) {
-		this.content1 = content1;
 	}
 
 	public int[] getIds() {
@@ -69,11 +124,84 @@ public class CheckItemAction extends ALDAdminPageActionSupport<CheckItems> {
 		this.id = id;
 	}
 
-	public List<CheckItems> getList() {
-		return list;
+	public int getParentId() {
+		return parentId;
 	}
 
-	public void setList(List<CheckItems> list) {
-		this.list = list;
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
+	}
+
+	public List<CheckItems> getDownList() {
+		return downList;
+	}
+
+	public void setDownList(List<CheckItems> downList) {
+		this.downList = downList;
+	}
+
+
+	public CheckItems getBigCheck() {
+		return bigCheck;
+	}
+
+	public void setBigCheck(CheckItems bigCheck) {
+		this.bigCheck = bigCheck;
+	}
+
+	public int getRoleType() {
+		return roleType;
+	}
+
+	public void setRoleType(int roleType) {
+		this.roleType = roleType;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	public int getSt() {
+		return st;
+	}
+	public void setSt(int st) {
+		this.st = st;
+	}
+	public String getFirstItemName() {
+		return firstItemName;
+	}
+	public void setFirstItemName(String firstItemName) {
+		this.firstItemName = firstItemName;
+	}
+	public String getSecondItemName() {
+		return secondItemName;
+	}
+	public void setSecondItemName(String secondItemName) {
+		this.secondItemName = secondItemName;
+	}
+	public String getResultItemName() {
+		return resultItemName;
+	}
+	public void setResultItemName(String resultItemName) {
+		this.resultItemName = resultItemName;
+	}
+	public int getSuccessOrFail() {
+		return successOrFail;
+	}
+	public void setSuccessOrFail(int successOrFail) {
+		this.successOrFail = successOrFail;
+	}
+	public String getDepartMent() {
+		return departMent;
+	}
+	public void setDepartMent(String departMent) {
+		this.departMent = departMent;
+	}
+	public List<String> getDps() {
+		return dps;
+	}
+	public void setDps(List<String> dps) {
+		this.dps = dps;
 	}
 }

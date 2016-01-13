@@ -19,8 +19,8 @@ public class JctjAction extends ALDAdminPageActionSupport<JctjBean> {
 	private String searchCp;
 	
 	public String cpList(){
-		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
-		super.initPage(adminService.getJctjBeanPageList(searchCp,super.getToPage(), 30)); 
+//		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+//		super.initPage(adminService.getJctjBeanPageList(searchCp,super.getToPage(), 30)); 
 		return SUCCESS;
 	}
 	

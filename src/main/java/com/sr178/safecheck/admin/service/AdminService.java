@@ -1,8 +1,6 @@
 package com.sr178.safecheck.admin.service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +14,10 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sr178.common.jdbc.bean.IPage;
-import com.sr178.common.jdbc.bean.Page;
 import com.sr178.common.jdbc.bean.SqlParamBean;
 import com.sr178.game.framework.log.LogSystem;
 import com.sr178.safecheck.admin.bean.CheckRecordDetailsBean;
 import com.sr178.safecheck.admin.bean.CheckResultBean;
-import com.sr178.safecheck.admin.bean.JctjBean;
 import com.sr178.safecheck.admin.bean.MixCheckAndEnforceBean;
 import com.sr178.safecheck.admin.bean.UserInfo;
 import com.sr178.safecheck.admin.bo.AdminUser;
@@ -315,6 +311,22 @@ public class AdminService {
 		return result;
 	}
 	/**
+	 * 获取单个大类检查项
+	 * @param checkId
+	 * @return
+	 */
+	public CheckItems getBigCheck(int checkId){
+		return checkItemsDao.get(new SqlParamBean("id", checkId));
+	}
+	/**
+	 * 获取节点的下级列表
+	 * @param parentId
+	 * @return
+	 */
+	public List<CheckItems> getDownCheckItems(int parentId){
+		return checkItemsDao.getList("order by id desc", new SqlParamBean("parent_id", parentId));
+	}
+	/**
 	 * 获取检查项Map
 	 * @return
 	 */
@@ -385,14 +397,14 @@ public class AdminService {
 	 * @param cpNames
 	 * @return
 	 */
-	private Map<String,EnforceRecord> getRecentCpEnforceRecord(List<String> cpNames){
-		List<EnforceRecord> list = enforceRecordDao.getEnforceRecordGroupByCpName(cpNames);
-		Map<String,EnforceRecord> result = Maps.newHashMap();
-		for(EnforceRecord enforceRecord:list){
-			result.put(enforceRecord.getCpName(), enforceRecord);
-		}
-		return result;
-	}
+//	private Map<String,EnforceRecord> getRecentCpEnforceRecord(List<String> cpNames){
+//		List<EnforceRecord> list = enforceRecordDao.getEnforceRecordGroupByCpName(cpNames);
+//		Map<String,EnforceRecord> result = Maps.newHashMap();
+//		for(EnforceRecord enforceRecord:list){
+//			result.put(enforceRecord.getCpName(), enforceRecord);
+//		}
+//		return result;
+//	}
 	
 	
 	
@@ -402,29 +414,29 @@ public class AdminService {
 	 * @param pageSize
 	 * @return
 	 */
-	public IPage<JctjBean> getJctjBeanPageList(String searchCp,int pageIndex,int pageSize){
-		IPage<CheckRecord> page = checkRecordDao.getCheckRecordPageListGroupByCpName(searchCp,pageIndex, pageSize);
-		Collection<JctjBean> trasferDate = new ArrayList<JctjBean>();
-		IPage<JctjBean> result = new Page<JctjBean>(trasferDate, page.getTotalSize(), pageSize, pageIndex);
-		if(page.getData()!=null&&page.getData().size()>0){
-			Map<Integer,CheckItems> checkItemsMap = getCheckItemsMap();
-			List<String> cpNames = Lists.newArrayList();
-			for(CheckRecord checkRecord:page.getData()){
-				cpNames.add(checkRecord.getCn());
-			}
-			Map<String,EnforceRecord> recentEnforceMap = getRecentCpEnforceRecord(cpNames);
-			for(CheckRecord checkRecord:page.getData()){
-				checkRecord.setCpName(checkRecord.getCn());
-				JctjBean bean = new JctjBean();
-				bean.setCpName(checkRecord.getCn());
-				bean.setCheckRecord(checkRecord);
-				bean.setEnforceRecord(recentEnforceMap.get(checkRecord.getCn()));
-//				bean.setItemsNames(idsToNames(checkRecord.getCheckItems(),checkItemsMap));
-				trasferDate.add(bean);
-			}
-		}
-		return result;
-	}
+//	public IPage<JctjBean> getJctjBeanPageList(String searchCp,int pageIndex,int pageSize){
+//		IPage<CheckRecord> page = checkRecordDao.getCheckRecordPageListGroupByCpName(searchCp,pageIndex, pageSize);
+//		Collection<JctjBean> trasferDate = new ArrayList<JctjBean>();
+//		IPage<JctjBean> result = new Page<JctjBean>(trasferDate, page.getTotalSize(), pageSize, pageIndex);
+//		if(page.getData()!=null&&page.getData().size()>0){
+//			Map<Integer,CheckItems> checkItemsMap = getCheckItemsMap();
+//			List<String> cpNames = Lists.newArrayList();
+//			for(CheckRecord checkRecord:page.getData()){
+//				cpNames.add(checkRecord.getCn());
+//			}
+//			Map<String,EnforceRecord> recentEnforceMap = getRecentCpEnforceRecord(cpNames);
+//			for(CheckRecord checkRecord:page.getData()){
+//				checkRecord.setCpName(checkRecord.getCn());
+//				JctjBean bean = new JctjBean();
+//				bean.setCpName(checkRecord.getCn());
+//				bean.setCheckRecord(checkRecord);
+//				bean.setEnforceRecord(recentEnforceMap.get(checkRecord.getCn()));
+////				bean.setItemsNames(idsToNames(checkRecord.getCheckItems(),checkItemsMap));
+//				trasferDate.add(bean);
+//			}
+//		}
+//		return result;
+//	}
 	/**
 	 * 检查统计详情页
 	 * @param cpName
@@ -569,14 +581,14 @@ public class AdminService {
 	 * @param cpNames
 	 * @return
 	 */
-	private Map<String,CheckRecord> getRecentUserCheckRecord(List<String> userNames){
-		List<CheckRecord> list = checkRecordDao.getCheckRecordGroupCheckUserName(userNames);
-		Map<String,CheckRecord> result = Maps.newHashMap();
-		for(CheckRecord checkRecord:list){
-			result.put(checkRecord.getCheckUsername(), checkRecord);
-		}
-		return result;
-	}
+//	private Map<String,CheckRecord> getRecentUserCheckRecord(List<String> userNames){
+//		List<CheckRecord> list = checkRecordDao.getCheckRecordGroupCheckUserName(userNames);
+//		Map<String,CheckRecord> result = Maps.newHashMap();
+//		for(CheckRecord checkRecord:list){
+//			result.put(checkRecord.getCheckUsername(), checkRecord);
+//		}
+//		return result;
+//	}
 
 	/**
 	 * 查询所有管理员列表
@@ -799,27 +811,63 @@ public class AdminService {
 		}
 	}
 	/**
-	 * 查询所有检查项
+	 * 查询所有大类检查项
 	 * @param pageIndex
 	 * @param pageSize
 	 * @return
 	 */
-	public List<CheckItems> getCheckItemsPageList(){
-		return checkItemsDao.getAllOrder("order by id desc");
+	public IPage<CheckItems> getZeroCheckItemsPageList(String sessionId,int pageIndex,int pageSize){
+		UserInfo userInfo = this.isLogin(sessionId);
+		String departMent = null;
+		if(userInfo.getRoleType()==1){
+			departMent = userInfo.getDepartMent();
+		}
+		return checkItemsDao.getBigCheckItemsList(departMent, pageIndex, pageSize);
 	}
 	/**
 	 * 添加检查项
 	 * @param title
 	 * @param content
 	 */
-	public void addCheckItems(String title,String content){
-		ParamCheck.checkString(title, 1, "标题不能为空");
-		ParamCheck.checkString(content, 2, "内容不能为空");
+	public void addCheckItems(String sessionId,String title,String firstItemName,String secondItemName,String resultItemName,String departMent,int successOrFail){
+		ParamCheck.checkString(title, 1, "大类名称不能为空");
+		ParamCheck.checkString(firstItemName, 2, "大项名称不能为空");
+		ParamCheck.checkString(secondItemName, 3, "小项名称不能为空");
+		ParamCheck.checkString(resultItemName, 4, "小项名称不能为空");
+		CheckItems temp = checkItemsDao.get(new SqlParamBean("item_title", title),new SqlParamBean(AND,"parent_id", 0));
+		if(temp!=null){
+			throw new ServiceException(5, "已存在的大类名称"+title);
+		}
+		//添加大类
 		CheckItems t = new CheckItems();
 		t.setItemTitle(title);
-		t.setItemContent(content);
 		t.setAddTime(new Date());
-		checkItemsDao.add(t);
+		t.setEditTime(new Date());
+		t.setStatus(1);
+		t.setParentId(0);
+		t.setDepartMent(departMent);
+		t.setLastEditName(isLogin(sessionId).getName());
+		int id = checkItemsDao.addBackKey(t);
+		
+		
+		CheckItems first = new CheckItems();
+		first.setItemTitle(firstItemName);
+		first.setAddTime(new Date());
+		first.setParentId(id);
+		int firstId=checkItemsDao.addBackKey(first);
+		
+		CheckItems second = new CheckItems();
+		second.setItemTitle(secondItemName);
+		second.setAddTime(new Date());
+		second.setParentId(firstId);
+		int secondId=checkItemsDao.addBackKey(second);
+		
+		CheckItems result = new CheckItems();
+		result.setItemTitle(resultItemName);
+		result.setAddTime(new Date());
+		result.setParentId(secondId);
+		result.setSuccessOrFail(successOrFail);
+		checkItemsDao.addBackKey(result);
 	}
 	/**
 	 * 修改检查项
@@ -827,18 +875,125 @@ public class AdminService {
 	 * @param title
 	 * @param content
 	 */
-	public void editCheckItems(int id,String title,String content){
-		ParamCheck.checkString(title, 1, "标题不能为空");
-		ParamCheck.checkString(content, 2, "内容不能为空");
-		checkItemsDao.update(id, title, content);
+	public void editCheckItems(String sessionId,int id,String title,String firstItemName,String secondItemName,String resultItemName,String departMent,int successOrFail){
+		ParamCheck.checkString(title, 1, "大类名称不能为空");
+		ParamCheck.checkString(firstItemName, 2, "大项名称不能为空");
+		ParamCheck.checkString(secondItemName, 3, "小项名称不能为空");
+		ParamCheck.checkString(resultItemName, 4, "小项名称不能为空");
+		UserInfo userInfo = isLogin(sessionId);
+		CheckItems temp = checkItemsDao.get(new SqlParamBean("id", id),new SqlParamBean(AND,"parent_id", 0));
+		if(temp==null){
+			throw new ServiceException(5, "修改的大类不存在，id="+id);
+		}
+		temp.setItemTitle(title);
+		temp.setDepartMent(departMent);
+		temp.setLastEditName(userInfo.getName());
+		checkItemsDao.update(temp);
+		
+		CheckItems first = checkItemsDao.get(new SqlParamBean("item_title", firstItemName),new SqlParamBean(AND,"parent_id", id));
+		if(first!=null){
+			CheckItems second = checkItemsDao.get(new SqlParamBean("item_title", secondItemName),new SqlParamBean(AND,"parent_id", first.getId()));
+			if(second!=null){
+				CheckItems result = checkItemsDao.get(new SqlParamBean("item_title", resultItemName),new SqlParamBean(AND,"parent_id", second.getId()));
+				if(result!=null){
+					if(result.getSuccessOrFail()!=successOrFail){
+						checkItemsDao.update(result);
+					}
+				}else{
+					result = new CheckItems();
+					result.setItemTitle(resultItemName);
+					result.setAddTime(new Date());
+					result.setParentId(second.getId());
+					result.setSuccessOrFail(successOrFail);
+					checkItemsDao.addBackKey(result);
+				}
+			}else{//添加2层
+				second = new CheckItems();
+				second.setItemTitle(secondItemName);
+				second.setAddTime(new Date());
+				second.setParentId(first.getId());
+				int secondId=checkItemsDao.addBackKey(second);
+				
+				CheckItems result = new CheckItems();
+				result.setItemTitle(resultItemName);
+				result.setAddTime(new Date());
+				result.setParentId(secondId);
+				result.setSuccessOrFail(successOrFail);
+				checkItemsDao.addBackKey(result);
+			}
+		}else{//后面的全部重新添加
+			first = new CheckItems();
+			first.setItemTitle(firstItemName);
+			first.setAddTime(new Date());
+			first.setParentId(id);
+			int firstId=checkItemsDao.addBackKey(first);
+			
+			CheckItems second = new CheckItems();
+			second.setItemTitle(secondItemName);
+			second.setAddTime(new Date());
+			second.setParentId(firstId);
+			int secondId=checkItemsDao.addBackKey(second);
+			
+			CheckItems result = new CheckItems();
+			result.setItemTitle(resultItemName);
+			result.setAddTime(new Date());
+			result.setParentId(secondId);
+			result.setSuccessOrFail(successOrFail);
+			checkItemsDao.addBackKey(result);
+		}
+		
 	}
 	/**
-	 * 删除检查项
+	 * 删除检小查项
 	 * @param ids
 	 */
-	public void deleteCheckItems(int[] ids){
+	public void deleteSmallCheckItems(int[] ids){
 		for(int id:ids){
-			checkItemsDao.delete(new SqlParamBean("id", id));
+			deleteCheckItemsTree(id);
+		}
+	}
+	
+	/**
+	 * 删除大检查项
+	 * @param ids
+	 */
+	public void deleteBigCheckItems(int[] ids){
+		for(int id:ids){
+			checkItemsDao.delete(new SqlParamBean("id", id));//删自己
+			List<CheckItems> firstCheck = this.getDownCheckItems(id);
+			if(firstCheck!=null&&firstCheck.size()>0){
+				for(CheckItems first:firstCheck){
+					deleteCheckItemsTree(first.getId());
+				}
+			}
+		}
+	}
+	/**
+	 * 更新大类的状态
+	 * @param ids
+	 * @param status
+	 */
+	public void updateBigCheckItemsStatus(int[] ids,int status){
+		for(int id:ids){
+			checkItemsDao.updateStatus(id, status);//更新状态
+		}
+	}
+	
+	/**
+	 * 删除前三级
+	 * @param id
+	 */
+	private void deleteCheckItemsTree(int id){
+		CheckItems checkItem = checkItemsDao.get(new SqlParamBean("id", id));
+		if(checkItem!=null){
+			checkItemsDao.delete(new SqlParamBean("id", id));//删自己
+			List<CheckItems> downList = this.getDownCheckItems(id);
+			if(downList!=null&&downList.size()>0){
+				checkItemsDao.delete(new SqlParamBean("parent_id", id));//删第二级
+				for(CheckItems items:downList){
+					checkItemsDao.delete(new SqlParamBean("parent_id", items.getId()));//删第三级
+				}
+			}
 		}
 	}
 	

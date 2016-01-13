@@ -20,7 +20,7 @@ public class JcdcAction extends ALDAdminPageActionSupport<JcdcBean> {
 	private String searchUn;
 	
 	public String unList(){
-		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+//		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 //		super.initPage(adminService.getJcdcBeanPageList(super.getUserName(), searchUn, super.getToPage(), 10)); 
 		return SUCCESS;
 	}

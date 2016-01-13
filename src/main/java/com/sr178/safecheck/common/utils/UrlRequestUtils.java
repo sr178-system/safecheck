@@ -17,7 +17,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -40,7 +39,7 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 
-
+@SuppressWarnings("rawtypes")
 public class UrlRequestUtils {
 	public static final Logger LOG = Logger.getLogger(UrlRequestUtils.class);
 
@@ -48,6 +47,7 @@ public class UrlRequestUtils {
 		public final static String POST = "POST";
 		public final static String GET = "GET";
 	};
+	
 	
 	public static HttpResponse executeWithRequest(HttpUriRequest request, Map<String, String> paraMap) {
 		// 应答者
@@ -493,6 +493,7 @@ public class UrlRequestUtils {
 		return null;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static String executeHttpsTengxun(String url, Map<String, String> paraMap, String sessionId, String sessionType, String orgLoc, String mode) {
 		// 请求者
 		HttpUriRequest request = null;
