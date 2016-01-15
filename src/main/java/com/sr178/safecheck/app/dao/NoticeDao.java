@@ -12,7 +12,7 @@ public class NoticeDao extends SfDaoBase<Notice> {
 
 	
 	public IPage<Notice> getNoticePage(String searchStr,String userName,String departMent,int pageIndex,int pageSize){
-		String sql = "select no.id,no.notice_title,no.status,no.add_time,IFNULL(un.notice_id,0) as `read` from "+super.getTable();
+		String sql = "select no.id,no.notice_title,no.status,no.add_time,IF(un.notice_id is null,0,1) as `read` from "+super.getTable();
 		SqlParameter parameter = SqlParameter.Instance();
 		sql = sql+" no left join user_notice_readlog un on no.id=un.notice_id and un.user_name=? where no.status<>0";
 		parameter.withString(userName);
@@ -53,7 +53,7 @@ public class NoticeDao extends SfDaoBase<Notice> {
 	}
 	
 	public List<Notice> getNoReadList(String userName,String departMent){
-		String sql = "select no.id,no.notice_title,no.status,no.add_time,IFNULL(un.notice_id,0) as `read` from "+super.getTable();
+		String sql = "select no.id,no.notice_title,no.status,no.add_time,IF(un.notice_id is null,0,1) as `read` from "+super.getTable();
 		SqlParameter parameter = SqlParameter.Instance();
 		sql = sql+" no left join user_notice_readlog un on no.id=un.notice_id and un.user_name=? where un.notice_id is null and no.status<>0";
 		parameter.withString(userName);
@@ -61,7 +61,7 @@ public class NoticeDao extends SfDaoBase<Notice> {
 			sql = sql +" and (no.depart_ment='' or no.depart_ment is null or no.depart_ment=?)";
 			parameter.withString(departMent);
 		}
-		sql = sql +  " order by no.status desc,no.add_time desc";
+		sql = sql +  " order by no.status desc, no.add_time desc";
 		return super.getJdbc().getList(sql, Notice.class,parameter);
 	}
 }

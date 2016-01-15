@@ -1010,7 +1010,7 @@ public class AdminService {
 	 * @param pageSize
 	 * @return
 	 */
-	public List<Notice> getNoticeList(String sessionId){
+	public IPage<Notice> getNoticeList(String sessionId,int pageIndex,int pageSize){
 		UserInfo userInfo = this.isLogin(sessionId);
 		String departMent = null;
 		String sql = "";
@@ -1019,7 +1019,7 @@ public class AdminService {
 			sql = sql + " where depart_ment='"+departMent+"'";
 		}
 		sql = sql + " order by status desc,id desc";
-		return noticeDao.getAllOrder(sql);
+		return noticeDao.getPageList(pageIndex, pageSize, sql);
 	}
 	/**
 	 * 添加检查项

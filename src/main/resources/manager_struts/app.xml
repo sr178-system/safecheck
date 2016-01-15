@@ -22,6 +22,7 @@
 		<action name="trainRecord" class="com.sr178.safecheck.app.action.AppAction" method="trainRecord" />
 		<action name="trainRecordSimple" class="com.sr178.safecheck.app.action.AppAction" method="trainSimpleRecord" />
 		<action name="newsList" class="com.sr178.safecheck.app.action.AppAction" method="newsList" />
+		<action name="noReadNum" class="com.sr178.safecheck.app.action.AppAction" method="noReadNum" />
 		<action name="newsContent" class="com.sr178.safecheck.app.action.AppAction" method="newsContent" />
 	</package>
 	

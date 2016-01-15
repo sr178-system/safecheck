@@ -31,10 +31,23 @@ public class AdminServiceTest extends DaoTest {
 //		appService.getNotice("xx_down", 4);
 //		NoReadBean noReadBean = appService.noReadNum("xx_down");
 //		System.out.println("");
-		String sessionId = "111111";
-		adminService.login("admin", "111111", sessionId);
-		IPage<CheckRecord> page = adminService.getCheckRecordPage(sessionId, "2015-01-01", "", "", "", null, null, 0, 10);
-		System.out.println(page.getTotalSize());
+//		String sessionId = "111111";
+//		adminService.login("admin", "111111", sessionId);
+//		IPage<CheckRecord> page = adminService.getCheckRecordPage(sessionId, "2015-01-01", "", "", "", null, null, 0, 10);
+//		System.out.println(page.getTotalSize());
+//		adminService.addCheckItems(sessionId, "卫生", "厕所", "便池", "有虫子", "安监局", 0);
+//		adminService.editCheckItems(sessionId,9,"卫生", "厕所", "便池", "没虫子", "安监局", 1);
+		
+//		adminService.editCheckItems(sessionId,9,"卫生", "厕所", "洗脸盆", "有乌龟", "安监局", 0);
+//		adminService.editCheckItems(sessionId,9,"卫生", "厕所", "洗脸盆", "没乌龟", "安监局", 1);
+		
+		
+//		adminService.addCheckItems(sessionId, "证照", "营业执照", "卫生许可", "无", "安监局", 0);
+//		adminService.editCheckItems(sessionId,17,"证照", "营业执照", "卫生许可", "有", "安监局", 1);
+//		
+//		adminService.editCheckItems(sessionId,17,"证照", "经营许可证", "洗脸盆", "有乌龟", "安监局", 0);
+//		adminService.editCheckItems(sessionId,17,"证照", "经营许可证", "洗脸盆", "没乌龟", "安监局", 1);
+//		System.out.println(System.currentTimeMillis());
 	}
 	
 	

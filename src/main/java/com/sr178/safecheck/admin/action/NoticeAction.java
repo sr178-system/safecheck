@@ -18,10 +18,9 @@ public class NoticeAction extends ALDAdminPageActionSupport<Notice> {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private List<Notice> list;
 	public String showList(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
-        list = adminService.getNoticeList(super.getSessionId());
+        super.initPage(adminService.getNoticeList(super.getSessionId(),super.getToPage(),2));
 		return SUCCESS;
 	}
 	
@@ -116,14 +115,6 @@ public class NoticeAction extends ALDAdminPageActionSupport<Notice> {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public List<Notice> getList() {
-		return list;
-	}
-
-	public void setList(List<Notice> list) {
-		this.list = list;
-	}
-
 	public int getStatus() {
 		return status;
 	}

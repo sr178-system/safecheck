@@ -7,47 +7,47 @@
     		<div class="crumb">
     			<p>您当前的位置：<a href="/admin/adminindex">首页</a>><span>通知公告</span></p>
     		</div>
-    		<div>
-				<table class="table1 table2" width="100%">
-					<tr class="t2top">
-						<td colspan="10">
-							<ul>
-								<li><a href="/admin/addNotice">添加 +</a></li>
-								<li><a href="#" onclick="del()">删除</a></li>
-								<li><a href="#" onclick="editStatus(1)">启用</a></li>
-								<li><a href="#" onclick="editStatus(0)">停用</a></li>
-								<li><a href="#" onclick="editStatus(2)">置顶</a></li>
-								<li><a href="#" onclick="editStatus(3)">取消置顶</a></li>
-							</ul>
-						</td>
-					</tr>
+    		<div class="bulletin">
+    			<div class="b2top">
+    				<ul>
+						<li><a href="#" onclick="addBefor()">添加 +</a></li>
+						<li><a href="#" onclick="del()">删除</a></li>
+						<li><a href="#" onClick="editStatus(1)">启用</a></li>
+						<li><a href="#" onClick="editStatus(0)">停用</a></li>
+						<li><a href="#" onClick="editStatus(2)">置顶</a></li>
+						<li><a href="#" onClick="editStatus(1)">取消置顶</a></li>
+					</ul>
+    			</div>
+    			<div class="tbox">
+				<table class="table1 table5">
 					<tr> 
 						<th width="40px"><input class="setz" type="checkbox" /></th>
-						<th width="35%">标题</th>
-						<th width="10%">状态</th>
-						<th width="10%">所属部门</th>
-						<th width="10%">最后修改人</th>
-						<th width="12%">创建日期</th>
-						<th width="12%">修改日期</th>
-						<th width="8%">操作</th>
+						<th width="70%">标题</th>
+						<th width="10%">发布日期</th>
+						<th width="15%">状态</th>
 					</tr>
-					<s:iterator var="data" value="dataList">
+					<s:iterator var="data" value="list">
 					<tr>
-						<td><input type="checkbox" name="ids" value="${data.id}"/></td>
-						<td>${data.noticeTitle}</td>
+						<td><input type="checkbox" name="ids" id="ids" value="${data.id}"/></td>
+						<td><a href="#" onClick="editBefor(${data.id})">${data.noticeTitle}</a>
+						</td>
+						<td><fmt:formatDate value="${data.addTime}" type="both" pattern="yyyy.MM.dd"/></td>
 						<c:if test="${data.status==0}"><td class="red">已停用</td></c:if>
 						<c:if test="${data.status==1}"><td>已启用</td></c:if>
-						<c:if test="${data.status==2}"><td class="red">[置顶]</td></c:if>    
-						<td>${data.departMent}</td>
-						<td>${data.lastEditName}</td>
-						<td><fmt:formatDate value="${data.addTime}" type="both" pattern="yyyy.MM.dd"/></td>
-						<td><fmt:formatDate value="${data.editTime}" type="both" pattern="yyyy.MM.dd"/></td>
-						<td><a href="/admin/editNotice?id=${data.id}">编辑</a></td>
+						<c:if test="${data.status==2}"><td class="red">[置顶]</td></c:if>                                             
 					</tr>
 					</s:iterator>
 				</table>
-				<div class="page cb">
-					 <aldtags:pageTag/>
+				</div>
+				<div class="fbnew">
+					<form name="FormNotice" id="FormNotice">
+					    <input type="hidden" value="" name="id" id="id"/>
+						<p><b>标题：</b></p>
+						<p><input type="text" value="" name="title" id="title"/></p>
+						<p><b>内容：</b></p>
+						<p><textarea name="content1" id="content1"></textarea></p>
+						<p class="fbnt"><a href="#" onClick="add()">发布</a></p>
+					</form>
 				</div>
     		</div>
     </div>
@@ -65,9 +65,6 @@
 			desc="启用";
 		}else if(status==2){
 			desc="置顶";
-		}else if(status==3){
-			status=1;
-			desc="取消置顶";
 		}
 		if(!selok.size()){ return;};
 		$.messager.confirm("提示","<div class='ptext'>确定要"+desc+"这些公告吗？</div>",function(e){
@@ -137,7 +134,7 @@
 	}
 	//弹窗
 	function del(){
-		var selok = $('.table2 td input:checked');
+		var selok = $('.table5 td input:checked');
 		if(!selok.size()){ return;};
 		$.messager.confirm("提示","<div class='ptext'>确定要删除这些公告吗？</div>",function(e){
 			if(e){
