@@ -2,6 +2,7 @@ package com.sr178.safecheck.admin.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -1086,21 +1087,54 @@ public class AdminService {
 	 * @param taskId
 	 * @param type
 	 */
-	public String saveAttach(File file, String names,String descPath) {
+	public String[] saveAttach(File file, String names,String descPath) {
+	        String[] result = new String[2];
 			String oldFileName = names;
 			String[] prefixArray = oldFileName.split("\\.");
 			String prefix = prefixArray[prefixArray.length-1];
 			String fileName = MD5Security.md5_16(UUID.randomUUID().toString()) + "." + prefix;
 			try {
+				
 				FileUtils.copyFile(file, new File(descPath + fileName));
 			} catch (IOException e) {
 				LogSystem.error(e, "上传附件失败");
 				throw new ServiceException(3, "上传附件失败！请重新上传！");
 			}
-			return fileName;
+			String size = getFormatSize(file.length());
+			result[0] = fileName;
+			result[1] = size ;
+			return result;
 	}
 	public static void main(String[] args) {
 		System.out.println( MacShaUtils.doEncryptBase64("xx", SHA_SECRET));
 	}
+	
+	
+    public static String getFormatSize(double size) {  
+        double kiloByte = size/1024;  
+        if(kiloByte < 1) {  
+            return size + "Byte(s)";  
+        }  
+          
+        double megaByte = kiloByte/1024;  
+        if(megaByte < 1) {  
+            BigDecimal result1 = new BigDecimal(Double.toString(kiloByte));  
+            return result1.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "KB";  
+        }  
+          
+        double gigaByte = megaByte/1024;  
+        if(gigaByte < 1) {  
+            BigDecimal result2  = new BigDecimal(Double.toString(megaByte));  
+            return result2.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "MB";  
+        }  
+          
+        double teraBytes = gigaByte/1024;  
+        if(teraBytes < 1) {  
+            BigDecimal result3 = new BigDecimal(Double.toString(gigaByte));  
+            return result3.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "GB";  
+        }  
+        BigDecimal result4 = new BigDecimal(teraBytes);  
+        return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "TB";  
+    }  
 	
 }

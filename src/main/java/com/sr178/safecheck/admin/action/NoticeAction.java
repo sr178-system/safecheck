@@ -77,12 +77,15 @@ public class NoticeAction extends ALDAdminPageActionSupport<Notice> {
 	private List<String> attachContentType;
 	private String serverFileName;
 	private String clientFileName;
+	private String size;
 	public String uploadAttach() {
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		String path = ServletActionContext.getServletContext().getRealPath("/");
 		String descDirectoryPath = path + "/uploads/attach/";
 		clientFileName = attachFileName.get(0);
-		serverFileName = adminService.saveAttach(attach.get(0), attachFileName.get(0), descDirectoryPath);
+		String[] result = adminService.saveAttach(attach.get(0), attachFileName.get(0), descDirectoryPath);
+		serverFileName = result[0];
+		size = result[1];
 		return SUCCESS;
 	}
 	public String getTitle() {
@@ -168,5 +171,10 @@ public class NoticeAction extends ALDAdminPageActionSupport<Notice> {
 	public void setClientFileName(String clientFileName) {
 		this.clientFileName = clientFileName;
 	}
-	
+	public String getSize() {
+		return size;
+	}
+	public void setSize(String size) {
+		this.size = size;
+	}
 }
