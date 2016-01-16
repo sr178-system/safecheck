@@ -39,7 +39,7 @@ public class AppAction extends AppBaseActionSupport {
 	private int id;
 	public String checkDetails(){
 		AppService appService = ServiceCacheFactory.getService(AppService.class);
-		return renderObjectResult(appService.checkDetails(id));
+		return renderObjectResult(appService.checkDetailsNew(id));
 	}
 	/**
 	 * 模糊查询企业列表

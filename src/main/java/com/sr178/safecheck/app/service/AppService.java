@@ -29,6 +29,7 @@ import com.sr178.safecheck.admin.bo.EnforceRecord;
 import com.sr178.safecheck.admin.bo.Notice;
 import com.sr178.safecheck.admin.bo.Resource;
 import com.sr178.safecheck.admin.bo.User;
+import com.sr178.safecheck.app.bean.CheckDetailsBean;
 import com.sr178.safecheck.app.bean.FirstCheckItemBean;
 import com.sr178.safecheck.app.bean.NoReadBean;
 import com.sr178.safecheck.app.bean.ResultCheckItemBean;
@@ -166,6 +167,36 @@ public class AppService {
 		
 		zero.setDownList(firstList);
 		return zero;
+	}
+	
+	/**
+	 * 查询大类详情(客户端要求的格式)
+	 * @param id
+	 * @return
+	 */
+	public List<CheckDetailsBean> checkDetailsNew(int id){
+		List<CheckDetailsBean> result = Lists.newArrayList();
+		CheckItems checkItem = checkItemsDao.get(new SqlParamBean("id", id));
+		if(checkItem==null){
+			throw new ServiceException(1, "不存在的大类id");
+		}
+		List<CheckItems> firstCheckItems =  checkItemsDao.getList("order by id asc",new SqlParamBean("parent_id", id));
+		for(CheckItems first:firstCheckItems){
+			List<CheckItems> secondCheckItems =  checkItemsDao.getList("order by id asc",new SqlParamBean("parent_id", first.getId()));
+			for(CheckItems second:secondCheckItems){
+				CheckDetailsBean temp = new CheckDetailsBean();
+				temp.setCheckBigId(first.getId());
+				temp.setCheckBigTitle(first.getItemTitle());
+				temp.setCheckSmallId(second.getId());
+				temp.setCheckSmallTitle(second.getItemTitle());
+				List<CheckItems> resultCheckItems =  checkItemsDao.getList("order by id asc",new SqlParamBean("parent_id", second.getId()));
+				for(CheckItems options:resultCheckItems){
+					temp.addOptions(options.getId(), options.getItemTitle());
+				}
+				result.add(temp);
+			}
+		}
+		return result;
 	}
 	/**
 	 * 模糊查询企业列表
