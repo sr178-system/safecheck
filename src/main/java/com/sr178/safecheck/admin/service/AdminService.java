@@ -3,8 +3,10 @@ package com.sr178.safecheck.admin.service;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -34,6 +36,7 @@ import com.sr178.safecheck.admin.bo.Notice;
 import com.sr178.safecheck.admin.bo.Resource;
 import com.sr178.safecheck.admin.bo.User;
 import com.sr178.safecheck.admin.dao.AdminUserDao;
+import com.sr178.safecheck.app.bean.CheckDetailsForAdminBean;
 import com.sr178.safecheck.app.bean.ZeroCheckItemBean;
 import com.sr178.safecheck.app.bo.BigCheckItemBO;
 import com.sr178.safecheck.app.dao.CheckItemsDao;
@@ -192,12 +195,13 @@ public class AdminService {
 		if(record==null){
 			throw new ServiceException(1, "检查记录不存在");
 		}
-		ZeroCheckItemBean checkModelBean = appService.checkDetails(recordId);
+//		ZeroCheckItemBean checkModelBean = appService.checkDetails(recordId);
 		String checkResult = record.getCheckResult();
-		Map<String,CheckResultBean> map = transferToCheckResultBeanMap(checkResult, record);
+		List<CheckDetailsForAdminBean> checkDetails = transferToCheckResultBeanMap(checkResult, record);
 		result.setCheckRecord(record);
-		result.setCheckModelBean(checkModelBean);
-		result.setResultMap(map);
+//		result.setCheckModelBean(checkModelBean);
+//		result.setResultMap(map);
+		result.setCheckDetails(checkDetails);
 		result.setEnforceList(getEnforceRecordList(record.getCheckTime(), record.getCpName()));
 		return result;
 	}
@@ -210,7 +214,10 @@ public class AdminService {
 	 */
 	private List<EnforceRecord> getEnforceRecordList(Date checkTime,String cpName){
 		Date nextTime = checkRecordDao.getNextCheckTime(checkTime,cpName);
-		List<EnforceRecord> enList = enforceRecordDao.getEnforceRecordByDate(checkTime, nextTime, cpName);
+		List<EnforceRecord> enList = Lists.newArrayList();
+		if(nextTime!=null){
+			enList = enforceRecordDao.getEnforceRecordByDate(checkTime, nextTime, cpName);
+		}
 		return enList;
 	}
 	/**
@@ -219,18 +226,40 @@ public class AdminService {
 	 * @param checkRecord
 	 * @return  key为:[大项id+"#"+小项id],value为[检查的结果情况，包括结果选项，情况说明及资源地址]
 	 */
-	private Map<String,CheckResultBean> transferToCheckResultBeanMap(String checkResult,CheckRecord checkRecord){
+	private List<CheckDetailsForAdminBean> transferToCheckResultBeanMap(String checkResult,CheckRecord checkRecord){
+		List<CheckDetailsForAdminBean> result = Lists.newArrayList();
+		if(Strings.isNullOrEmpty(checkResult)){
+			return result;
+		}
 		String[] strArray =  checkResult.split(":");
-		Map<String,CheckResultBean> result = Maps.newHashMap();
 		Map<String,List<String>> photoMap = getItemPhoto(checkRecord.getResource2Names());
+		
+		Map<Integer,Integer> bigIdToSecondSize = Maps.newHashMap();
+		
 		for(String str:strArray){
+			CheckDetailsForAdminBean tempBean = new CheckDetailsForAdminBean();
 			CheckResultBean temp = trasferToCheckResultBean(str);
 			if(temp==null){
 				continue;
 			}
+			tempBean.setCheckBigId(temp.getFirstItem().getId());
+			tempBean.setCheckBigTitle(temp.getFirstItem().getItemTitle());
+			tempBean.setCheckSmallId(temp.getSecondItem().getId());
+			tempBean.setCheckSmallTitle(temp.getSecondItem().getItemTitle());
 			String key = temp.getFirstItem().getId().intValue()+"#"+temp.getSecondItem().getId().intValue();
 			temp.setResource(photoMap.get(key));
-			result.put(key, temp);
+			tempBean.setResult(temp);
+			result.add(tempBean);
+			if(bigIdToSecondSize.containsKey(temp.getFirstItem().getId())){
+				Integer currentSize = bigIdToSecondSize.get(temp.getFirstItem().getId());
+				currentSize = currentSize +1;
+				bigIdToSecondSize.put(temp.getFirstItem().getId(), currentSize);
+			}else{
+				bigIdToSecondSize.put(temp.getFirstItem().getId(), 1);
+			}
+		}
+		for(CheckDetailsForAdminBean bean:result){
+			bean.setSecondSize(bigIdToSecondSize.get(bean.getCheckBigId()).intValue());
 		}
 		return result;
 	}
@@ -240,6 +269,9 @@ public class AdminService {
 	 * @return
 	 */
 	private Map<String,List<String>> getItemPhoto(String resourceStr){
+		if(Strings.isNullOrEmpty(resourceStr)){
+			return new HashMap<String,List<String>>();
+		}
 		String[] resources = resourceStr.split(",");
 		Map<String,List<String>> result = Maps.newHashMap();
 		for(String resource:resources){
@@ -288,6 +320,7 @@ public class AdminService {
 			int smallId = Integer.valueOf(items[1]);
 			CheckItems resultItemBig = checkItemsDao.get(new SqlParamBean("id", bigid));
 			CheckItems resultItemSmall = checkItemsDao.get(new SqlParamBean("id", smallId));
+			
 			if(resultItemBig==null){
 				return null; 
 			}
@@ -297,10 +330,12 @@ public class AdminService {
 			}
 			result.setSecondItem(resultItemSmall);
 		} catch (Exception e) {
+			LogSystem.error(e, "");
 			return null;
 		}
 		String[] resultIds = items[2].split("\\|");
-		List<CheckItems> resultList = Lists.newArrayList();
+		String resultList = "";
+//		List<CheckItems> resultList = Lists.newArrayList();
 		for(String idStr:resultIds){
 			try {
 				int id = Integer.valueOf(idStr);
@@ -309,12 +344,17 @@ public class AdminService {
 					LogSystem.warn("无法找到结果id=["+idStr+"]");
 					continue;
 				}
-				resultList.add(resultItem);
+				if(resultList.equals("")){
+					resultList = resultItem.getItemTitle();
+				}else{
+					resultList = resultList+","+resultItem.getItemTitle();
+				}
 			} catch (Exception e) {
 				LogSystem.warn("结果id错误,id应该为数字类型，但现在不是，id="+idStr);
 				continue;
 			}
 		}
+		result.setResultList(resultList);
 		result.setDescription(items[3]);
 		return result;
 	}

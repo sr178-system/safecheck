@@ -94,7 +94,24 @@ table a{color: #1f73e4;}
 .form p textarea{ margin-left: 10px; width: 245px; height: 100px; }
 .form .fbnt a{ margin: 20px 10px  0 40px; padding: 3px 15px; border-radius: 4px; display: inline-block; border: 1px solid #a0a0a0; background: #FFF;}
 
+.t1top .jrssubmit input{ width: 140px; margin-bottom: 10px; height: 30px; }
+.t1top .jrssubmit input.jrsdate{  background:#FFF url(../images/date.png) no-repeat 100px 3px; width: 120px; height: 30px; }
+.t1top .jrssubmit select{height: 30px; width: 127px; padding-left: 5px; line-height: 30px; }
+.t1top .jrssubmit button{padding: 3px 10px; cursor: pointer;}
+.t1top .jrssubmit{ text-align: left; }
+
+.filelink{ width: 445px; padding-bottom: 10px;}
+.filelink p{background: #eee; border-bottom: 1px solid #FFF; overflow: hidden; padding: 4px 10px;}
+.filelink p img{width: 30px; height: 24px; float: left;}
+.filelink p span{ float:left; padding-left: 10px; display: inline-block;line-height: 24px; }
+.filelink p a{ display: inline-block; width: 60px; background: #FFF; border:1px solid #bbb; line-height: 24px; float: right; border-radius: 3px; height: 24px; text-align: center; }
+
 .form1 select{ width: 180px;}
+.form1 p label{width: 80px;}
+.form1 p label b{color: red;}
+.form1 .zgxlcd{ display: none; background: #FFF;  position: absolute;width: 180px; border:1px solid #d1d1d1;top: 30px; left: 90px; }
+.form1 .zgxlcd p{ padding: 5px; cursor: pointer; border-bottom: 1px solid #d1d1d1;  }
+.form1 .zgxlcd p:hover, .form1 .zgxlcd p:nth-child(odd){ background: #eee; }
 
 .form2{ border-radius: 5px; z-index: 4; border:1px solid #a0a0a0; display: none; background: #FFF; width: 320px; height: 200px; position: absolute; right:50px; top:60px;}
 .form2 .fbnt a{ background: #00a0e9; border: none; color: #FFF; margin: 15px 10px 0 60px;}
@@ -129,6 +146,7 @@ table a{color: #1f73e4;}
 .bulletin .b2top li { float:left; margin-right:15px; }
 .bulletin .b2top li a{ color: #333; padding: 1px 15px; border-radius: 4px; display: inline-block; border: 1px solid #a0a0a0; background: #FFF; }
 
+.table9{ min-width: 950px;}
 
 .trhover{ background:#f5f5f5; color: #1f73e4;  }
 .trhover td{ color: #1f73e4;  } 
@@ -137,6 +155,17 @@ table a{color: #1f73e4;}
 .table5{ min-width:600px; width: 600px; }
 .table5 td{ padding:5px 10px; text-align: left;}
 
+.table6{min-width:180px;  }
+.tbox6 p{padding-bottom: 0;}
+.tbox6 p a{ color: #333; height: 25px; line-height: 25px; padding: 1px 14px; margin:7px 0;  border-radius: 4px; display: inline-block; border: 1px solid #a0a0a0; background: #FFF; }
+.tbox6 p input{ margin:0 15px;  width: auto;}
+.table6 input{ margin-right: 13px; }
+.table6 td{ height: 30px; }
+.tbox6 strong{padding-bottom: 10px;font-size: 17px; color: #444; display: inline-block;}
+.tbox6{ margin-right:50px;  overflow-x:inherit;    width: 197px!important;}
+.tisps{ padding: 5px; width: 280px; font-size: 13px; line-height: 28px; color: #777; }
+.gyn29{ height: 290px; border:1px solid #aaa;  overflow-x:hidden; overflow-y:scroll;  }
+
 .table4{min-width:350px; width: 350px;  }
 .table4 td{ padding:5px 10px 5px 15px; text-align: left;}
 .fbnew{ width: 400px; float:left; margin-top: -40px; }
@@ -144,9 +173,8 @@ table a{color: #1f73e4;}
 .fbnew input{  width: 440px; padding: 2px; margin-bottom: 10px; }
 .fbnew textarea{ width: 440px;  padding: 2px; height: 220px; }
 .fbnew .fbnt a{ background: #00a0e9; display: inline-block; border: none; color: #FFF;padding: 3px 15px; border-radius: 4px;}
-
-
-
+.jcglbjst{padding-left: 10px;}
+#dyhh, .jcglbja{color: #333;height: 25px;line-height: 25px;padding: 1px 10px;margin: 7px 0;border-radius: 4px;display: inline-block;border: 1px solid #a0a0a0;background: #FFF;}
 .panel {
   overflow: hidden;
   text-align: left;
@@ -689,9 +717,8 @@ table a{color: #1f73e4;}
   z-index: 4;
 }
 
-
-
-
+.jcjlxs{height: 30px; line-height: 30px;}
+.jcjlxs h5{color:#045aac; font-size: 16px; padding-top: 15px; padding-bottom: 5px;}
 
 
 .lightboxOverlay {

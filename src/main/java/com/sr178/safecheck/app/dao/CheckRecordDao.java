@@ -73,7 +73,7 @@ public class CheckRecordDao extends SfDaoBase<CheckRecord> {
 	
 	
 	public Date getNextCheckTime(Date checkTime,String cpName){
-		String sql = "select er.check_time from "
+		String sql = "select er.* from "
 				+ super.getTable() + " as er "
 				+ " where er.check_time>? and er.cp_name=?"
 				+ " order by er.check_time asc limit 1"
@@ -81,7 +81,12 @@ public class CheckRecordDao extends SfDaoBase<CheckRecord> {
 		SqlParameter parameter = SqlParameter.Instance();
 		parameter.withObject(checkTime);
 		parameter.withString(cpName);
-		return jdbc.queryForObject(sql, Date.class, parameter);
+		CheckRecord result = jdbc.get(sql, CheckRecord.class, parameter);
+		if(result!=null){
+			return result.getCheckTime();
+		}else{
+			return null;
+		}
 	}
 	
 	
@@ -90,7 +95,7 @@ public class CheckRecordDao extends SfDaoBase<CheckRecord> {
 				+ super.getTable() + " as er " + "left join resource as r on er.resource_id=r.resource_id"
 				+ " left join user as u on er.check_username=u.user_name "
 				+ " left join check_items as ci on er.check_item_id=ci.id" 
-				+ " where id=?";
+				+ " where er.id=?";
 		SqlParameter parameter = SqlParameter.Instance();
 		parameter.withInt(recordId);
 		return jdbc.get(sql, CheckRecord.class, parameter);

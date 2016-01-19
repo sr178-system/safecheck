@@ -13,7 +13,12 @@
 		</action>
 		<action name="adminindex" class="com.sr178.safecheck.admin.action.CheckRecordAction" method="recordList">
 			<result name="success">
-			   /admin/checkrecord.jsp
+			   /admin/jcjl.jsp
+			</result>
+		</action>
+		<action name="recordDetails" class="com.sr178.safecheck.admin.action.CheckRecordAction" method="recordDetails">
+			<result name="success">
+			   /admin/jcjl-xq.jsp
 			</result>
 		</action>
 		<action name="checkRecordList" class="com.sr178.safecheck.admin.action.JctjAction" method="checkList">

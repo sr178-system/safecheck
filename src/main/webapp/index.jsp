@@ -4,9 +4,10 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>泸州市江阳区安全生产监督管理局 - 移动执法系统管理后台</title>
+	<title>泸州市江阳区安全生产移动执法系统管理后台</title>
 	<link rel="stylesheet" type="text/css" href="/css/easyui.css">
 	<script type="text/javascript" src="/scripts/jquery.min.js"></script>
+	<script type="text/javascript" src="../scripts/jquery.cookie.js"></script>
 	<script type="text/javascript" src="/scripts/jquery.easyui.min.js"></script>
     <script language="javascript" src="/js/ajax.js"></script>
 	<SCRIPT type=text/javascript>
@@ -47,9 +48,10 @@
 		<form class="cb" name="Form" id="Form" onSubmit="return false" method="POST">
 			<p class="lxq"></p> 
 			<div>
-				<p><label>用户名：</label><input type="text" name="userName"></p>
-				<p><label>密　码：</label><input type="password" name="passWord"></p>
-				<p><label></label><a href="javascript:logins()"><img src="images/login.jpg" /></a></p>
+				<p><label>用户名：</label><input type="text" name="userName" id="userName"></p>
+				<p><label>密　码：</label><input type="password" name="passWord" id="passWord"></p>
+				<p style="color:#0952a1;"><label></label><input id="rember_me" type="checkbox" checked="checked" > 记住密码</p>
+				<p><label></label><a href="javascript:logins()" id="loginbut"><img src="images/login.jpg" /></a></p>
 			</div>
 		</form>
 	</div>
@@ -73,4 +75,25 @@
 				logins();
 			}
 		});
-</script>
+ 	$(document).ready(function () {
+		$("#loginbut").click(function() {
+			
+			if ($("#rember_me").attr("checked") == "checked") {
+				var username = $("#userName").val();
+				var password = $("#passWord").val();
+				$.cookie("username", username, { expires: 7 });
+				$.cookie("password", password, { expires: 7 });
+			}
+		});
+
+		var username = $.cookie("username");
+		var password = $.cookie("password");
+         
+		if (username && password) {
+			$("#userName").val(username);
+			$("#passWord").val(password);
+		}else {
+			
+		}
+	});
+    </script>

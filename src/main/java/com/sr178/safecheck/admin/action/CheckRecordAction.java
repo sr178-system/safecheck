@@ -29,7 +29,7 @@ public class CheckRecordAction extends ALDAdminPageActionSupport<CheckRecord> {
 	public String recordList(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		bigCheckList = adminService.getAllParentCheckItems(super.getSessionId());
-		super.initPage(adminService.getCheckRecordPage(super.getSessionId(), startDate, endDate, searchCp, checkName, checkId, checkResult, super.getToPage(), 30)); 
+		super.initPage(adminService.getCheckRecordPage(super.getSessionId(), startDate, endDate, searchCp, checkName, checkId, checkResult, super.getToPage(), 3)); 
 		return SUCCESS;
 	}
  
@@ -37,10 +37,10 @@ public class CheckRecordAction extends ALDAdminPageActionSupport<CheckRecord> {
 	 * 检查详情
 	 */
 	private int recordId;
-	private CheckRecordDetailsBean checkRecordDetailsBean;
+	private CheckRecordDetailsBean bean;
 	public String recordDetails(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
-		checkRecordDetailsBean = adminService.getCheckRecordDetailsBean(recordId);
+		bean = adminService.getCheckRecordDetailsBean(recordId);
 		return SUCCESS;
 	}
 
@@ -92,10 +92,11 @@ public class CheckRecordAction extends ALDAdminPageActionSupport<CheckRecord> {
 	public void setRecordId(int recordId) {
 		this.recordId = recordId;
 	}
-	public CheckRecordDetailsBean getCheckRecordDetailsBean() {
-		return checkRecordDetailsBean;
+	public CheckRecordDetailsBean getBean() {
+		return bean;
 	}
-	public void setCheckRecordDetailsBean(CheckRecordDetailsBean checkRecordDetailsBean) {
-		this.checkRecordDetailsBean = checkRecordDetailsBean;
+	public void setBean(CheckRecordDetailsBean bean) {
+		this.bean = bean;
 	}
+
 }

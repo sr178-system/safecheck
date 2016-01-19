@@ -1,44 +1,31 @@
 package com.sr178.safecheck.admin.bean;
 
 import java.util.List;
-import java.util.Map;
 
 import com.sr178.safecheck.admin.bo.CheckRecord;
 import com.sr178.safecheck.admin.bo.EnforceRecord;
-import com.sr178.safecheck.app.bean.ZeroCheckItemBean;
+import com.sr178.safecheck.app.bean.CheckDetailsForAdminBean;
 
 public class CheckRecordDetailsBean {
 
 	private CheckRecord checkRecord;
 	
-	private ZeroCheckItemBean checkModelBean;
+	private List<CheckDetailsForAdminBean> checkDetails;
 	
-	private Map<String,CheckResultBean> resultMap;
 	
 	private List<EnforceRecord> enforceList;
 
 	public CheckRecord getCheckRecord() {
 		return checkRecord;
 	}
-
 	public void setCheckRecord(CheckRecord checkRecord) {
 		this.checkRecord = checkRecord;
 	}
-
-	public ZeroCheckItemBean getCheckModelBean() {
-		return checkModelBean;
+	public List<CheckDetailsForAdminBean> getCheckDetails() {
+		return checkDetails;
 	}
-
-	public void setCheckModelBean(ZeroCheckItemBean checkModelBean) {
-		this.checkModelBean = checkModelBean;
-	}
-
-	public Map<String, CheckResultBean> getResultMap() {
-		return resultMap;
-	}
-
-	public void setResultMap(Map<String, CheckResultBean> resultMap) {
-		this.resultMap = resultMap;
+	public void setCheckDetails(List<CheckDetailsForAdminBean> checkDetails) {
+		this.checkDetails = checkDetails;
 	}
 
 	public List<EnforceRecord> getEnforceList() {

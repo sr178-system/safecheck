@@ -106,7 +106,7 @@ public class PageTag implements Tag {
 						String value = "";
 						//最后一个参数没有相应值
 						if ((i+1) < paraArr.length) {
-							value = URLEncoder.encode(URLEncoder.encode(paraArr[i+1],"UTF-8"),"UTF-8");
+							value = URLEncoder.encode(paraArr[i+1],"UTF-8");
 						}
 						if (!Tools.isEmpty(para) && paraNum == 0 && !Tools.isEmpty(value)) {
 							url = url + "?" + para + "=" + value;

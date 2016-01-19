@@ -144,6 +144,9 @@ public class AppService {
 	 */
 	public ZeroCheckItemBean checkDetails(int id){
 		CheckItems checkItem = checkItemsDao.get(new SqlParamBean("id", id));
+		if(checkItem==null){
+			return null;
+		}
 		ZeroCheckItemBean zero = new ZeroCheckItemBean(checkItem);
 		List<CheckItems> firstCheckItems =  checkItemsDao.getList(new SqlParamBean("parent_id", id));
 		List<FirstCheckItemBean>  firstList = Lists.newArrayList();

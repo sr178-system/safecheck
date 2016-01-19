@@ -8,7 +8,7 @@ public class CheckResultBean {
 
 	private CheckItems firstItem;
 	private CheckItems secondItem;
-	private List<CheckItems> resultList;
+	private String resultList;
 	private String description;
 	private List<String> resource;
 	public CheckItems getFirstItem() {
@@ -22,12 +22,6 @@ public class CheckResultBean {
 	}
 	public void setSecondItem(CheckItems secondItem) {
 		this.secondItem = secondItem;
-	}
-	public List<CheckItems> getResultList() {
-		return resultList;
-	}
-	public void setResultList(List<CheckItems> resultList) {
-		this.resultList = resultList;
 	}
 	public String getDescription() {
 		return description;
@@ -43,5 +37,11 @@ public class CheckResultBean {
 	}
 	public CheckResultBean() {
 		super();
+	}
+	public String getResultList() {
+		return resultList;
+	}
+	public void setResultList(String resultList) {
+		this.resultList = resultList;
 	}
 }
