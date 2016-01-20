@@ -29,7 +29,7 @@ public class CheckRecordAction extends ALDAdminPageActionSupport<CheckRecord> {
 	public String recordList(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		bigCheckList = adminService.getAllParentCheckItems(super.getSessionId());
-		super.initPage(adminService.getCheckRecordPage(super.getSessionId(), startDate, endDate, searchCp, checkName, checkId, checkResult, super.getToPage(), 3)); 
+		super.initPage(adminService.getCheckRecordPage(super.getSessionId(), startDate, endDate, searchCp, checkName, checkId, checkResult, super.getToPage(), 30)); 
 		return SUCCESS;
 	}
  

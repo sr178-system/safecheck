@@ -48,7 +48,7 @@
 						<td>${data.cpName}</td>
 						<td>${data.checkItemName}</td>
 						<td>${data.checkerName}</td>
-						<td><c:if test="${data.passStatus==0}"><font color="red">未全部通过</font></c:if>
+						<td><c:if test="${data.passStatus==0}"><font class="red">未全部通过</font></c:if>
 						   <c:if test="${data.passStatus==1}">全部通过</c:if>
 						</td>
 						<td>${data.resPersonName}</td>

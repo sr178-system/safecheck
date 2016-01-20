@@ -140,12 +140,38 @@
 				<param name="includeProperties">code</param>
 			</result>
 		</action>
+		
+		<action name="addOrEditCheckItem" class="com.sr178.safecheck.admin.action.CheckItemAction" method="addOrEdit">
+            <result name="success">
+			    addOrEditCheckItem.jsp
+			</result>
+			<result name="redirect" type="redirect">
+			    /admin/addOrEditCheckItem?id=${id}&amp;code=${code}
+			</result>
+		</action>
+		
+		<action name="requestDownList" class="com.sr178.safecheck.admin.action.CheckItemAction" method="requestDownList">
+			 <result name="success" type="json">
+			    <param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">code,downList.*</param>
+			</result>
+		</action>	
+		
+		
 		<action name="deleteBigCheckItems" class="com.sr178.safecheck.admin.action.CheckItemAction" method="deleteBigCheckItems">
 			 <result name="success" type="json">
 			    <param name="ignoreHierarchy">false</param>
 				<param name="includeProperties">code</param>
 			</result>
-		</action>		
+		</action>	
+		
+		<action name="deleteSmallCheckItems" class="com.sr178.safecheck.admin.action.CheckItemAction" method="deleteSmallCheckItems">
+			 <result name="success" type="json">
+			    <param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">code</param>
+			</result>
+		</action>
+			
 		<action name="updateStatus" class="com.sr178.safecheck.admin.action.CheckItemAction" method="updateStatus">
 			 <result name="success" type="json">
 			    <param name="ignoreHierarchy">false</param>

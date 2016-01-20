@@ -17,6 +17,18 @@
 								<li><a href="#" onclick="editStatus(0)">启用</a></li>
 								<li><a href="#" onclick="editStatus(1)">停用</a></li>
 							</ul>
+							<form action="/admin/userList" method="post">
+							<div>
+								登录名：<input type="text" name="uname" value="${uname}"/>　
+								姓名：<input type="text" name="name" value="${name}"/>　
+								部门：<select name="departMent"><option value="">选择部门</option>
+							<s:iterator var="data" value="dps">
+					          <option value="${data}" <c:if test="${departMent==data}">selected</c:if>>${data}</option>
+					       </s:iterator>
+								</select>　
+								<input type="submit" value=" 查询 " />
+							</div>
+							</form>
 						</td>
 					</tr>
 					<tr> 
@@ -47,7 +59,7 @@
 					</s:iterator>
 				</table>
 				<div class="page cb">
-					 <aldtags:pageTag/>
+					 <aldtags:pageTag paraStr="uname,${uname},name,${name},departMent,${departMent}"/>
 				</div>
 
     		</div>

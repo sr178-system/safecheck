@@ -344,10 +344,17 @@ public class AdminService {
 					LogSystem.warn("无法找到结果id=["+idStr+"]");
 					continue;
 				}
-				if(resultList.equals("")){
-					resultList = resultItem.getItemTitle();
+				String title = "";
+				if(resultItem.getSuccessOrFail()==0){
+					title = "<font class='red'>"+resultItem.getItemTitle()+"</font>";
 				}else{
-					resultList = resultList+","+resultItem.getItemTitle();
+					title = resultItem.getItemTitle();
+				}
+				
+				if(resultList.equals("")){
+					resultList = title;
+				}else{
+					resultList = resultList+","+title;
 				}
 			} catch (Exception e) {
 				LogSystem.warn("结果id错误,id应该为数字类型，但现在不是，id="+idStr);
@@ -877,7 +884,7 @@ public class AdminService {
 	 * @param title
 	 * @param content
 	 */
-	public void addCheckItems(String sessionId,String title,String firstItemName,String secondItemName,String resultItemName,String departMent,int successOrFail){
+	public int addCheckItems(String sessionId,String title,String firstItemName,String secondItemName,String resultItemName,String departMent,int successOrFail){
 		ParamCheck.checkString(title, 1, "大类名称不能为空");
 		ParamCheck.checkString(firstItemName, 2, "大项名称不能为空");
 		ParamCheck.checkString(secondItemName, 3, "小项名称不能为空");
@@ -916,6 +923,8 @@ public class AdminService {
 		result.setParentId(secondId);
 		result.setSuccessOrFail(successOrFail);
 		checkItemsDao.addBackKey(result);
+		
+		return id;
 	}
 	/**
 	 * 修改检查项
@@ -931,7 +940,7 @@ public class AdminService {
 		UserInfo userInfo = isLogin(sessionId);
 		CheckItems temp = checkItemsDao.get(new SqlParamBean("id", id),new SqlParamBean(AND,"parent_id", 0));
 		if(temp==null){
-			throw new ServiceException(5, "修改的大类不存在，id="+id);
+			throw new ServiceException(6, "修改的大类不存在，id="+id);
 		}
 		temp.setItemTitle(title);
 		temp.setDepartMent(departMent);
@@ -945,6 +954,7 @@ public class AdminService {
 				CheckItems result = checkItemsDao.get(new SqlParamBean("item_title", resultItemName),new SqlParamBean(AND,"parent_id", second.getId()));
 				if(result!=null){
 					if(result.getSuccessOrFail()!=successOrFail){
+						result.setSuccessOrFail(successOrFail);
 						checkItemsDao.update(result);
 					}
 				}else{

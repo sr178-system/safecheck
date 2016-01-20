@@ -13,12 +13,18 @@
     		</div>
     		<div>
     			<form class="form form1" method="POST" action="addAdmin?st=1" name="FormAddAdmin" id="FormAddAdmin">
-    				<p><label><span style="font-size:12px;color:red">*</span>登录名：</label><input type="text" name="adminUserName" id="adminUserName" onKeyUp="value=value.replace(/[\W]/g,'')"></p>
-					<p><label><span style="font-size:12px;color:red">*</span>密　码：</label><input type="password"  name="passWord" id="passWord"></p>
-					<p><label><span style="font-size:12px;color:red">*</span>确认密码</label><input type="password"  name="passWord2" id="passWord2"></p>
-					<p><label><span style="font-size:12px;color:red">*</span>姓　名：</label><input type="text" name="name" id="name"></p>
+    				<p><label><b>*</b>登录名：</label><input type="text" name="adminUserName" id="adminUserName" onKeyUp="value=value.replace(/[\W]/g,'')"></p>
+					<p><label><b>*</b>密　码：</label><input type="password"  name="passWord" id="passWord"></p>
+					<p><label><b>*</b>确认密码:</label><input type="password"  name="passWord2" id="passWord2"></p>
+					<p><label><b>*</b>姓　名：</label><input type="text" name="name" id="name"></p>
 					<p class="sexs"><label>性　别：</label><input type="radio" checked="checked" name="sex" id="sex" value="1">男　　<input type="radio" name="sex" value="2">女</p>
-					<p><label><span style="font-size:12px;color:red">*</span>部门：</label><input type="text" name="departMent" id="departMent"></p>
+					<p><label><b>*</b>部门：</label><input type="text" name="departMent" id="departMent">
+					    <div class="zgxlcd">
+							<p>1XXX部门</p>
+							<p>2XXX部门</p>
+							<p>3XXX部门</p>
+						</div>
+					</p>
 					<p><label>电话号码：</label><input type="text" name="call" id="call"></p>
 					<p><label>备　注：</label></p>
 					<p><textarea name="remark" id="remark"></textarea></p>
@@ -85,4 +91,17 @@
     $('#FormAddAdmin').submit();
  }
  
+ 
+</script>
+<script type="text/javascript">
+	$("#departMent").keyup(function(){
+		//$.post('url',$(this).val(),function(data){
+			$(".zgxlcd").show();
+		//});
+	});
+
+	$(".zgxlcd p").click(function(){
+			$("#departMent").val($(this).text());
+			//$(".zgxlcd").hide();
+	})();
 </script>

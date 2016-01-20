@@ -1,8 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/admin/head.jsp"%>
 <div class="easyui-layout" data-options="fit:true">
-
 <jsp:include page="/admin/nav.jsp" flush="true"><jsp:param name="current" value="5"/></jsp:include>
+
     <div id="content" region="center">
     		<div class="crumb">
     			<p>您当前的位置：<a href="/admin/adminindex">首页</a>><span>检查项管理</span></p>
@@ -12,7 +12,7 @@
 					<tr class="t2top">
 						<td colspan="10">
 							<ul>
-								<li><a href="/admin/addOrEdit">添加 +</a></li>
+								<li><a href="/admin/addOrEditCheckItem">添加 +</a></li>
 								<li><a href="#" onclick="del()">删除</a></li>
 								<li><a href="#" onclick="editStatus(1)">启用</a></li>
 								<li><a href="#" onclick="editStatus(0)">停用</a></li>
@@ -38,7 +38,7 @@
 						<td>${data.lastEditName}</td>
 						<td><fmt:formatDate value="${data.addTime}" type="both" pattern="yyyy.MM.dd"/></td>
 						<td><fmt:formatDate value="${data.editTime}" type="both" pattern="yyyy.MM.dd"/></td>
-						<td><a href="/admin/addOrEdit?id=${data.id}">编辑</a></td>
+						<td><a href="/admin/addOrEditCheckItem?id=${data.id}">编辑</a></td>
 					</tr>
 					</s:iterator>
 				</table>

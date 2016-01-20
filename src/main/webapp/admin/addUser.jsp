@@ -14,12 +14,12 @@
     		</div>
     		<div>
     			<form class="form form1" method="POST" action="addUser?st=1" name="FormAddAdmin" id="FormAddAdmin">
-    				<p><label><span style="font-size:12px;color:red">*</span>登录名：</label><input type="text" name="adminUserName" id="adminUserName" onKeyUp="value=value.replace(/[\W]/g,'')"></p>
-					<p><label><span style="font-size:12px;color:red">*</span>密　码：</label><input type="password"  name="passWord" id="passWord"></p>
-					<p><label><span style="font-size:12px;color:red">*</span>确认密码：</label><input type="password"  name="passWord2" id="passWord2"></p>
-					<p><label><span style="font-size:12px;color:red">*</span>姓　名：</label><input type="text" name="name" id="name"></p>
+    				<p><label><b>*</b>登录名：</label><input type="text" name="adminUserName" id="adminUserName" onKeyUp="value=value.replace(/[\W]/g,'')"></p>
+					<p><label><b>*</b>密　码：</label><input type="password"  name="passWord" id="passWord"></p>
+					<p><label><b>*</b>确认密码：</label><input type="password"  name="passWord2" id="passWord2"></p>
+					<p><label><b>*</b>姓　名：</label><input type="text" name="name" id="name"></p>
 					<p class="sexs"><label>性　别：</label><input type="radio" checked="checked" name="sex" id="sex" value="1">男　　<input type="radio" name="sex" value="2">女</p>
-					<p><label><span style="font-size:12px;color:red">*</span>部门：</label><select name="departMent" id="departMent">
+					<p><label><b>*</b>部门：</label><select name="departMent" id="departMent">
 					       <c:forEach items="${dps}" var="info">
 					          <option value="${info}">${info}</option>
 					       </c:forEach> 

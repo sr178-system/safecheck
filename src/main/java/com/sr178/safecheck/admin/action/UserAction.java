@@ -23,6 +23,7 @@ public class UserAction extends ALDAdminPageActionSupport<User> {
 	private String departMent;
 	public String showListu(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+		dps = adminService.getMyDepartMent(super.getSessionId());
 		super.initPage(adminService.getUserPageList(super.getSessionId(),uname,name,departMent,super.getToPage(), 10));
 		return SUCCESS;
 	}

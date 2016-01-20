@@ -77,7 +77,7 @@ public class CheckItemAction extends ALDAdminPageActionSupport<CheckItems> {
 	private String firstItemName;//大项名称
 	private String secondItemName;//子项名称
 	private String resultItemName;//结果名称
-	private int successOrFail;//0 失败 标识 1成功标识
+	private Integer successOrFail;//0 失败 标识 1成功标识
 	private String departMent;//部门
 	private int st;
 	private List<String> dps;
@@ -89,15 +89,26 @@ public class CheckItemAction extends ALDAdminPageActionSupport<CheckItems> {
 				return SUCCESS;
 			} else {// 修改 查询大类信息 子类信息通过ajax异步请求接口
 				bigCheck = adminService.getBigCheck(id);
+				downList = adminService.getDownCheckItems(id);
 				return SUCCESS;
 			}
 		}
+		
+		if(successOrFail==null){
+			successOrFail = 1;
+		}else{
+			successOrFail = 0;
+		}
+		
 		if(id==null){
-			adminService.addCheckItems(super.getSessionId(), title, firstItemName, secondItemName, resultItemName, departMent, successOrFail);
+			id = adminService.addCheckItems(super.getSessionId(), title, firstItemName, secondItemName, resultItemName, departMent, successOrFail);
+			super.setCode(2000);
+			return "redirect";
 		}else{
 			adminService.editCheckItems(super.getSessionId(),id, title, firstItemName, secondItemName, resultItemName, departMent, successOrFail);
+			super.setCode(2001);
+			return "redirect";
 		}
-		return SUCCESS;
 	}
 
 	
