@@ -45,4 +45,9 @@ public class AdminUserDao extends SfDaoBase<AdminUser> {
 		String sql = "select distinct depart_ment from "+super.getTable()+" where depart_ment<>''";
 		return jdbc.queryForList(sql, String.class, null);
 	}
+	
+	public List<String> searchDepartMent(String str){
+		String sql = "select distinct depart_ment from "+super.getTable()+" where depart_ment<>'' and depart_ment like '%"+str+"%'";
+		return jdbc.queryForList(sql, String.class, null);
+	}
 }

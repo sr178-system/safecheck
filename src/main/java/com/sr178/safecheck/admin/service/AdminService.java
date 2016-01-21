@@ -3,7 +3,6 @@ package com.sr178.safecheck.admin.service;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,7 +12,6 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Strings;
@@ -33,18 +31,15 @@ import com.sr178.safecheck.admin.bo.CheckItems;
 import com.sr178.safecheck.admin.bo.CheckRecord;
 import com.sr178.safecheck.admin.bo.EnforceRecord;
 import com.sr178.safecheck.admin.bo.Notice;
-import com.sr178.safecheck.admin.bo.Resource;
 import com.sr178.safecheck.admin.bo.User;
 import com.sr178.safecheck.admin.dao.AdminUserDao;
 import com.sr178.safecheck.app.bean.CheckDetailsForAdminBean;
-import com.sr178.safecheck.app.bean.ZeroCheckItemBean;
 import com.sr178.safecheck.app.bo.BigCheckItemBO;
 import com.sr178.safecheck.app.dao.CheckItemsDao;
 import com.sr178.safecheck.app.dao.CheckRecordDao;
 import com.sr178.safecheck.app.dao.EnforceRecordDao;
 import com.sr178.safecheck.app.dao.NoticeDao;
 import com.sr178.safecheck.app.dao.UserDao;
-import com.sr178.safecheck.app.service.AppService;
 import com.sr178.safecheck.common.exception.ServiceException;
 import com.sr178.safecheck.common.utils.MD5Security;
 import com.sr178.safecheck.common.utils.MacShaUtils;
@@ -71,8 +66,6 @@ public class AdminService {
 	private NoticeDao noticeDao;
 	@Autowired
 	private AdminUserDao adminUserDao;
-	@Autowired
-	private AppService appService;
 	
 	private static final String SHA_SECRET = "!@#asDFA55214644";
 	/**
@@ -92,6 +85,14 @@ public class AdminService {
 		}else{
 			return adminUserDao.getAllDepartMent();
 		}
+	}
+	/**
+	 * 模糊搜索部门列表
+	 * @param str
+	 * @return
+	 */
+    public List<String> searchDepartMent(String str){
+		return adminUserDao.searchDepartMent(str);
 	}
 	/**
 	 * 查看是否登录了
@@ -293,8 +294,10 @@ public class AdminService {
 				 LogSystem.warn("不合法的文件名"+resource);
 				 continue;
 			}
+			resource = resource.replace("#", "%23");
 			if(result.containsKey(bigAndSmallId)){
 				List<String> list = result.get(bigAndSmallId);
+				
 				list.add(resource);
 			}else{
 				List<String> list = Lists.newArrayList();
@@ -304,6 +307,7 @@ public class AdminService {
 		}
 		return result;
 	}
+	
 	/**
 	 * 填充CheckResultBean的大项及小项名称及结果 及说明情况
 	 * @param resultItems
@@ -365,6 +369,7 @@ public class AdminService {
 		result.setDescription(items[3]);
 		return result;
 	}
+	
 	/**
 	 * 获取单个大类检查项
 	 * @param checkId
@@ -1077,7 +1082,7 @@ public class AdminService {
 	 * @param title
 	 * @param content
 	 */
-	public void addNotice(String sessionId,String title,String content,String attachMent){
+	public int addNotice(String sessionId,String title,String content,String attachMent){
 		ParamCheck.checkString(title, 1, "标题不能为空");
 		ParamCheck.checkString(content, 2, "内容不能为空");
 		UserInfo userInfo = this.isLogin(sessionId);
@@ -1090,7 +1095,7 @@ public class AdminService {
 		t.setDepartMent(userInfo.getCurrentDepartMent());
 		t.setAttachMent(attachMent);
 		t.setStatus(1);
-		noticeDao.add(t);
+		return noticeDao.addBackKey(t);
 	}
 	/**
 	 * 修改检查项
@@ -1157,6 +1162,8 @@ public class AdminService {
 	}
 	public static void main(String[] args) {
 		System.out.println( MacShaUtils.doEncryptBase64("xx", SHA_SECRET));
+		AdminService service = new AdminService();
+		service.getItemPhoto("1#2_adsfasfsafsaf.jpg");
 	}
 	
 	

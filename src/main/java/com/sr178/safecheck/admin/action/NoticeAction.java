@@ -3,8 +3,6 @@ package com.sr178.safecheck.admin.action;
 import java.io.File;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.struts2.ServletActionContext;
 
 import com.sr178.game.framework.context.ServiceCacheFactory;
@@ -20,7 +18,7 @@ public class NoticeAction extends ALDAdminPageActionSupport<Notice> {
 
 	public String showList(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
-        super.initPage(adminService.getNoticeList(super.getSessionId(),super.getToPage(),2));
+        super.initPage(adminService.getNoticeList(super.getSessionId(),super.getToPage(),10));
 		return SUCCESS;
 	}
 	
@@ -29,14 +27,33 @@ public class NoticeAction extends ALDAdminPageActionSupport<Notice> {
 	private String title;
 	private String content1;
 	private String attachMent;
-	public String add(){
+	private int st;
+	public String addOrEdit(){
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+		
+		if(st==0){
+			if(id==null){
+				return SUCCESS;
+			}else{
+				Notice notice = adminService.getOne(id);
+				if(notice!=null){
+					title = notice.getNoticeTitle();
+					content1 = notice.getNoticeContent();
+					attachMent = notice.getAttachMent();
+				}
+				return SUCCESS;
+			}
+		}
+		
+		
 		if(id==null){
-			adminService.addNotice(super.getSessionId(), title, content1, attachMent);
+			id = adminService.addNotice(super.getSessionId(), title, content1, attachMent);
+			super.setCode(2000);
 		}else{
 			adminService.editNotice(super.getSessionId(), id, title, content1, attachMent);
+			super.setCode(2001);
 		}
-		return SUCCESS;
+		return "redirect";
 	}
 	
 	private int[] ids;
@@ -176,5 +193,11 @@ public class NoticeAction extends ALDAdminPageActionSupport<Notice> {
 	}
 	public void setSize(String size) {
 		this.size = size;
+	}
+	public int getSt() {
+		return st;
+	}
+	public void setSt(int st) {
+		this.st = st;
 	}
 }

@@ -18,13 +18,14 @@
 					<p><label><b>*</b>确认密码:</label><input type="password"  name="passWord2" id="passWord2"></p>
 					<p><label><b>*</b>姓　名：</label><input type="text" name="name" id="name"></p>
 					<p class="sexs"><label>性　别：</label><input type="radio" checked="checked" name="sex" id="sex" value="1">男　　<input type="radio" name="sex" value="2">女</p>
-					<p><label><b>*</b>部门：</label><input type="text" name="departMent" id="departMent">
-					    <div class="zgxlcd">
-							<p>1XXX部门</p>
-							<p>2XXX部门</p>
-							<p>3XXX部门</p>
-						</div>
-					</p>
+					<div style="position: relative;">
+					<p><label><b>*</b>部门：</label><input type="text" name="departMent" id="departMent" autocomplete="off">
+					<div class="zgxlcd">
+							<c:forEach items="${dps}" var="info">
+					          <p>${info}</p>
+					       </c:forEach> 
+						</div></p>
+					</div>
 					<p><label>电话号码：</label><input type="text" name="call" id="call"></p>
 					<p><label>备　注：</label></p>
 					<p><textarea name="remark" id="remark"></textarea></p>
@@ -94,14 +95,40 @@
  
 </script>
 <script type="text/javascript">
-	$("#departMent").keyup(function(){
-		//$.post('url',$(this).val(),function(data){
-			$(".zgxlcd").show();
-		//});
-	});
-
-	$(".zgxlcd p").click(function(){
-			$("#departMent").val($(this).text());
+	
+	$("#departMent").keyup(function() {
+		if($(this).val()=='' || $(this).val()==""){
+			return;
+		}
+		//alert("str= "+$(this).val());
+		var obj = {  
+				 "departMent" : $(this).val()  
+				}; 
+        //this.value; //可取得目前的文字內容
+		$.post('searchDepartMent',obj,function(data){
+			//alert(JSON.stringify(data));
+			if(data.code==0){
+				$(".zgxlcd").empty();
+				var dps = data.dps;
+				for(var i=0;i<dps.length;i++){
+					$(".zgxlcd").append("<p>"+dps[i]+"</p>");
+				}
+				$(".zgxlcd").show();
+				bindClickToP();
+			}else{
+				alert("网络连接失败！");
+			}
+			
+		});
+    });
+	$("#departMent").blur(function(){
 			//$(".zgxlcd").hide();
-	})();
+			setTimeout("$('.zgxlcd').hide()",100);
+	});
+	function bindClickToP(){
+		$(".zgxlcd p").one("click",function(){
+				$("#departMent").val($(this).text());
+				$(".zgxlcd").hide();
+		})();
+	}
 </script>

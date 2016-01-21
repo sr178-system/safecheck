@@ -18,7 +18,14 @@
 					<p><label>确认密码：</label><input type="password"  name="passWord2" id="passWord2">如不修改密码,请留空</p>
 					<p><label><span style="font-size:12px;color:red">*</span>姓　名：</label><input type="text" name="name" id="name" value="${adminUser.name}"></p>
 					<p class="sexs"><label>性　别：</label><input type="radio" <c:if test="${adminUser.sex==1}">checked="checked"</c:if> name="sex" id="sex" value="1">男　　<input type="radio" <c:if test="${adminUser.sex==2}">checked="checked"</c:if> name="sex" id="sex" value="2">女</p>
-					<c:if test="${adminUser.userName!='admin'}"><p><label><span style="font-size:12px;color:red">*</span>部门：</label><input type="text" name="departMent" id="departMent" value="${adminUser.departMent}"></p></c:if>
+					<c:if test="${adminUser.userName!='admin'}"><div style="position: relative;">
+					<p><label><b>*</b>部门：</label><input type="text" name="departMent" id="departMent" value="${adminUser.departMent}" autocomplete="off">
+					<div class="zgxlcd">
+							<c:forEach items="${dps}" var="info">
+					          <p>${info}</p>
+					       </c:forEach> 
+						</div></p>
+					</div></c:if>
 					<p><label>电话号码：</label><input type="text" name="call" id="call" value="${adminUser.call}"></p>
 					<p><label>备　注：</label></p>
 					<p><textarea name="remark" id="remark">${adminUser.remark}</textarea></p>
@@ -77,3 +84,42 @@
 		}
 		
 	</script>
+	
+	<script type="text/javascript">
+	
+	$("#departMent").keyup(function() {
+		if($(this).val()=='' || $(this).val()==""){
+			return;
+		}
+		//alert("str= "+$(this).val());
+		var obj = {  
+				 "departMent" : $(this).val()  
+				}; 
+        //this.value; //可取得目前的文字內容
+		$.post('searchDepartMent',obj,function(data){
+			//alert(JSON.stringify(data));
+			if(data.code==0){
+				$(".zgxlcd").empty();
+				var dps = data.dps;
+				for(var i=0;i<dps.length;i++){
+					$(".zgxlcd").append("<p>"+dps[i]+"</p>");
+				}
+				$(".zgxlcd").show();
+				bindClickToP();
+			}else{
+				alert("网络连接失败！");
+			}
+			
+		});
+    });
+	$("#departMent").blur(function(){
+			//$(".zgxlcd").hide();
+			setTimeout("$('.zgxlcd').hide()",100);
+	});
+	function bindClickToP(){
+		$(".zgxlcd p").one("click",function(){
+				$("#departMent").val($(this).text());
+				$(".zgxlcd").hide();
+		})();
+	}
+</script>

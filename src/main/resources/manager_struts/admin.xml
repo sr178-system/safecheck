@@ -95,6 +95,12 @@
 			   /admin/addAdmin.jsp
 			</result>
 		</action>	
+		<action name="searchDepartMent" class="com.sr178.safecheck.admin.action.AdminUserAction" method="searchDepartMent">
+			  <result name="success" type="json">
+			    <param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">code,dps.*</param>
+			</result>
+		</action>
 		<action name="userList" class="com.sr178.safecheck.admin.action.UserAction" method="showListu">
 			 <result name="success">
 			   /admin/userList.jsp
@@ -184,10 +190,12 @@
 			   /admin/noticeList.jsp
 			</result>
 		</action>
-		<action name="addNotice" class="com.sr178.safecheck.admin.action.NoticeAction" method="add">
-            <result name="success" type="json">
-			    <param name="ignoreHierarchy">false</param>
-				<param name="includeProperties">code</param>
+		<action name="addOrEditNotice" class="com.sr178.safecheck.admin.action.NoticeAction" method="addOrEdit">
+             <result name="success">
+			   addOrEditNotice.jsp
+			</result>
+			<result name="redirect" type="redirect">
+			 /admin/addOrEditNotice?id=${id}&amp;code=${code}
 			</result>
 		</action>
 		<action name="deleteNotice" class="com.sr178.safecheck.admin.action.NoticeAction" method="delete">
@@ -212,7 +220,7 @@
 		<action name="uploadAttach" class="com.sr178.safecheck.admin.action.NoticeAction" method="uploadAttach">
             <result name="success" type="json" >
 				<param name="ignoreHierarchy">false</param>
-				<param name="includeProperties">clientFileName,serverFileName</param>
+				<param name="includeProperties">clientFileName,serverFileName,size</param>
 			</result>		
 		</action>
 	</package>

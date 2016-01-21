@@ -13,7 +13,7 @@ public class Notice{
 	private String noticeTitle;
 	private String noticeContent;
 	private int status;
-	private int read;
+	private Integer read;
 	private Date addTime;
 	private String attachMent;
 	private String departMent;
@@ -21,10 +21,10 @@ public class Notice{
 	private Date editTime;
 	
 	
-	public int getRead() {
+	public Integer getRead() {
 		return read;
 	}
-	public void setRead(int read) {
+	public void setRead(Integer read) {
 		this.read = read;
 	}
 	public Integer getId() {

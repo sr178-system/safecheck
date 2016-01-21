@@ -1,6 +1,8 @@
 package com.sr178.safecheck.admin.action;
 
 
+import java.util.List;
+
 import com.sr178.game.framework.context.ServiceCacheFactory;
 import com.sr178.safecheck.admin.bo.AdminUser;
 import com.sr178.safecheck.admin.service.AdminService;
@@ -70,6 +72,7 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		if(st==0){
 			adminUser = adminService.getAdminByUserName(adminUserName);
+			dps = adminService.getMyDepartMent(super.getSessionId());
 			return INPUT;
 		}
 		adminService.editAdmins(adminUserName, passWord, sex, name, call, remark,  departMent);
@@ -80,13 +83,23 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 	 * 添加管理员
 	 * @return
 	 */
+	private List<String> dps;
 	public String addAdmin(){
+		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		if(st==0){
 			return INPUT;
 		}
-		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		adminService.addAdmins(adminUserName, passWord, sex, name, call, remark,departMent);
 		super.setCode(2000);
+		return SUCCESS;
+	}
+	/**
+	 * 模糊查询部门列表
+	 * @return
+	 */
+	public String searchDepartMent(){
+		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+		dps = adminService.searchDepartMent(departMent);
 		return SUCCESS;
 	}
 	/**
@@ -205,5 +218,12 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 	public void setAdminUser(AdminUser adminUser) {
 		this.adminUser = adminUser;
 	}
-	
+
+	public List<String> getDps() {
+		return dps;
+	}
+
+	public void setDps(List<String> dps) {
+		this.dps = dps;
+	}
 }

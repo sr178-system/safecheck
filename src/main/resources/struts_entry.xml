@@ -5,6 +5,7 @@
 	<include file="struts-default.xml" />
 	<include file="struts-plugin.xml" />
 	<include file="manager_struts/all_manager.xml" />
+	 <constant name="struts.multipart.maxSize" value="10000000000"/>
 	<constant name="struts.multipart.saveDir" value="/tmp"></constant>
     <constant name="struts.custom.i18n.resources" value="message"></constant>
     <constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>

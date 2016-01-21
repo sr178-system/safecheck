@@ -1,8 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/admin/head.jsp"%>
-<div class="easyui-layout" data-options="fit:true">
 <link rel="stylesheet" type="text/css" href="/scripts/jquery.datetimepicker.css"/>
 <script src="/scripts/jquery.datetimepicker.js"></script>
+<div class="easyui-layout" data-options="fit:true">
 <jsp:include page="/admin/nav.jsp" flush="true"><jsp:param name="current" value="1"/></jsp:include>
    <div id="content" region="center">
     		<div class="crumb">

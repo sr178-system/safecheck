@@ -12,7 +12,7 @@
 					<tr class="t2top">
 						<td colspan="10">
 							<ul>
-								<li><a href="/admin/addNotice">添加 +</a></li>
+								<li><a href="/admin/addOrEditNotice">添加 +</a></li>
 								<li><a href="#" onclick="del()">删除</a></li>
 								<li><a href="#" onclick="editStatus(1)">启用</a></li>
 								<li><a href="#" onclick="editStatus(0)">停用</a></li>
@@ -38,11 +38,11 @@
 						<c:if test="${data.status==0}"><td class="red">已停用</td></c:if>
 						<c:if test="${data.status==1}"><td>已启用</td></c:if>
 						<c:if test="${data.status==2}"><td class="red">[置顶]</td></c:if>    
-						<td>${data.departMent}</td>
+						<td><c:if test="${not empty data.departMent}">${data.departMent}</c:if><c:if test="${empty data.departMent}">所有</c:if></td>
 						<td>${data.lastEditName}</td>
 						<td><fmt:formatDate value="${data.addTime}" type="both" pattern="yyyy.MM.dd"/></td>
 						<td><fmt:formatDate value="${data.editTime}" type="both" pattern="yyyy.MM.dd"/></td>
-						<td><a href="/admin/editNotice?id=${data.id}">编辑</a></td>
+						<td><a href="/admin/addOrEditNotice?id=${data.id}">编辑</a></td>
 					</tr>
 					</s:iterator>
 				</table>
