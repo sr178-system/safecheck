@@ -67,10 +67,10 @@
                 'uploader': '/admin/uploadAttach;jsessionid=${pageContext.session.id}',
                 //按钮显示的文字
                 'buttonText': '添加附件',
-                'buttonImage':'/images/login.jpg',
+                'buttonImage':'/images/addatach.png',
                 //显示的高度和宽度，默认 height 30；width 120
-                'height': 27,
-                'width': 100,
+                'height': 29,
+                'width': 90,
                 //上传文件的类型  默认为所有文件    'All Files'  ;  '*.*'
                 //在浏览窗口底部的文件类型下拉菜单中显示的文本
                 'fileTypeDesc': 'attach Files',
