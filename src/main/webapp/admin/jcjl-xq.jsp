@@ -121,13 +121,14 @@
 						    </tr>
 					</s:iterator>
 				</tbody></table>
+				<c:if test="${not empty  bean.enforceList}">
     		 	<h5>执法文书:</h5>
-    		 	<table class="table1" width="650" style="min-width: 650px;" oncontextmenu="return false" ondragstart="return false">
+    		 	<table class="table1 table9" oncontextmenu="return false" ondragstart="return false">
 					<tbody>
 					<tr>
-						<th width="100">执法日期</th>
-						<th width="100">执法人员</th>
-						<th width="300">执法文书照片</th>
+						<th width="20%">执法日期</th>
+						<th width="30%">执法人员</th>
+						<th width="50%">执法文书照片</th>
 					</tr>
 					<s:iterator var="data" value="bean.enforceList">
 					<tr align="center">
@@ -144,6 +145,7 @@
 					</tr>
 					</s:iterator>
 				</tbody></table>
+				</c:if>
     		 </div>
     		</div>
     		<div class="form form1">

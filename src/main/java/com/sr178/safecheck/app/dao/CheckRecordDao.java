@@ -66,7 +66,7 @@ public class CheckRecordDao extends SfDaoBase<CheckRecord> {
 	}
 	
 	public List<String> searchCompay(String searchStr,int limit){
-		String sql = "select cp_name from "+super.getTable()+" where cp_name like '%"+searchStr+"%' limit "+limit;
+		String sql = "select distinct cp_name from "+super.getTable()+" where cp_name like '%"+searchStr+"%' limit "+limit;
 		SqlParameter parameter = SqlParameter.Instance();
 		return jdbc.queryForList(sql, String.class, parameter);
 	}

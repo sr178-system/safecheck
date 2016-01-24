@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1075,7 +1076,14 @@ public class AdminService {
 			sql = sql + " where depart_ment='"+departMent+"'";
 		}
 		sql = sql + " order by status desc,id desc";
-		return noticeDao.getPageList(pageIndex, pageSize, sql);
+		IPage<Notice> ipage =  noticeDao.getPageList(pageIndex, pageSize, sql);
+//		if(ipage!=null&&ipage.getData().size()>0){
+//			Collection<Notice> c = ipage.getData();
+//			for(Notice notice:c){
+//				notice.setStatus(notice.getStatus()-1);
+//			}
+//		}
+		return ipage;
 	}
 	/**
 	 * 添加检查项

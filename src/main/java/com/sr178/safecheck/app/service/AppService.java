@@ -2,6 +2,7 @@ package com.sr178.safecheck.app.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -322,9 +323,16 @@ public class AppService {
 	 * @param pageSize
 	 * @return
 	 */
-	public IPage<Notice> getPageNotice(String searchStr,String userName,int pageIndex,int pageSize){
+	public IPage<Notice> getPageNotice(String searchStr, String userName, int pageIndex, int pageSize) {
 		User user = userDao.get(new SqlParamBean("user_name", userName));
-		return noticeDao.getNoticePage(searchStr,userName,user.getDepartMent(),pageIndex, pageSize);
+		IPage<Notice> ipage = noticeDao.getNoticePage(searchStr, userName, user.getDepartMent(), pageIndex, pageSize);
+		if (ipage != null && ipage.getData().size() > 0) {
+			Collection<Notice> c = ipage.getData();
+			for (Notice notice : c) {
+				notice.setStatus(notice.getStatus() - 1);
+			}
+		}
+		return ipage;
 	}
 	/**
 	 * 查询新闻内容

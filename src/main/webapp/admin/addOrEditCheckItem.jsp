@@ -15,7 +15,7 @@
     			<p>您当前的位置：<a href="/admin/adminindex">首页</a>><span>检查项管理</span>><span><c:if test="${empty id}">添加</c:if><c:if test="${not empty id}">编辑</c:if></span></p>
     		</div>
     		<div class="bulletin">
-    				<form class="form form1" action="addOrEditCheckItem?id=${id}&st=1" method="post">
+    				<form class="form form1" action="addOrEditCheckItem?id=${id}&st=1" method="post" id="checkItemForm" name="checkItemForm">
     					<p><label><b>*</b>检查类别：</label><input type="text" value="${bigCheck.itemTitle}" name="title"></p>
 						<p class="cb" style="padding-bottom: 50px;"><label class="l"><b>*</b>所属部门：</label>
 							<select class="l" style="padding: 5px;" name="departMent">
@@ -60,7 +60,7 @@
 					<p><label><b>*</b>结果选项：</label><input class="input3"  type="text" value="" name="resultItemName"></p>
 					<div class="jcglbjst"><input style="width: auto;" type="checkbox" checked="checked" name="successOrFail" value="1"> 是否为不通过标识</div>
 					<p class="tisps">说明：如果选择为不通过标识，检查人员在检查过程中勾选了改项，则在后台检查记录中，该项会用红色标注，方便人员重点查看。</p>
-					<button type="submit">添加</button>
+					<p><a href="#" class="jcglbja" onClick="submitB()">添加</a></p>
 				</div>
 
 
@@ -169,7 +169,9 @@
 		});
     }
 	
-
+    function submitB(){
+    	$("#checkItemForm").submit();
+    }
 </script>
 </body>
 </html>

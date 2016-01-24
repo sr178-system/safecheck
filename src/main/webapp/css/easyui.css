@@ -18,8 +18,8 @@ background:url(../images/icons.png) no-repeat;
 .loginbox{ background: url(../images/loginbg.png) no-repeat 0 0; width: 1005px; height:513px;  }
 .loginbox form{ width: 460px; margin:230px auto 0; }
 .loginbox form p.lxq{ padding-top: 110px; float:left; width: 230px; font-size: 12px; color: #5d5d5d;}
-.loginbox form div{ float:left;width:225px;}
-.loginbox form div p{ padding: 8px 0;}
+.loginbox form div{ float:left;width:225px;height:200px;}
+.loginbox form div p{ padding: 5px 0;}
 .loginbox form p label{ color: #0952a1; width: 65px; display: inline-block;}
 .loginbox form p input{ padding: 2px; border:1px solid #7491b5; background: #f5fafe;}
 
@@ -174,7 +174,7 @@ table a{color: #1f73e4;}
 .fbnew textarea{ width: 440px;  padding: 2px; height: 220px; }
 .fbnew .fbnt a{ background: #00a0e9; display: inline-block; border: none; color: #FFF;padding: 3px 15px; border-radius: 4px;}
 .jcglbjst{padding-left: 10px;}
-#dyhh, .jcglbja{color: #333;height: 25px;line-height: 25px;padding: 1px 10px;margin: 7px 0;border-radius: 4px;display: inline-block;border: 1px solid #a0a0a0;background: #FFF;}
+#dyhh, .jcglbja{color: #333;height: 25px;line-height: 25px;padding: 1px 10px;margin: 7px 5px;border-radius: 4px;display: inline-block;border: 1px solid #a0a0a0;background: #FFF;}
 .panel {
   overflow: hidden;
   text-align: left;
