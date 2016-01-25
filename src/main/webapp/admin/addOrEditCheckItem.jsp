@@ -27,7 +27,7 @@
 						
     			<div class="tbox tbox6">
     			<strong>大项管理：</strong>
-    			<p><input class="setz" type="checkbox" /><a href="#" onclick="pop()">删除</a></p>
+    			<p><input class="setz" type="checkbox" style="border:none"/><a href="#" onclick="pop()">删除</a></p>
     			<div class="gyn29">
 				<table class="table1 table6 click1">
 				<s:iterator var="data" value="downList">
@@ -38,7 +38,7 @@
 				</div>
 				<div class="tbox tbox6">
 				<strong>子项管理：</strong>
-				<p><input class="setz" type="checkbox" /><a href="#" onclick="pop()">删除</a></p>
+				<p><input class="setz" type="checkbox" style="border:none"/><a href="#" onclick="pop()">删除</a></p>
     			<div class="gyn29">
 				<table class="table1 table6 click2">
 					
@@ -47,7 +47,7 @@
 				</div>
 				<div class="tbox tbox6">
 				<strong>结果选项：</strong>
-				<p><input class="setz" type="checkbox" /><a href="#" onclick="pop()">删除</a></p>
+				<p><input class="setz" type="checkbox" style="border:none"/><a href="#" onclick="pop()">删除</a></p>
     			<div class="gyn29">
 				<table class="table1 table6 click3">
 					
