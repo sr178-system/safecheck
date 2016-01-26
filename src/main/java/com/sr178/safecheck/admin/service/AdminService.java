@@ -359,7 +359,7 @@ public class AdminService {
 				if(resultList.equals("")){
 					resultList = title;
 				}else{
-					resultList = resultList+","+title;
+					resultList = resultList+", "+title;
 				}
 			} catch (Exception e) {
 				LogSystem.warn("结果id错误,id应该为数字类型，但现在不是，id="+idStr);

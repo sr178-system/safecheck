@@ -58,7 +58,7 @@
 					<p><label><b>*</b>大项名称：</label><input class="input1" type="text" value=""  name="firstItemName"></p>
 					<p><label><b>*</b>子项名称：</label><input class="input2"  type="text" value="" name="secondItemName"></p>
 					<p><label><b>*</b>结果选项：</label><input class="input3"  type="text" value="" name="resultItemName"></p>
-					<div class="jcglbjst"><input style="width: auto;" type="checkbox" checked="checked" name="successOrFail" value="1"> 是否为不通过标识</div>
+					<div class="jcglbjst"><input style="width: auto;" type="checkbox" name="successOrFail" value="1"> 是否为不通过标识</div>
 					<p class="tisps">说明：如果选择为不通过标识，检查人员在检查过程中勾选了改项，则在后台检查记录中，该项会用红色标注，方便人员重点查看。</p>
 					<p><a href="#" class="jcglbja" onClick="submitB()">添加</a></p>
 				</div>
