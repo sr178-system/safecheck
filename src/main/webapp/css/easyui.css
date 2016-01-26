@@ -93,7 +93,6 @@ table a{color: #1f73e4;}
 .form p.sexs input{ border: none; width: auto; margin-right: 4px;}
 .form p textarea{ margin-left: 10px; width: 245px; height: 100px; }
 .form .fbnt a{ margin: 20px 10px  0 40px; padding: 3px 15px; border-radius: 4px; display: inline-block; border: 1px solid #a0a0a0; background: #FFF;}
-
 .t1top .jrssubmit input{ width: 140px; margin-bottom: 10px; height: 30px; }
 .t1top .jrssubmit input.jrsdate{  background:#FFF url(../images/date.png) no-repeat 100px 3px; width: 120px; height: 30px; }
 .t1top .jrssubmit select{height: 30px; width: 127px; padding-left: 5px; line-height: 30px; }
@@ -175,6 +174,7 @@ table a{color: #1f73e4;}
 .fbnew .fbnt a{ background: #00a0e9; display: inline-block; border: none; color: #FFF;padding: 3px 15px; border-radius: 4px;}
 .jcglbjst{padding-left: 10px;}
 #dyhh, .jcglbja{color: #333;height: 25px;line-height: 25px;padding: 1px 10px;margin: 7px 5px;border-radius: 4px;display: inline-block;border: 1px solid #a0a0a0;background: #FFF;}
+.jcglbja2{color: #333;height: 25px;line-height: 25px;padding: 1px 10px;margin: 1px 20px;border-radius: 4px;display: inline-block;border: 1px solid #a0a0a0;background: #FFF;}
 .panel {
   overflow: hidden;
   text-align: left;

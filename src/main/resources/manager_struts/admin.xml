@@ -156,6 +156,16 @@
 			</result>
 		</action>
 		
+		<action name="addOrEditBigCheckItem" class="com.sr178.safecheck.admin.action.CheckItemAction" method="addOrEditBigItems">
+            <result name="success" type="json">
+			    <param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">code</param>
+			</result>
+			<result name="redirect" type="redirect">
+			    /admin/addOrEditCheckItem?id=${id}&amp;code=${code}
+			</result>
+		</action>
+		
 		<action name="requestDownList" class="com.sr178.safecheck.admin.action.CheckItemAction" method="requestDownList">
 			 <result name="success" type="json">
 			    <param name="ignoreHierarchy">false</param>

@@ -75,11 +75,11 @@
 				<table class="table1 table9"  oncontextmenu="return false" ondragstart="return false">
 					<tbody>
 					<tr>
-						<th width="16%">检查大项</th>
-						<th width="21%">检查子项</th>
-						<th width="21%">检查结果</th>
-						<th width="21%">说明</th>
-						<th width="21%">取证照片</th>
+						<th width="160px">检查大项</th>
+						<th width="210px">检查子项</th>
+						<th width="160px">检查结果</th>
+						<th width="210px">说明</th>
+						<th width="210px">取证照片</th>
 					</tr>
 					<c:set var="first" value="0"></c:set>
 					<c:set var="whileBigId" value="-1"></c:set>
@@ -127,9 +127,9 @@
     		 	<table class="table1 table9" oncontextmenu="return false" ondragstart="return false">
 					<tbody>
 					<tr>
-						<th width="20%">执法日期</th>
-						<th width="30%">执法人员</th>
-						<th width="50%">执法文书照片</th>
+						<th width="200px">执法日期</th>
+						<th width="250px">执法人员</th>
+						<th width="500px">执法文书照片</th>
 					</tr>
 					<s:iterator var="data" value="bean.enforceList">
 					<tr align="center">

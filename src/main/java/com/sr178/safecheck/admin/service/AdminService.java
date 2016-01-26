@@ -934,6 +934,7 @@ public class AdminService {
 		
 		return id;
 	}
+
 	/**
 	 * 修改检查项
 	 * @param id
@@ -1008,6 +1009,41 @@ public class AdminService {
 			checkItemsDao.addBackKey(result);
 		}
 		
+	}
+	
+	
+	
+	public int addBigCheckItems(String sessionId,String title,String departMent){
+		ParamCheck.checkString(title, 1, "大类名称不能为空");
+		CheckItems temp = checkItemsDao.get(new SqlParamBean("item_title", title),new SqlParamBean(AND,"parent_id", 0));
+		if(temp!=null){
+			throw new ServiceException(5, "已存在的大类名称"+title);
+		}
+		//添加大类
+		CheckItems t = new CheckItems();
+		t.setItemTitle(title);
+		t.setAddTime(new Date());
+		t.setEditTime(new Date());
+		t.setStatus(1);
+		t.setParentId(0);
+		t.setDepartMent(departMent);
+		t.setLastEditName(isLogin(sessionId).getName());
+		int id = checkItemsDao.addBackKey(t);
+		
+		return id;
+	}
+	
+	public void editBigCheckItems(String sessionId,int id,String title,String departMent){
+		ParamCheck.checkString(title, 1, "大类名称不能为空");
+		UserInfo userInfo = isLogin(sessionId);
+		CheckItems temp = checkItemsDao.get(new SqlParamBean("id", id),new SqlParamBean(AND,"parent_id", 0));
+		if(temp==null){
+			throw new ServiceException(6, "修改的大类不存在，id="+id);
+		}
+		temp.setItemTitle(title);
+		temp.setDepartMent(departMent);
+		temp.setLastEditName(userInfo.getName());
+		checkItemsDao.update(temp);
 	}
 	/**
 	 * 删除检小查项

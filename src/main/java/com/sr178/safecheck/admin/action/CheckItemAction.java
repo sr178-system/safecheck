@@ -110,6 +110,21 @@ public class CheckItemAction extends ALDAdminPageActionSupport<CheckItems> {
 			return "redirect";
 		}
 	}
+	/**
+	 * 保存大类
+	 * @return
+	 */
+	public String addOrEditBigItems(){
+		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
+		if(id==null){
+			id = adminService.addBigCheckItems(super.getSessionId(), title, departMent);
+			super.setCode(2002);
+			return "redirect";
+		}else{
+			adminService.editBigCheckItems(super.getSessionId(),id, title, departMent);
+		}
+		return SUCCESS;
+	}
 
 	
 	public String getTitle() {

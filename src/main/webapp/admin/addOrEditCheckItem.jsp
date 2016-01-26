@@ -7,6 +7,8 @@
 <c:if test="${code==5}"><script type="text/javascript">alert("类别名称已存在。",function(){history.go(-1);});</script></c:if>
 <c:if test="${code==2000}"><script type="text/javascript">alert("添加成功。");</script></c:if>
 <c:if test="${code==2001}"><script type="text/javascript">alert("修改成功。");</script></c:if>
+<c:if test="${code==2002}"><script type="text/javascript">alert("保存成功。");</script></c:if>
+<c:if test="${code==2003}"><script type="text/javascript">alert("保存成功。");</script></c:if>
 <div class="easyui-layout" data-options="fit:true">
 <jsp:include page="/admin/nav.jsp" flush="true"><jsp:param name="current" value="5"/></jsp:include>
 
@@ -16,15 +18,15 @@
     		</div>
     		<div class="bulletin">
     				<form class="form form1" action="addOrEditCheckItem?id=${id}&st=1" method="post" id="checkItemForm" name="checkItemForm">
-    					<p><label><b>*</b>检查类别：</label><input type="text" value="${bigCheck.itemTitle}" name="title"></p>
+    					<p><label><b>*</b>检查类别：</label><input type="text" value="${bigCheck.itemTitle}" name="title" id="title"></p>
 						<p class="cb" style="padding-bottom: 50px;"><label class="l"><b>*</b>所属部门：</label>
-							<select class="l" style="padding: 5px;" name="departMent">
+							<select class="l" style="padding: 5px;" name="departMent" id="departMent">
 								<s:iterator var="data" value="dps">
 					              <option value="${data}" <c:if test="${departMent==data}">selected</c:if>>${data}</option>
 					            </s:iterator>
 							</select>
+							<a href="#" class="jcglbja2" onClick="submitA()">保存</a>
 						</p>
-						
     			<div class="tbox tbox6">
     			<strong>大项管理：</strong>
     			<p><input class="setz" type="checkbox" style="border:none"/><a href="#" onclick="pop()">删除</a></p>
@@ -171,6 +173,41 @@
 	
     function submitB(){
     	$("#checkItemForm").submit();
+    }
+    
+    function submitA(){
+    	var title = $('#title').val();
+    	var departMent = $('#departMent').val();
+    	if(title==''){
+    		alert("类别名称不能为空。");
+    		return;
+    	}
+    	if(departMent==''){
+    		alert("部门不能为空。");
+    		return;
+    	}
+    	var obj = {  
+    			 "title" : title,
+				 "departMent" : departMent
+				}; 
+    	$.post('addOrEditBigCheckItem?id=${id}',obj,function(data){
+			//alert(JSON.stringify(data));
+			if(data.code!=0){
+				if(data.code==5){
+					alert("已存在的类别名称。");
+					return;
+				}else if(data.code==6){
+					alert("修改的类别不存在.");
+					return;
+				}else if(data.code==1){
+					alert("类别名称不能为空.");
+					return;
+				}
+				alert("未知错误,code="+data.code);
+			}else{
+				 alert("保存成功。");
+			}
+		})
     }
 </script>
 </body>
