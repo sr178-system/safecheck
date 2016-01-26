@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/admin/head.jsp"%>
-<c:if test="${code==7}"><script type="text/javascript">alert("该用户名[${adminUserName}]已被占用！请重新注册",function(){history.go(-1);});</script></c:if>
+<c:if test="${code==7}"><script type="text/javascript">alert("该用户名[${adminUserName}]已被占用！请重新注册。",function(){history.go(-1);});</script></c:if>
 <c:if test="${code==2001}"><script type="text/javascript">alert("修改用户成功！",function(){location.href='/admin/adminList';});</script></c:if>
 <link rel="stylesheet" type="text/css" href="/scripts/jquery.datetimepicker.css"/>
 <script src="/scripts/jquery.datetimepicker.js"></script>
@@ -14,8 +14,8 @@
     		<div>
     			<form class="form form1" method="POST" action="editAdmin?st=1&adminUserName=${adminUser.userName}" name="FormAddAdmin" id="FormAddAdmin">
     				<p><label>登录名：</label>${adminUser.userName}</p>
-					<p><label>密　码：</label><input type="password"  name="passWord" id="passWord">如不修改密码,请留空</p>
-					<p><label>确认密码：</label><input type="password"  name="passWord2" id="passWord2">如不修改密码,请留空</p>
+					<p><label>密　码：</label><input type="password"  name="passWord" id="passWord"> 如不修改密码，请留空</p>
+					<p><label>确认密码：</label><input type="password"  name="passWord2" id="passWord2"> 如不修改密码，请留空</p>
 					<p><label><span style="font-size:12px;color:red">*</span>姓　名：</label><input type="text" name="name" id="name" value="${adminUser.name}"></p>
 					<p class="sexs"><label>性　别：</label><input type="radio" <c:if test="${adminUser.sex==1}">checked="checked"</c:if> name="sex" id="sex" value="1">男　　<input type="radio" <c:if test="${adminUser.sex==2}">checked="checked"</c:if> name="sex" id="sex" value="2">女</p>
 					<c:if test="${adminUser.userName!='admin'}"><div style="position: relative;">

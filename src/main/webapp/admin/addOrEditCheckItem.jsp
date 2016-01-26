@@ -1,12 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/admin/head.jsp"%>
-<c:if test="${code==1}"><script type="text/javascript">alert("类别名称不能为空",function(){history.go(-1);});</script></c:if>
-<c:if test="${code==2}"><script type="text/javascript">alert("大项名称不能为空",function(){history.go(-1);});</script></c:if>
-<c:if test="${code==3}"><script type="text/javascript">alert("子项名称不能为空",function(){history.go(-1);});</script></c:if>
-<c:if test="${code==4}"><script type="text/javascript">alert("结果名称不能为空",function(){history.go(-1);});</script></c:if>
-<c:if test="${code==5}"><script type="text/javascript">alert("类别名称已存在",function(){history.go(-1);});</script></c:if>
-<c:if test="${code==2000}"><script type="text/javascript">alert("添加成功");</script></c:if>
-<c:if test="${code==2001}"><script type="text/javascript">alert("修改成功");</script></c:if>
+<c:if test="${code==1}"><script type="text/javascript">alert("类别名称不能为空。",function(){history.go(-1);});</script></c:if>
+<c:if test="${code==2}"><script type="text/javascript">alert("大项名称不能为空。",function(){history.go(-1);});</script></c:if>
+<c:if test="${code==3}"><script type="text/javascript">alert("子项名称不能为空。",function(){history.go(-1);});</script></c:if>
+<c:if test="${code==4}"><script type="text/javascript">alert("结果名称不能为空。",function(){history.go(-1);});</script></c:if>
+<c:if test="${code==5}"><script type="text/javascript">alert("类别名称已存在。",function(){history.go(-1);});</script></c:if>
+<c:if test="${code==2000}"><script type="text/javascript">alert("添加成功。");</script></c:if>
+<c:if test="${code==2001}"><script type="text/javascript">alert("修改成功。");</script></c:if>
 <div class="easyui-layout" data-options="fit:true">
 <jsp:include page="/admin/nav.jsp" flush="true"><jsp:param name="current" value="5"/></jsp:include>
 
@@ -110,7 +110,7 @@
 		$.post('requestDownList?parentId='+innerid,function(data){
 			//alert(JSON.stringify(data));
 			if(data.code!=0){
-				alert("网络请求失败");
+				alert("网络请求失败！");
 				return;
 			}else{
 				$(".click2 tr td").parent().remove();

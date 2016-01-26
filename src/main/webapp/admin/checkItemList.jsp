@@ -91,7 +91,7 @@
 			if(e){
 				$.post('deleteItem',selok,function(data){
 					if(data.code==0){
-						alert("成功删除了"+selok.size()+"个",function(){
+						alert("成功删除了"+selok.size()+"个。",function(){
 							location.href="checkItemList";
 						});
 					}else{

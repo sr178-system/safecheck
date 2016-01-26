@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +41,8 @@ import com.sr178.safecheck.app.dao.EnforceRecordDao;
 import com.sr178.safecheck.app.dao.NoticeDao;
 import com.sr178.safecheck.app.dao.UserDao;
 import com.sr178.safecheck.common.exception.ServiceException;
+import com.sr178.safecheck.common.utils.DateStyle;
+import com.sr178.safecheck.common.utils.DateUtils;
 import com.sr178.safecheck.common.utils.MD5Security;
 import com.sr178.safecheck.common.utils.MacShaUtils;
 import com.sr178.safecheck.common.utils.ParamCheck;
@@ -217,9 +218,10 @@ public class AdminService {
 	private List<EnforceRecord> getEnforceRecordList(Date checkTime,String cpName){
 		Date nextTime = checkRecordDao.getNextCheckTime(checkTime,cpName);
 		List<EnforceRecord> enList = Lists.newArrayList();
-		if(nextTime!=null){
-			enList = enforceRecordDao.getEnforceRecordByDate(checkTime, nextTime, cpName);
+		if(nextTime==null){
+			nextTime = DateUtils.StringToDate("3010-01-01 23:59:59", DateStyle.YYYY_MM_DD_HH_MM_SS);
 		}
+		enList = enforceRecordDao.getEnforceRecordByDate(checkTime, nextTime, cpName);
 		return enList;
 	}
 	/**

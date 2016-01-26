@@ -32,7 +32,7 @@
 					</tr>
 					<s:iterator var="data" value="dataList">
 					<tr>
-						<td><input type="checkbox" name="adminUserNames" value="${data.userName}"/></td>
+						<td><c:if test="${data.userName!='admin'}"><input type="checkbox" name="adminUserNames" value="${data.userName}"  /></c:if></td>
 						<td>${data.userName}</td>
 						<c:if test="${data.status==0}"><td>已启用</td></c:if><c:if test="${data.status==1}"><td class="red">已禁用</td></c:if>
 						<td>${data.name}</td>

@@ -51,7 +51,9 @@ public class AdminUserAction extends ALDAdminPageActionSupport<AdminUser> {
 		AdminService adminService = ServiceCacheFactory.getService(AdminService.class);
 		if(adminUserNames!=null&&adminUserNames.length>0){
 			for(String adminUserName:adminUserNames){
-				adminService.editAdminStatus(adminUserName, status);
+				if(!adminUserName.equals("admin")){
+					adminService.editAdminStatus(adminUserName, status);
+				}
 			}
 		}
 		return SUCCESS;

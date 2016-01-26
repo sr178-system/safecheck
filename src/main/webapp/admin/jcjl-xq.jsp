@@ -5,8 +5,9 @@
     <div id="content" region="center">
     		<div class="crumb">
     		 <p>您当前的位置：<a href="/admin/adminindex">首页</a>><span>检查记录</span>><span>详情</span></p>
-    		 <div class="jcjlxs">
-    		 	<a style="float: right;" href="javascript:;" id="dyhh" onclick=preview(1)>打印</a>			
+    		 <div class="jcjlxs" >
+    		 	<a style="float: right;" href="javascript:;" id="dyhh" onclick="preview('printScale')">打印</a>		
+    		 	<div id="printScale">
     		 	<h5>泸州市江阳区安全生产移动执法系统检查记录:</h5>
 				<table class="table1 table9" oncontextmenu="return false" ondragstart="return false">
 					<tbody>
@@ -146,6 +147,7 @@
 					</s:iterator>
 				</tbody></table>
 				</c:if>
+				</div>	
     		 </div>
     		</div>
     		<div class="form form1">
@@ -153,29 +155,21 @@
     		</div>
     </div>
  </div>
+<script type="text/javascript">
+	function preview(myDiv){  
+		var newstr = document.getElementById(myDiv).innerHTML;
+	    var oldstr = document.body.innerHTML;
+	    document.body.innerHTML = newstr;
+	    window.print();
+	    document.body.innerHTML = oldstr;
+	}
+</script>
   <SCRIPT>
 <!--
 function openwindow(url) {
    window.open(url,'new','toolbar=no,scrollbars=yes,width=800,height=850');
-    }
+}
 //-->
 </SCRIPT>
-<script type="text/javascript">
-	function preview(oper){  
-		if (oper < 10)  
-		{  
-			bdhtml=window.document.body.innerHTML;//获取当前页的html代码  
-			sprnstr="<!--startprint"+oper+"-->";//设置打印开始区域  
-			eprnstr="<!--endprint"+oper+"-->";//设置打印结束区域  
-			prnhtml=bdhtml.substring(bdhtml.indexOf(sprnstr)+1565); //从开始代码向后取html  
-			prnhtmlprnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));//从结束代码向前取html  
-			window.document.body.innerHTML=prnhtml;  
-			window.print();  
-			window.document.body.innerHTML=bdhtml;  
-		} else {  
-				window.print();  
-		}  
-	}
-</script>
 </body>
 </html>
