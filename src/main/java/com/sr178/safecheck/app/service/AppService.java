@@ -223,8 +223,8 @@ public class AppService {
 		ParamCheck.checkObject(checkTime, 2, "检查时间不能为空");
 		ParamCheck.checkString(checkResult, 3, "检查结果不能为空");
 		ParamCheck.checkString(position, 4, "位置不能为空");
-		ParamCheck.checkString(resPersonName, 5, "现场负责人不能为空");
-		ParamCheck.checkString(resPersonCall, 6, "现场负责人电话不能为空");
+//		ParamCheck.checkString(resPersonName, 5, "现场负责人不能为空");
+//		ParamCheck.checkString(resPersonCall, 6, "现场负责人电话不能为空");
 		
 		boolean result = checkResultAvalidate(checkResult);
 		
@@ -280,12 +280,14 @@ public class AppService {
 			for(String idStr:resultIds){
 				try {
 					int id = Integer.valueOf(idStr);
-					CheckItems resultItem = checkItemsDao.get(new SqlParamBean("id", id));
-					if(resultItem==null){
-						throw new ServiceException(101, "结果id不存在,id="+id);
-					}
-					if(resultItem.getSuccessOrFail()==0){
-						result = false;
+					if(id!=-1){
+						CheckItems resultItem = checkItemsDao.get(new SqlParamBean("id", id));
+						if(resultItem==null){
+							throw new ServiceException(101, "结果id不存在,id="+id);
+						}
+						if(resultItem.getSuccessOrFail()==0){
+							result = false;
+						}
 					}
 				} catch (Exception e) {
 					throw new ServiceException(101, "结果id错误,id应该为数字类型，但现在不是，id="+idStr);
@@ -654,9 +656,11 @@ public class AppService {
 //		for(TrainRecordSimple trainRecordSimple:list){
 //			System.out.println(trainRecordSimple.toString());
 //		}
-		String sst = "1#2#3";
-		String[] str = sst.split("#");
-		System.out.println(str.length);
+//		String sst = "1#2#3";
+//		String[] str = sst.split("#");
+//		System.out.println(str.length);
+		AppService appService = new AppService();
+		appService.checkResultAvalidate("20,21,1,:23,24,1,");
 	}
 
 }

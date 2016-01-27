@@ -22,7 +22,7 @@
 						<p class="cb" style="padding-bottom: 50px;"><label class="l"><b>*</b>所属部门：</label>
 							<select class="l" style="padding: 5px;" name="departMent" id="departMent">
 								<s:iterator var="data" value="dps">
-					              <option value="${data}" <c:if test="${departMent==data}">selected</c:if>>${data}</option>
+					              <option value="${data}" <c:if test="${bigCheck.departMent==data}">selected</c:if>>${data}</option>
 					            </s:iterator>
 							</select>
 							<a href="#" class="jcglbja2" onClick="submitA()">保存</a>
@@ -129,6 +129,7 @@
 		$(".click3 tr td").parent().remove();
 		$(".input2").val("");
 		$(".input3").val("");
+		$("[name=successOrFail]:checkbox").prop("checked", false);
 	});
 	
     function bindClick2Tr(){
@@ -152,6 +153,7 @@
 			$(this).css("background-color","#7ecdf4");
 			$(".input2").val($(this).text());
 			$(".input3").val("");
+			$("[name=successOrFail]:checkbox").prop("checked", false);
 		});
     }
     

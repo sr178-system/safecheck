@@ -9,7 +9,7 @@
     		 	<a style="float: right;" href="javascript:;" id="dyhh" onclick="preview('printScale')">打印</a>		
     		 	<div id="printScale">
     		 	<h5>泸州市江阳区安全生产移动执法系统检查记录:</h5>
-				<table class="table1 table9" oncontextmenu="return false" ondragstart="return false">
+				<table class="table1 table9" oncontextmenu="return false" ondragstart="return false" style="table-layout: fixed;" width="950px">
 					<tbody>
 						<tr align="center">
 							<td>检查日期</td>
@@ -72,12 +72,12 @@
 					</tbody>
 				</table>
     		 	<h5>检查详情:</h5>
-				<table class="table1 table9"  oncontextmenu="return false" ondragstart="return false">
+				<table class="table1 table100"  oncontextmenu="return false" ondragstart="return false" style="table-layout: fixed;" width="950px">
 					<tbody>
 					<tr>
 						<th width="160px">检查大项</th>
-						<th width="210px">检查子项</th>
-						<th width="160px">检查结果</th>
+						<th width="150px">检查子项</th>
+						<th width="115px">检查结果</th>
 						<th width="210px">说明</th>
 						<th width="210px">取证照片</th>
 					</tr>
@@ -91,12 +91,12 @@
 						</c:if>
 						<tr align="center">
 							<c:if test="${first==1}">
-							  <td>${checkData.checkSmallTitle}</td>
-							  <td>
+							  <td style="WORD-WRAP:break-word;" width="150px">${checkData.checkSmallTitle}</td>
+							  <td style="WORD-WRAP:break-word;" width="115px">
 							      ${checkData.result.resultList}
 							  </td>
-							  <td>${checkData.result.description}</td>
-							  <td>
+							  <td style="WORD-WRAP:break-word;display: block; border: none;" width="210px">${checkData.result.description}</td>
+							  <td style="WORD-WRAP:break-word;" width="210px">
 							       <c:forEach items="${checkData.result.resource}" var="s">
 													<a href="/uploads/${s}" data-lightbox="example-set"
 														title="检查照片"><img src="/uploads/${s}" /></a>
@@ -104,13 +104,13 @@
 							  </td>
 							</c:if>
 						    <c:if test="${first==0}">
-							  <td rowspan="${checkData.secondSize}">${checkData.checkBigTitle}</td><!-- rowspan="2" 项有几例，这个rowspan就是几 --> 
-							  <td>${checkData.checkSmallTitle}</td>
-							  <td>
+							  <td rowspan="${checkData.secondSize}" style="WORD-WRAP:break-word;" width="160px">${checkData.checkBigTitle}</td><!-- rowspan="2" 项有几例，这个rowspan就是几 --> 
+							  <td style="WORD-WRAP:break-word;" width="150px">${checkData.checkSmallTitle}</td>
+							  <td style="WORD-WRAP:break-word;" width="115px">
 							      ${checkData.result.resultList}
 							  </td>
-							  <td>${checkData.result.description}</td>
-							  <td>
+							  <td style="WORD-WRAP:break-word;display: block; border: none;" width="210px">${checkData.result.description}</td>
+							  <td style="WORD-WRAP:break-word;" width="210px">
 							       <c:forEach items="${checkData.result.resource}" var="s">
 													<a href="/uploads/${s}" data-lightbox="example-set"
 														title="检查照片"><img src="/uploads/${s}" /></a>
@@ -124,7 +124,7 @@
 				</tbody></table>
 				<c:if test="${not empty  bean.enforceList}">
     		 	<h5>执法文书:</h5>
-    		 	<table class="table1 table9" oncontextmenu="return false" ondragstart="return false">
+    		 	<table class="table1 table100" oncontextmenu="return false" ondragstart="return false" style="table-layout: fixed;" width="950px">
 					<tbody>
 					<tr>
 						<th width="200px">执法日期</th>

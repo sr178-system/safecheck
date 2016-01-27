@@ -71,9 +71,9 @@ table tr, table td, table th{ border: 1px solid #9fa8b3; }
 table th { background:#ededed; text-align: center; height: 31px; line-height: 31px;}
 table a{color: #1f73e4;}
 
-.table1{ min-width: 1000px;}
+.table1{ min-width: 950px;}
 .table1 img{ width:40px; cursor: pointer; height:40px; margin-right: 5px; border: 1px solid #9fa8b3 }
-.table1 td { padding:5px 5px 5px 15px;}
+.table1 td { padding:5px 5px 5px 15px;WORD-WRAP:break-word;}
 .table1 .t1top{text-align:right; background:#d7d7d7;height:50px; }
 .table1 .t1top input{ color: #999; width: 200px; border: 1px solid #9fa8b3; padding-left: 5px; line-height: 31px; height: 31px; }
 .table1 .t1top span{ vertical-align: middle; margin-top: -4px; *margin-top: -13px; display: inline-block; width: 32px; height: 33px; background-color: #798da6; background-position:3px -403px; margin-right: 20px;cursor: pointer;}
@@ -146,7 +146,8 @@ table a{color: #1f73e4;}
 .bulletin .b2top li a{ color: #333; padding: 1px 15px; border-radius: 4px; display: inline-block; border: 1px solid #a0a0a0; background: #FFF; }
 
 .table9{ min-width: 950px;}
-
+.table100{display: block; border: none; }
+.table100 td{ padding:5px 10px 5px 15px;}
 .trhover{ background:#f5f5f5; color: #1f73e4;  }
 .trhover td{ color: #1f73e4;  } 
 
