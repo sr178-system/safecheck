@@ -2,8 +2,8 @@
 <%@ include file="/admin/head.jsp"%>
 <c:if test="${code==1}"><script type="text/javascript">alert("标题不能为空。",function(){history.go(-1);});</script></c:if>
 <c:if test="${code==2}"><script type="text/javascript">alert("内容不能为空。",function(){history.go(-1);});</script></c:if>
-<c:if test="${code==2000}"><script type="text/javascript">alert("添加成功。");</script></c:if>
-<c:if test="${code==2001}"><script type="text/javascript">alert("修改成功。");</script></c:if>
+<c:if test="${code==2000}"><script type="text/javascript">alert("添加成功。",function(){location.href='/admin/noticeList';});</script></c:if>
+<c:if test="${code==2001}"><script type="text/javascript">alert("修改成功。",function(){location.href='/admin/noticeList';});</script></c:if>
 <link href="/js/uploadify/uploadify.css" rel="stylesheet" type="text/css" />
 <div class="easyui-layout" data-options="fit:true">
 <jsp:include page="/admin/nav.jsp" flush="true"><jsp:param name="current" value="6"/></jsp:include>
