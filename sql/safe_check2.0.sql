@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-01-15 23:03:22
+Date: 2016-02-27 23:24:27
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,8 +37,6 @@ CREATE TABLE `admin_user` (
 -- Records of admin_user
 -- ----------------------------
 INSERT INTO `admin_user` VALUES ('admin', 'FoxpBwf+x4bDmWQtNCx7vojz8Oc=', '超级管理员', '1', '2015-09-11', '111', '超级管理员', '', '0', null);
-INSERT INTO `admin_user` VALUES ('dogdog', 'FoxpBwf+x4bDmWQtNCx7vojz8Oc=', 'chaoge', '1', null, '', '', null, '0', '资源部');
-INSERT INTO `admin_user` VALUES ('dogdog2', 'FoxpBwf+x4bDmWQtNCx7vojz8Oc=', 'jjasdf', '1', null, '', '', null, '0', '建设部');
 
 -- ----------------------------
 -- Table structure for check_items
@@ -56,28 +54,11 @@ CREATE TABLE `check_items` (
   `success_or_fail` tinyint(4) DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of check_items
 -- ----------------------------
-INSERT INTO `check_items` VALUES ('9', '卫生', '2016-01-15 22:03:37', '0', '安监局', '0', '超级管理员', '2016-01-15 22:08:24', '0', '1');
-INSERT INTO `check_items` VALUES ('10', '厕所', '2016-01-15 22:03:37', '9', null, '0', null, null, '0', '0');
-INSERT INTO `check_items` VALUES ('11', '便池', '2016-01-15 22:03:37', '10', null, '0', null, null, '0', '0');
-INSERT INTO `check_items` VALUES ('12', '有虫子', '2016-01-15 22:03:37', '11', null, '0', null, null, '0', '0');
-INSERT INTO `check_items` VALUES ('13', '没虫子', '2016-01-15 22:07:23', '11', null, '0', null, null, '1', '0');
-INSERT INTO `check_items` VALUES ('14', '洗脸盆', '2016-01-15 22:08:25', '10', null, '0', null, null, '0', '0');
-INSERT INTO `check_items` VALUES ('15', '有乌龟', '2016-01-15 22:08:25', '14', null, '0', null, null, '0', '0');
-INSERT INTO `check_items` VALUES ('16', '没乌龟', '2016-01-15 22:08:25', '14', null, '0', null, null, '1', '0');
-INSERT INTO `check_items` VALUES ('17', '证照', '2016-01-15 22:14:01', '0', '安监局', '0', '超级管理员', '2016-01-15 22:14:00', '0', '1');
-INSERT INTO `check_items` VALUES ('18', '营业执照', '2016-01-15 22:14:01', '17', null, '0', null, null, '0', '0');
-INSERT INTO `check_items` VALUES ('19', '卫生许可', '2016-01-15 22:14:01', '18', null, '0', null, null, '0', '0');
-INSERT INTO `check_items` VALUES ('20', '无', '2016-01-15 22:14:01', '19', null, '0', null, null, '0', '0');
-INSERT INTO `check_items` VALUES ('21', '有', '2016-01-15 22:14:01', '19', null, '0', null, null, '1', '0');
-INSERT INTO `check_items` VALUES ('22', '经营许可证', '2016-01-15 22:14:01', '17', null, '0', null, null, '0', '0');
-INSERT INTO `check_items` VALUES ('23', '洗脸盆', '2016-01-15 22:14:01', '22', null, '0', null, null, '0', '0');
-INSERT INTO `check_items` VALUES ('24', '有乌龟', '2016-01-15 22:14:01', '23', null, '0', null, null, '0', '0');
-INSERT INTO `check_items` VALUES ('25', '没乌龟', '2016-01-15 22:14:01', '23', null, '0', null, null, '1', '0');
 
 -- ----------------------------
 -- Table structure for check_record
@@ -99,20 +80,11 @@ CREATE TABLE `check_record` (
   `pass_status` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `cp_Name` (`cp_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of check_record
 -- ----------------------------
-INSERT INTO `check_record` VALUES ('1', '我1们', '1', null, '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', null, null, '0');
-INSERT INTO `check_record` VALUES ('2', '我2们', '2', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '', '0');
-INSERT INTO `check_record` VALUES ('3', '我3们', '3', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '', '0');
-INSERT INTO `check_record` VALUES ('4', '我4们', '4', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '', '0');
-INSERT INTO `check_record` VALUES ('5', '我5们', '5', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '', '0');
-INSERT INTO `check_record` VALUES ('6', '我6们', '6', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '', '0');
-INSERT INTO `check_record` VALUES ('7', '我7们', '7', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '', '0');
-INSERT INTO `check_record` VALUES ('8', '我8们', '8', '', '', '', '0', '', '2016-01-08 22:41:32', '2016-01-08 22:41:35', '', '', '0');
-INSERT INTO `check_record` VALUES ('9', 'company1', '9', '10,11,12|13,saysomthing:10,14,15,saysomthing', 'xx_down', '执法测试', '2', '200:500', '2016-01-15 22:17:36', '2016-01-15 22:21:28', 'dogdog', '15919820372', '0');
 
 -- ----------------------------
 -- Table structure for enforce_record
@@ -128,33 +100,11 @@ CREATE TABLE `enforce_record` (
   `enforce_server_time` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `cp_name` (`cp_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of enforce_record
 -- ----------------------------
-INSERT INTO `enforce_record` VALUES ('1', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('2', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('3', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('4', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('5', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('6', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('7', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('8', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('9', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('10', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('11', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('12', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('13', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('14', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('15', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('16', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('17', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('18', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('19', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('20', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('21', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
-INSERT INTO `enforce_record` VALUES ('22', '1', 'xx_down', '测试账号', '1', '2015-10-09 10:28:30', '2015-10-09 10:28:32');
 
 -- ----------------------------
 -- Table structure for notice
@@ -172,15 +122,11 @@ CREATE TABLE `notice` (
   `last_edit_name` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `status,add_time` (`status`,`add_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of notice
 -- ----------------------------
-INSERT INTO `notice` VALUES ('1', '资源部消息', '资源部内容', '1', '2016-01-09 16:49:36', null, '资源部', '2016-01-15 22:25:58', '管理员');
-INSERT INTO `notice` VALUES ('2', '安监局消息', '安监局内容', '1', '2016-01-09 17:40:57', null, '安监局', '2016-01-15 22:26:26', '管理员');
-INSERT INTO `notice` VALUES ('3', '管理员消息1', '管理员内容1', '1', '2016-01-09 17:41:13', null, '', '2016-01-15 22:27:00', '超级管理员');
-INSERT INTO `notice` VALUES ('4', '管理员消息2', '管理员内容2', '1', '2016-01-09 17:41:33', null, null, '2016-01-15 22:27:36', '超级管理员');
 
 -- ----------------------------
 -- Table structure for resource
@@ -195,13 +141,11 @@ CREATE TABLE `resource` (
   `updated_time` datetime DEFAULT NULL,
   `created_time` datetime DEFAULT NULL,
   PRIMARY KEY (`resource_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of resource
 -- ----------------------------
-INSERT INTO `resource` VALUES ('1', '1d763b5d6062c691.jpg', '1d763b5d6062c691.jpg', '1d763b5d6062c691.jpg', null, '2015-10-09 10:29:38', '2015-10-09 10:29:41');
-INSERT INTO `resource` VALUES ('2', null, null, null, null, '2016-01-15 22:21:28', '2016-01-15 22:21:28');
 
 -- ----------------------------
 -- Table structure for user
@@ -226,9 +170,6 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('xx_down', 'LpkBu6U7/DzcaD1DryBisxxpVBg=', '执法测试', '1', null, '15919820372', '备注', null, '0', '安监局', '超级管理员');
-INSERT INTO `user` VALUES ('zhifa1', 'FoxpBwf+x4bDmWQtNCx7vojz8Oc=', '执法', '2', null, 'dianhua1', '备注', null, '0', '资源部', '超级管理员');
-INSERT INTO `user` VALUES ('zhifa2', 'FoxpBwf+x4bDmWQtNCx7vojz8Oc=', '执法2', '1', null, 'dianhua', '备注', null, '1', '建设部', null);
-INSERT INTO `user` VALUES ('zhifa3', 'FoxpBwf+x4bDmWQtNCx7vojz8Oc=', '执法3', '1', null, '', '', null, '0', '资源部', '超级管理员');
 
 -- ----------------------------
 -- Table structure for user_notice_readlog
@@ -258,4 +199,3 @@ CREATE TABLE `version` (
 -- ----------------------------
 -- Records of version
 -- ----------------------------
-INSERT INTO `version` VALUES ('2', 'http://xxxx');
