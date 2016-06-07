@@ -17,6 +17,8 @@ public class StrutsExceptionInterceptor extends AbstractInterceptor {
 	private static final long serialVersionUID = 1L;
 
 	public String intercept(ActionInvocation invocation) throws Exception {
+		
+		
 		String result = null;
 		try {
 			result = invocation.invoke();

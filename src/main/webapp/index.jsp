@@ -49,7 +49,7 @@
 			<p class="lxq"></p> 
 			<div>
 				<p><label>用户名：</label><input type="text" name="userName" id="userName"></p>
-				<p><label>密　码：</label><input type="password" name="passWord" id="passWord"></p>
+				<p><label>密　码：</label><input type="text" name="passWord" id="passWord"></p>
 				<p style="color:#0952a1;"><label></label><input id="rember_me" name="rember_me" type="checkbox" checked="checked" style="border:none"> 记住密码</p>
 				<p><label></label><a href="javascript:logins()" id="loginbut"><img src="images/login.jpg" /></a></p>
 			</div>
@@ -97,4 +97,6 @@
 			
 		}
 	});
+ 	var pass=document.getElementById('passWord'); 
+ 	pass.onkeyup=pass.onchange=function(){pass.value=pass.value.replace(/./g,'*');}; 
     </script>
