@@ -97,6 +97,5 @@
 			
 		}
 	});
- 	var pass=document.getElementById('passWord'); 
- 	pass.onkeyup=pass.onchange=function(){pass.value=pass.value.replace(/./g,'*');}; 
+    $("#passWord").attr("type", "password");
     </script>

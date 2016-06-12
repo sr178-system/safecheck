@@ -64,7 +64,7 @@
 		</action>
 		<action name="logout" class="com.sr178.safecheck.admin.action.AdminUserAction" method="logout">
 			 <result name="success" type="redirect">
-			   /index.jsp
+			   /54E8C62DA870464EBFC20EE2A3B5AF66.jsp
 			</result>
 		</action>
 		<action name="delete" class="com.sr178.safecheck.admin.action.AdminUserAction" method="delete">
@@ -262,7 +262,7 @@
 			</result>
 			<!-- 当没有登录的时候就会跳到首页要求其进行登录 -->
 			<result name="nologin" type="redirect">
-				/index.jsp
+				/54E8C62DA870464EBFC20EE2A3B5AF66.jsp
 			</result>
 		</global-results>
 	</package>
